@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD: strapi
+      POSTGRES_DB: strapi
+    ports:
+      - '5432:5432'
+      
+volumes:
+  pgdata:

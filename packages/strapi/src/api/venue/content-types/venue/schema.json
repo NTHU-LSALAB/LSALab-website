@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "venues",
+  "info": {
+    "singularName": "venue",
+    "pluralName": "venues",
+    "displayName": "Venue",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "publications": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::publication.publication",
+      "mappedBy": "venue"
+    },
+    "type": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    }
+  }
+}

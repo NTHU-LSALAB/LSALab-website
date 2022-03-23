@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "grades",
+  "info": {
+    "singularName": "grade",
+    "pluralName": "grades",
+    "displayName": "Grade",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "students": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::student.student",
+      "mappedBy": "grade"
+    },
+    "type": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    }
+  }
+}

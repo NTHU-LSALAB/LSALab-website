@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* $primary: theme("colors.primary"); */
+
+* {
+  font-family: "Nunito", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+html body .n-modal-scroll-content {
+  backdrop-filter: blur(4px) !important;
+  background-color: #ffffff50;
+}
+
+html.dark body .n-modal-scroll-content {
+  backdrop-filter: blur(4px) !important;
+  background-color: transparent;
+}
+
+@layer components {
+  .floating-sidebar {
+    @apply absolute top-10 left-3 z-10 max-h-[90%] w-72 flex-shrink-0 cursor-pointer overflow-auto rounded-md bg-[#F7F7F7] p-5 shadow-5 dark:border-gray-500 dark:bg-[#101015] xl:relative xl:top-0 xl:left-0 xl:max-h-full xl:cursor-default xl:rounded-none xl:border-r xl:shadow-none !important;
+  }
+}

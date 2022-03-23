@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "journals",
+  "info": {
+    "singularName": "journal",
+    "pluralName": "journals",
+    "displayName": "Journal"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    },
+    "ranking": {
+      "type": "string"
+    },
+    "deadline": {
+      "type": "date"
+    }
+  }
+}

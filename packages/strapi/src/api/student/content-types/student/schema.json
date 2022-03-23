@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "students",
+  "info": {
+    "singularName": "student",
+    "pluralName": "students",
+    "displayName": "Student",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "startDate": {
+      "type": "date"
+    },
+    "endDate": {
+      "type": "date"
+    },
+    "interest": {
+      "type": "string"
+    },
+    "thesis": {
+      "type": "json"
+    },
+    "job": {
+      "type": "string"
+    },
+    "grade": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::grade.grade",
+      "inversedBy": "students"
+    },
+    "enName": {
+      "type": "string"
+    },
+    "websiteLink": {
+      "type": "string"
+    }
+  }
+}

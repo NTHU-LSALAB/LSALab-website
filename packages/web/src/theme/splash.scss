@@ -1,0 +1,44 @@
+html body {
+  margin: 0;
+  padding: 0;
+}
+#splash-screen {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #e0edf5;
+  transition: opacity 1s;
+  #text {
+    font-size: 3rem;
+    font-weight: bold;
+    span {
+      animation: text-animation infinite 4s linear;
+    }
+    @for $i from 1 through 11 {
+      span:nth-child(#{$i}) {
+        animation-delay: $i * 0.1s;
+      }
+    }
+  }
+  #lottie {
+    position: relative;
+    width: 300px;
+  }
+}
+@keyframes text-animation {
+  0%,
+  80% {
+    opacity: 1;
+  }
+  20%,
+  60% {
+    opacity: 0;
+  }
+}

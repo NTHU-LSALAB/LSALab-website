@@ -1,0 +1,78 @@
+{
+  "kind": "collectionType",
+  "collectionName": "publications",
+  "info": {
+    "singularName": "publication",
+    "pluralName": "publications",
+    "displayName": "Publication",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "venueName": {
+      "type": "string"
+    },
+    "members": {
+      "type": "json"
+    },
+    "year": {
+      "type": "integer"
+    },
+    "date": {
+      "type": "date"
+    },
+    "webLink": {
+      "type": "string"
+    },
+    "slidesLink": {
+      "type": "string"
+    },
+    "videoLink": {
+      "type": "string"
+    },
+    "codeLink": {
+      "type": "string"
+    },
+    "award": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "json"
+    },
+    "field": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::field.field",
+      "inversedBy": "publications"
+    },
+    "topic": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::topic.topic",
+      "inversedBy": "publications"
+    },
+    "venue": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::venue.venue",
+      "inversedBy": "publications"
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
