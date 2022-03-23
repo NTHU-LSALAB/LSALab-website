@@ -65,6 +65,7 @@ module.exports = ({ strapi }) => {
         try {
           const users = await strapi.query('plugin::users-permissions.user').findMany({
             where: { email },
+            populate: ['role']
           });
 
           const advanced = await strapi

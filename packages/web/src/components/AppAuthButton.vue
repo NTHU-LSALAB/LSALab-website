@@ -4,7 +4,7 @@
     class="dark:border-gray-500"
   >
     <template v-if="me">
-      <n-popover style="padding: 0" v-if="!props.inDrawer" trigger="click">
+      <n-popover id="app" style="padding: 0" v-if="!props.inDrawer" trigger="click">
         <template #trigger>
           <div class="flex items-center">
             <n-button text>

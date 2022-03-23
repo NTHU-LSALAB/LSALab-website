@@ -22,11 +22,18 @@ const { ApplicationError, ValidationError } = utils.errors;
 
 const emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const sanitizeUser = (user, ctx) => {
+const sanitizeUser = async (user, ctx) => {
   const { auth } = ctx.state;
   const userSchema = strapi.getModel('plugin::users-permissions.user');
 
-  return sanitize.contentAPI.output(user, userSchema, { auth });
+  const role = user.role
+  const sanitizedUser = await sanitize.contentAPI.output(user, userSchema, { auth });
+  console.log(user, sanitizedUser)
+
+  return {
+    role,
+    ...sanitizedUser
+  }
 };
 
 module.exports = {
@@ -56,7 +63,8 @@ module.exports = {
       }
 
       // Check if the user exists.
-      const user = await strapi.query('plugin::users-permissions.user').findOne({ where: query });
+      const user = await strapi.query('plugin::users-permissions.user')
+        .findOne({ where: query, populate: ['role'] });
 
       if (!user) {
         throw new ValidationError('Invalid identifier or password');
@@ -191,7 +199,7 @@ module.exports = {
       _.get(ctx, 'session.grant.dynamic.callback') ||
       grantConfig[provider].callback;
     grantConfig[provider].redirect_uri = getService('providers').buildRedirectUri(provider);
- 
+
     return grant(grantConfig)(ctx, next);
   },
 
@@ -311,6 +319,10 @@ module.exports = {
       .query('plugin::users-permissions.role')
       .findOne({ where: { type: settings.default_role } });
 
+    const memberRole = await strapi
+      .query('plugin::users-permissions.role')
+      .findOne({ where: { type: 'member' } });
+
     if (!role) {
       throw new ApplicationError('Impossible to find the default role');
     }
@@ -324,7 +336,10 @@ module.exports = {
       throw new ValidationError('Please provide a valid email address');
     }
 
-    params.role = role.id;
+    if (params.email.split('@').at(-1) === 'lsalab.cs.nthu.edu.tw')
+      params.role = memberRole.id;
+    else
+      params.role = role.id;
 
     const user = await strapi.query('plugin::users-permissions.user').findOne({
       where: { email: params.email },

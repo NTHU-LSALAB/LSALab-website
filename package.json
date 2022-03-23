@@ -1,8 +1,9 @@
 {
-  "name": "root",
+  "name": "lsalab",
   "private": true,
   "scripts": {
-    "dev": "concurrently --kill-others --success first \"yarn --cwd ./packages/strapi develop\" \"yarn --cwd ./packages/web dev\""
+    "dev": "concurrently --kill-others --success first \"yarn --cwd ./packages/strapi develop\" \"yarn --cwd ./packages/web dev\"",
+    "build": ""
   },
   "devDependencies": {
     "lerna": "^4.0.0",
