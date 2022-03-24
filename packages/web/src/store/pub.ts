@@ -36,7 +36,7 @@ export interface Topic {
   id: number;
   attributes: {
     name: string;
-    label: string;
+    type: string;
     image: { data?: any };
     background: string;
     members?: string[];
@@ -70,7 +70,7 @@ export const usePubStore = defineStore("pub", {
         .get("topics", {
           params: {
             populate: "*",
-            "filters[label][$eq]": key,
+            "filters[type][$eq]": key,
           },
         })
         .then(({ data }) => {

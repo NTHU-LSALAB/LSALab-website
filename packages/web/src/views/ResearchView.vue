@@ -8,7 +8,7 @@
           class="cursor-pointer overflow-hidden rounded-md border shadow-app dark:border-[#FFFFFF10]"
           v-for="topic in field.attributes.topics.data"
         >
-          <router-link :to="`/research/${topic.attributes.label}`">
+          <router-link :to="`/research/${topic.attributes.type}`">
             <n-tooltip>
               <template #trigger>
                 <div class="p-2 pb-0 text-lg line-clamp-1">
