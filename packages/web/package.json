@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "NODE_OPTIONS=--max_old_space_size=4096 vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "format": "npx prettier --write src"
   },

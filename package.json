@@ -2,8 +2,13 @@
   "name": "lsalab",
   "private": true,
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "dev": "concurrently --kill-others --success first \"yarn --cwd ./packages/strapi develop\" \"yarn --cwd ./packages/web dev\"",
-    "build": ""
+    "dev:back": "yarn --cwd ./packages/strapi develop",
+    "build": "concurrently --kill-others --success first \"yarn --cwd ./packages/strapi build\" \"yarn --cwd ./packages/web build\"",
+    "build:front": "yarn --cwd ./packages/web build",
+    "build:back": "yarn --cwd ./packages/strapi build",
+    "test": ""
   },
   "devDependencies": {
     "lerna": "^4.0.0",
