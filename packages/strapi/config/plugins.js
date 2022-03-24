@@ -1,29 +1,15 @@
 module.exports = ({ env }) => ({
     email: {
         config: {
-            provider: 'sendgrid',
+            provider: 'nodemailer',
             providerOptions: {
-                apiKey: env('SENDGRID_API_KEY')
+                host: 'localhost', //SMTP Host
+                port: 25, //SMTP Port
             },
-            // settings: {
-            //     defaultFrom: 'no-reply@lsalab.cs.nthu.edu.tw',
-            //     defaultReplyTo: 'contact@lsalab.cs.nthu.edu.tw'
-            // }
-            // provider: 'smtp',
-            // providerOptions: {
-            //   host: 'smtp.gmail.com', //SMTP Host
-            //   port: 465   , //SMTP Port
-            //   secure: true,
-            //   username: 'kswang@lsalab.cs.nthu.edu.tw',
-            //   password: 'cfai1012',
-            //   rejectUnauthorized: true,
-            //   requireTLS: true,
-            //   connectionTimeout: 1,
-            // },
-            // settings: {
-            //   from: 'kswang@lsalab.cs.nthu.edu.tw',
-            //   replyTo: 'kswang@lsalab.cs.nthu.edu.tw',
-            // },
+            settings: {
+                defaultFrom: 'LSALab <lsalab@lsalab.cs.nthu.edu.tw>',
+                defaultReplyTo: 'lsalab@lsalab.cs.nthu.edu.tw',
+            },
         }
     },
     graphql: {
@@ -34,7 +20,7 @@ module.exports = ({ env }) => ({
             depthLimit: 7,
             amountLimit: 100,
             apolloServer: {
-              tracing: false,
+                tracing: false,
             },
         }
     }

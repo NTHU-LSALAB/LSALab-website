@@ -14,17 +14,17 @@ const { validateCreateUserBody, validateUpdateUserBody } = require('./validation
 const { sanitize } = utils;
 const { ApplicationError, ValidationError } = utils.errors;
 
-const sanitizeOutput = (user, ctx) => {
+const sanitizeOutput = async (user, ctx) => {
   const schema = strapi.getModel('plugin::users-permissions.user');
   const { auth } = ctx.state;
 
-  const role = user.role
-  const sanitizedUser = sanitize.contentAPI.output(user, schema, { auth });
+  const role = user.role;
+  const sanitized = await sanitize.contentAPI.output(user, schema, { auth });
 
   return {
+    ...sanitized,
     role,
-    ...sanitizedUser
-  }
+  };
 };
 
 module.exports = {

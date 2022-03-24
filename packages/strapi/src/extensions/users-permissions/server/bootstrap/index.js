@@ -27,9 +27,10 @@ module.exports = async ({ strapi }) => {
   );
 
   await getService('users-permissions').initialize();
+  await initConfig();
 
   if (!strapi.config.get('plugin.users-permissions.jwtSecret')) {
-    const jwtSecret = uuid();
+    const jwtSecret = uuid.v4();
     strapi.config.set('plugin.users-permissions.jwtSecret', jwtSecret);
 
     if (!process.env.JWT_SECRET) {
@@ -39,6 +40,14 @@ module.exports = async ({ strapi }) => {
       );
     }
   }
+};
+
+const initConfig = async () => {
+  const env = str => process.env[str];
+  strapi.config.set(
+    'plugin.users-permissions',
+    strapi.config.get('plugin.users-permissions')({ env })
+  );
 };
 
 const initGrant = async pluginStore => {
@@ -60,6 +69,8 @@ const initGrant = async pluginStore => {
     });
     await pluginStore.set({ key: 'grant', value: grantConfig });
   }
+  // force update
+  // await pluginStore.set({ key: 'grant', value: grantConfig });
 };
 
 const initEmails = async pluginStore => {

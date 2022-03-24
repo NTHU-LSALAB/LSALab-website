@@ -66,6 +66,19 @@ module.exports = {
       inversedBy: 'users',
       configurable: false,
     },
+    picture: {
+      type: 'string',
+    },
+    firstName: {
+      type: 'string',
+    },
+    lastName: {
+      type: 'string',
+    },
+    google: {
+      type: 'json',
+      private: true,
+    },
   },
 
   config: schemaConfig, // TODO: to move to content-manager options

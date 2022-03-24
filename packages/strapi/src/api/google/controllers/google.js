@@ -263,8 +263,15 @@ module.exports = {
   //   try {
   //     const emailOptions = {
   //       to: sendTo,
-  //       subject: 'This is a test',
-  //       html: `<h1>Welcome!</h1><p>This is a test HTML email.</p>`,
+  //       subject: 'My Strapi Test Email',
+  //       // text: ```Hello,
+        
+  //       // This is an email sent by using the Strapi.
+        
+  //       // Your friend,
+  //       // Me
+  //       // ```,
+  //       html: `Hello,<br><br>This is an email sent by using the Strapi.<br><br>Your friend,<br>Me`,
   //     }
   //     await strapi.plugins['email'].services.email.send(emailOptions)
   //     strapi.log.debug(`Email sent to ${sendTo}`)

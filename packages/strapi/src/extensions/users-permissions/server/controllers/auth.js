@@ -26,14 +26,13 @@ const sanitizeUser = async (user, ctx) => {
   const { auth } = ctx.state;
   const userSchema = strapi.getModel('plugin::users-permissions.user');
 
-  const role = user.role
-  const sanitizedUser = await sanitize.contentAPI.output(user, userSchema, { auth });
-  console.log(user, sanitizedUser)
+  const role = user.role;
+  const sanitized = await sanitize.contentAPI.output(user, userSchema, { auth });
 
   return {
+    ...sanitized,
     role,
-    ...sanitizedUser
-  }
+  };
 };
 
 module.exports = {
@@ -50,7 +49,8 @@ module.exports = {
 
       await validateCallbackBody(params);
 
-      const query = { provider };
+      // const query = { provider };
+      const query = {};
 
       // Check if the provided identifier is an email or not.
       const isEmail = emailRegExp.test(params.identifier);
@@ -63,9 +63,9 @@ module.exports = {
       }
 
       // Check if the user exists.
-      const user = await strapi.query('plugin::users-permissions.user')
+      const user = await strapi
+        .query('plugin::users-permissions.user')
         .findOne({ where: query, populate: ['role'] });
-
       if (!user) {
         throw new ValidationError('Invalid identifier or password');
       }
@@ -84,7 +84,7 @@ module.exports = {
       // The user never authenticated with the `local` provider.
       if (!user.password) {
         throw new ApplicationError(
-          'This user never set a local password, please login with the provider used during account creation'
+          `The account is created with ${user.provider}, please login with it`
         );
       }
 
@@ -113,6 +113,7 @@ module.exports = {
       let error;
       try {
         [user, error] = await getService('providers').connect(provider, ctx.query);
+        user = await getService('user').fetch({ id: user.id }, ['role']);
       } catch ([user, error]) {
         throw new ApplicationError(error.message);
       }
@@ -167,6 +168,7 @@ module.exports = {
 
   async connect(ctx, next) {
     const grant = require('grant-koa');
+    console.log('connect')
 
     const providers = await strapi
       .store({ type: 'plugin', name: 'users-permissions', key: 'grant' })
@@ -319,7 +321,7 @@ module.exports = {
       .query('plugin::users-permissions.role')
       .findOne({ where: { type: settings.default_role } });
 
-    const memberRole = await strapi
+    const member = await strapi
       .query('plugin::users-permissions.role')
       .findOne({ where: { type: 'member' } });
 
@@ -336,10 +338,8 @@ module.exports = {
       throw new ValidationError('Please provide a valid email address');
     }
 
-    if (params.email.split('@').at(-1) === 'lsalab.cs.nthu.edu.tw')
-      params.role = memberRole.id;
-    else
-      params.role = role.id;
+    // if email ends with lsalab, role is member
+    params.role = params.email.split('@').at(-1) === 'lsalab.cs.nthu.edu.tw' ? member.id : role.id;
 
     const user = await strapi.query('plugin::users-permissions.user').findOne({
       where: { email: params.email },
@@ -350,7 +350,7 @@ module.exports = {
     }
 
     if (user && user.provider !== params.provider && settings.unique_email) {
-      throw new ApplicationError('Email is already taken');
+      throw new ApplicationError(`Email is already taken, try using ${user.provider} to login`);
     }
 
     try {
@@ -366,7 +366,7 @@ module.exports = {
         try {
           await getService('user').sendConfirmationEmail(sanitizedUser);
         } catch (err) {
-          throw new ApplicationError(err.message);
+          throw new ApplicationError('An error occured during sending confirmation email');
         }
 
         return ctx.send({ user: sanitizedUser });
@@ -379,6 +379,9 @@ module.exports = {
         user: sanitizedUser,
       });
     } catch (err) {
+      if (err.message === 'This attribute must be unique') {
+        throw new ApplicationError('Username already taken');
+      }
       if (_.includes(err.message, 'username')) {
         throw new ApplicationError('Username already taken');
       } else if (_.includes(err.message, 'email')) {

@@ -60,6 +60,7 @@ module.exports = [
     handler: 'auth.emailConfirmation',
     config: {
       prefix: '',
+      auth: false
     },
   },
   {

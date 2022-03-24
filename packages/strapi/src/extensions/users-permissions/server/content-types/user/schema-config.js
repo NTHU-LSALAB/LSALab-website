@@ -11,5 +11,8 @@ module.exports = {
     provider: {
       hidden: true,
     },
+    google: {
+      hidden: true,
+    },
   },
 };

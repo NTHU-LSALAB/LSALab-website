@@ -44,6 +44,7 @@ module.exports = ({ strapi }) => ({
         tokenPayload = {}
       ) {
         if (err) {
+          console.log(err);
           return reject(new Error('Invalid token.'));
         }
         resolve(tokenPayload);

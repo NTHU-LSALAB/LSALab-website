@@ -23,12 +23,13 @@ module.exports = ({ strapi }) => {
 
   const getProfile = async (provider, query, callback) => {
     const access_token = query.access_token || query.code || query.oauth_token;
+    const refresh_token = query.refresh_token;
 
     const providers = await strapi
       .store({ type: 'plugin', name: 'users-permissions', key: 'grant' })
       .get();
 
-    await providerRequest({ provider, query, callback, access_token, providers });
+    await providerRequest({ provider, query, callback, access_token, refresh_token, providers });
   };
 
   /**
@@ -65,7 +66,6 @@ module.exports = ({ strapi }) => {
         try {
           const users = await strapi.query('plugin::users-permissions.user').findMany({
             where: { email },
-            populate: ['role']
           });
 
           const advanced = await strapi
@@ -82,8 +82,19 @@ module.exports = ({ strapi }) => {
             ]);
           }
 
+          // User already exists, update accessToken
           if (!_.isEmpty(user)) {
-            return resolve([user, null]);
+            try {
+              const updatedUser = await strapi.query('plugin::users-permissions.user').update({
+                where: { id: user.id },
+                data: {
+                  google: profile.google,
+                },
+              });
+              return resolve([updatedUser, null]);
+            } catch (err) {
+              return reject([null, err]);
+            }
           }
 
           if (
@@ -102,12 +113,16 @@ module.exports = ({ strapi }) => {
             .query('plugin::users-permissions.role')
             .findOne({ where: { type: advanced.default_role } });
 
+          const member = await strapi
+            .query('plugin::users-permissions.role')
+            .findOne({ where: { type: 'member' } });
+
           // Create the new user.
           const params = {
             ...profile,
             email, // overwrite with lowercased email
             provider,
-            role: defaultRole.id,
+            role: email.split('@').at(-1) === 'lsalab.cs.nthu.edu.tw' ? member.id : defaultRole.id,
             confirmed: true,
           };
 
