@@ -10,17 +10,19 @@ type State = {
       };
     };
   };
-  selectedDate?: {
+  selectedDate: {
     year: number;
     month: number;
     date: number;
-  };
+  } | null;
+  selectedEvents: any[] | null;
 };
 export const useCalendarStore = defineStore("calendar", {
   state: (): State => ({
     loading: false,
     events: {},
-    selectedDate: undefined,
+    selectedDate: null,
+    selectedEvents: null,
   }),
   getters: {
     todayEvents: (state) => {
@@ -34,17 +36,17 @@ export const useCalendarStore = defineStore("calendar", {
         return null;
       }
     },
-    selectedEvents: (state) => {
-      if (!state.selectedDate) return null;
-      const { year, month, date } = state.selectedDate;
-      try {
-        return state.events[year][month][date];
-      } catch {
-        return null;
-      }
-    },
   },
   actions: {
+    setSelectedDate(date: { year: number; month: number; date: number }) {
+      this.selectedDate = date;
+      try {
+        this.selectedEvents = this.events[date.year][date.month][date.date];
+      } catch {
+        this.selectedEvents = null
+      }
+      console.log(this.selectedEvents)
+    },
     async fetchEvents({ month, year }: { month: number; year: number }) {
       const componentStore = useComponentStore();
       this.loading = true;

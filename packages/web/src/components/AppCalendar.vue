@@ -31,9 +31,9 @@ import { useCalendarStore } from "@/store";
 const calendarStore = useCalendarStore();
 const handleUpdateValue = (
   _: any,
-  { year, month, date }: { year: number; month: number; date: number }
+  date: { year: number; month: number; date: number }
 ) => {
-  calendarStore.selectedDate = { year, month, date };
+  calendarStore.setSelectedDate(date);
 };
 const handleUpdatePanel = ({
   year,

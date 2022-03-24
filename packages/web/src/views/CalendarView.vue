@@ -39,14 +39,37 @@
           class="mt-2 shadow-app"
           size="small"
         >
-          <div class="font-bold">{{ evt.summary }}</div>
-          <div class="mt-4 text-gray-500">
+          <div class="mb-2 flex items-center">
+            <div class="mr-2 h-3 w-3 rounded-sm bg-[#9a9cff]"></div>
+            <div class="flex-grow font-bold">{{ evt.summary }}</div>
+            <n-popover placement="bottom" trigger="click">
+              <template #trigger>
+                <n-button text>
+                  <n-icon><more-vert-round /></n-icon>
+                </n-button>
+              </template>
+              <n-button text size="small">
+                <a :href="evt.htmlLink" target="_blank">
+                  Show in Google Calendar
+                </a>
+              </n-button>
+            </n-popover>
+          </div>
+          <div v-if="evt.hangoutLink" class="flex">
+            <img :src="GoogleMeet" class="mr-2 h-6 w-6" />
+            <n-button type="primary" size="small">
+              <a :href="evt.hangoutLink" target="_blank">
+                Join with Google Meet
+              </a>
+            </n-button>
+          </div>
+          <div class="mt-2 text-gray-500">
             {{ format(evt.start.dateTime) }}
             -
             {{ format(evt.end.dateTime) }}
           </div>
         </n-card>
-        <div class="mt-4 flex justify-center text-gray-500" v-else>None</div>
+        <div class="mt-2 flex justify-center text-gray-500" v-else>None</div>
       </template>
     </div>
     <app-calendar class="calendar flex-grow pt-4" style="height: 100%" />
@@ -57,10 +80,12 @@
 import AppCalendar from "@/components/AppCalendar.vue";
 import gsap from "gsap";
 
-import { NCard, NButton, NIcon } from "naive-ui";
+import { NCard, NButton, NIcon, NPopover } from "naive-ui";
+import GoogleMeet from "@/assets/google-meet.png";
 import { format } from "@/utils/date";
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { IosArrowLeft24Filled } from "@vicons/fluent";
+import { MoreVertRound } from "@vicons/material";
 import { useCalendarStore } from "@/store";
 const emits = defineEmits(["ready"]);
 const calendarStore = useCalendarStore();
@@ -106,7 +131,7 @@ const todayEvents = computed(() => calendarStore.todayEvents);
 const selectedEvents = computed(() => calendarStore.selectedEvents);
 const selectedDate = computed(() => calendarStore.selectedDate);
 watch(selectedDate, () => {
-  open();
+  showAnim.play();
 });
 const width = ref(window.innerWidth);
 const onResize = () => {
