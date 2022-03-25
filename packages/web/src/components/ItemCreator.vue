@@ -7,7 +7,7 @@
     @negative-click="emits('cancel')"
     @close="emits('cancel')"
   >
-    <n-form :model="model" ref="formRef" :rules="rules">
+    <n-form :model="model" ref="formRef" :rules="rules" id="app">
       <n-form-item label="Type" path="type">
         <n-input placeholder="type" v-model:value="model.type" />
       </n-form-item>
@@ -19,7 +19,13 @@
       </n-form-item>
       <template v-if="props.tag === 'journal'">
         <n-form-item label="Deadline" path="deadline">
-          <n-input placeholder="Deadline" v-model:value="model.deadline" />
+          <div class="w-full">
+            <n-date-picker
+              placeholder="Deadline"
+              v-model:formatted-value="model.deadline"
+              value-format="yyyy-MM-dd"
+            />
+          </div>
         </n-form-item>
         <n-form-item label="Ranking" path="ranking">
           <n-input placeholder="Ranking" v-model:value="model.ranking" />
@@ -29,7 +35,7 @@
   </n-dialog>
 </template>
 <script setup lang="ts">
-import { NDialog, NInput, NForm, NFormItem } from "naive-ui";
+import { NDialog, NInput, NForm, NFormItem, NDatePicker } from "naive-ui";
 import { ref } from "vue";
 const emits = defineEmits(["confirm", "cancel"]);
 const props = defineProps({
@@ -42,7 +48,7 @@ const model = ref({
   type: "",
   title: "",
   link: "",
-  deadline: "",
+  deadline: null,
   ranking: "",
 });
 const rules = {
@@ -75,7 +81,7 @@ const rules = {
 const handleConfirm = () => {
   formRef.value!.validate((errors: any) => {
     if (!errors) {
-      emits("confirm", model.value);
+      emits("confirm", { ...model.value });
     }
   });
 };

@@ -30,6 +30,7 @@ import {
   NInput,
   NPopconfirm,
   NModal,
+  NDatePicker,
 } from "naive-ui";
 import { Edit32Regular } from "@vicons/fluent";
 import { computed, h, ref, watch } from "vue";
@@ -115,15 +116,13 @@ const headers = ref<TableColumn<any>[]>([
   {
     title: "Deadline",
     key: "deadline",
-    width: 110,
+    width: 150,
     render(row, index) {
       return editingIdx.value === index
-        ? h(NInput, {
-            style: {
-              width: "400px",
-            },
-            value: row.deadline,
-            onUpdateValue(v) {
+        ? h(NDatePicker, {
+            formattedValue: row.deadline,
+            valueFormat: "yyyy-MM-dd",
+            onUpdateFormattedValue(v) {
               internalDocs.value[index].deadline = v;
             },
             loading: editLoading.value,

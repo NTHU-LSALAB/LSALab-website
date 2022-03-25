@@ -4,18 +4,23 @@
     class="dark:border-gray-500"
   >
     <template v-if="me">
-      <n-popover id="app" style="padding: 0" v-if="!props.inDrawer" trigger="click">
+      <n-popover
+        id="app"
+        style="padding: 0"
+        v-if="!props.inDrawer"
+        trigger="click"
+      >
         <template #trigger>
           <div class="flex items-center">
             <n-button text>
-              <n-avatar round size="small" :src="me.picture" />
+              <n-avatar round size="small" :src="me.picture || User" />
             </n-button>
           </div>
         </template>
         <div>
           <div class="border-b px-4 py-2 dark:border-gray-500">
             <div>Signed in as</div>
-            <div class="font-extrabold">{{ me.email.split("@")[0] }}</div>
+            <div class="font-extrabold">{{ me.username }}</div>
           </div>
           <n-button
             style="display: flex; justify-content: left; padding: 0 16px"
@@ -29,8 +34,8 @@
       </n-popover>
       <div v-else>
         <div class="mb-1 flex items-center border-b pb-2 dark:border-gray-500">
-          <n-avatar round size="small" :src="me.picture" />
-          <div class="ml-2 font-extrabold">{{ me.email.split("@")[0] }}</div>
+          <n-avatar round size="small" :src="me.picture || User" />
+          <div class="ml-2 font-extrabold">{{ me.username }}</div>
         </div>
         <n-button
           size="small"
@@ -56,6 +61,7 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/store";
 import { NButton, NPopover, NAvatar, NIcon } from "naive-ui";
+import User from "@/assets/user.png";
 import { LogOutOutline } from "@vicons/ionicons5";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";

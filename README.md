@@ -7,6 +7,6 @@
 `packages/strapi`
 - Backend + CMS
 - Help me with the content!!
-  - [ ] Students
   - [ ] Publications
-  - [ ] Fields
+  - [*] Fields
+  - [*] Students
