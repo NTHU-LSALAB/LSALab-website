@@ -8,5 +8,5 @@
 - Backend + CMS
 - Help me with the content!!
   - [ ] Publications
-  - [*] Fields
-  - [*] Students
+  - [x] Fields
+  - [x] Students
