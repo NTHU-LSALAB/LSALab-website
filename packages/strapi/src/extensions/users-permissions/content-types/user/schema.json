@@ -64,8 +64,7 @@
       "configurable": false
     },
     "picture": {
-      "type": "string",
-      "default": "https://lsalab.cs.nthu.edu.tw/v2//uploads/Sample_User_Icon_8ba92deeee.png"
+      "type": "string"
     },
     "firstName": {
       "type": "string"

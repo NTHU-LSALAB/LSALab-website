@@ -211,6 +211,7 @@ module.exports = {
       );
       ctx.body = data;
     } catch (err) {
+      // console.log(err)
       ctx.response.status = 400
       ctx.body = err
     }
@@ -257,30 +258,6 @@ module.exports = {
       ctx.body = err
     }
   },
-  // sendMail: async (ctx) => {
-  //   console.log(strapi.config.get('plugin.email'))
-  //   const sendTo = 'bruce1198@gmail.com'
-  //   try {
-  //     const emailOptions = {
-  //       to: sendTo,
-  //       subject: 'My Strapi Test Email',
-  //       // text: ```Hello,
-        
-  //       // This is an email sent by using the Strapi.
-        
-  //       // Your friend,
-  //       // Me
-  //       // ```,
-  //       html: `Hello,<br><br>This is an email sent by using the Strapi.<br><br>Your friend,<br>Me`,
-  //     }
-  //     await strapi.plugins['email'].services.email.send(emailOptions)
-  //     strapi.log.debug(`Email sent to ${sendTo}`)
-  //     ctx.send({ message: 'Email sent' })
-  //   } catch (err) {
-  //     strapi.log.error(`Error sending email to ${sendTo}`, err)
-  //     ctx.send({ error: 'Error sending email' })
-  //   }
-  // }
 };
 
 const checkToken = async (user) => {

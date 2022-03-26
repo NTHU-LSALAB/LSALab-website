@@ -2,12 +2,12 @@
 
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
-const request = require('request');
-// Purest strategies.
-const purest = require('purest')({ request });
-const purestConfig = require('@purest/providers');
 
 module.exports = async ({ provider, access_token, refresh_token, callback, query, providers }) => {
+  // Purest strategies.
+  const purest = require('purest');
+  const purestConfig = require('@purest/providers');
+  
   switch (provider) {
     case 'discord': {
       const discord = purest({
@@ -85,30 +85,28 @@ module.exports = async ({ provider, access_token, refresh_token, callback, query
       break;
     }
     case 'google': {
-      const google = purest({ provider: 'google', config: purestConfig });
-      console.log(google)
+      const google = purest({ provider: 'google' });
 
-      google
-        .query('oauth')
-        .get('tokeninfo')
-        .qs({ access_token })
-        .request((err, res, body) => {
-          if (err) {
-            callback(err);
-          } else {
-            callback(null, {
-              username: body.email.split('@')[0],
-              email: body.email,
-              picture: body.picture,
-              firstName: body.given_name,
-              lastName: body.family_name,
-              google: {
-                accessToken: access_token,
-                refreshToken: refresh_token,
-              },
-            });
+      try {
+        const { body } = await google
+          .get('oauth2/v2/userinfo')
+          .auth(access_token)
+          .request();
+        callback(null, {
+          username: body.email.split('@')[0],
+          email: body.email,
+          picture: body.picture,
+          firstName: body.given_name,
+          lastName: body.family_name,
+          google: {
+            accessToken: access_token,
+            refreshToken: refresh_token
           }
         });
+      } catch (err) {
+        console.log(err)
+        callback(err);
+      }
       break;
     }
     case 'github': {
