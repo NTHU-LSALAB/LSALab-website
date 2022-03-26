@@ -3,84 +3,84 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>http://lsalab.cs.nthu.edu.tw/next/</loc>
+        <loc>http://lsalab.cs.nthu.edu.tw/</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>http://lsalab.cs.nthu.edu.tw/next/calendar</loc>
+        <loc>http://lsalab.cs.nthu.edu.tw/calendar</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>http://lsalab.cs.nthu.edu.tw/next/member/advisor</loc>
+        <loc>http://lsalab.cs.nthu.edu.tw/member/advisor</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>
 
     <url>
-        <loc>http://lsalab.cs.nthu.edu.tw/next/member/student</loc>
+        <loc>http://lsalab.cs.nthu.edu.tw/member/student</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>
 
     <url>
-        <loc>http://lsalab.cs.nthu.edu.tw/next/pub</loc>
+        <loc>http://lsalab.cs.nthu.edu.tw/pub</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>http://lsalab.cs.nthu.edu.tw/next/research</loc>
+        <loc>http://lsalab.cs.nthu.edu.tw/research</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>http://lsalab.cs.nthu.edu.tw/next/competition</loc>
+        <loc>http://lsalab.cs.nthu.edu.tw/competition</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>http://lsalab.cs.nthu.edu.tw/next/connection</loc>
+        <loc>http://lsalab.cs.nthu.edu.tw/connection</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://lsalab.cs.nthu.edu.tw/next/resource/group-meeting</loc>
+        <loc>https://lsalab.cs.nthu.edu.tw/resource/group-meeting</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.4</priority>
     </url>
 
     <url>
-        <loc>https://lsalab.cs.nthu.edu.tw/next/servers</loc>
+        <loc>https://lsalab.cs.nthu.edu.tw/servers</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>
 
     <url>
-        <loc>https://lsalab.cs.nthu.edu.tw/next/contact</loc>
+        <loc>https://lsalab.cs.nthu.edu.tw/contact</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://lsalab.cs.nthu.edu.tw/next/member/advisor/bio</loc>
+        <loc>https://lsalab.cs.nthu.edu.tw/member/advisor/bio</loc>
         <lastmod>2022-02-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.2</priority>
