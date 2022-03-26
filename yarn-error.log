@@ -1,37 +1,51 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn
+  /home/kswang/.nvm/versions/node/v16.14.2/bin/node /usr/local/bin/yarn test
 
 PATH: 
-  /Users/kwang/.deno/bin:/Users/kwang/.cargo/bin:/usr/local/go/bin:/usr/local/opt/openssl/bin:/Users/kwang/Development/flutter/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
+  /usr/lib/git-core:/home/kswang/.nvm/versions/node/v16.14.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
-  1.22.10
+  1.22.18
 
 Node version: 
-  16.8.0
+  16.14.2
 
 Platform: 
-  darwin arm64
+  linux x64
 
 Trace: 
-  SyntaxError: /Users/kwang/Documents/academic/lab/lerna-repo/package.json: Unexpected token } in JSON at position 276
-      at JSON.parse (<anonymous>)
-      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+  Invariant Violation: Script must exist
+      at invariant (/usr/local/lib/node_modules/yarn/lib/cli.js:2314:15)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:61537:11
       at Generator.next (<anonymous>)
       at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
-      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:328:14
+      at new Promise (<anonymous>)
+      at new F (/usr/local/lib/node_modules/yarn/lib/cli.js:5301:28)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:307:12
+      at realRunCommand (/usr/local/lib/node_modules/yarn/lib/cli.js:61622:23)
+      at action.action (/usr/local/lib/node_modules/yarn/lib/cli.js:61683:16)
 
 npm manifest: 
   {
-    "name": "root",
+    "name": "lsalab",
     "private": true,
     "scripts": {
-      "dev": "concurrently --kill-others --success first \"yarn develop --prefix ./packages/strapi\" \"yarn dev --prefix ./packages/web\""
+      "bootstrap": "lerna bootstrap",
+      "dev": "concurrently --kill-others --success first \"yarn --cwd ./packages/strapi develop\" \"yarn --cwd ./packages/web dev\"",
+      "dev:back": "yarn --cwd ./packages/strapi develop",
+      "start": "yarn --cwd ./packages/strapi start",
+      "build": "concurrently --kill-others --success first \"yarn --cwd ./packages/strapi build\" \"yarn --cwd ./packages/web build\"",
+      "build:front": "yarn --cwd ./packages/web build",
+      "build:back": "yarn --cwd ./packages/strapi build",
+      "test": "",
+      "prepare": "husky install"
     },
     "devDependencies": {
-      "lerna": "^4.0.0",
-      "concurrently": "^7.0.0"
-    },
+      "concurrently": "^7.0.0",
+      "husky": "^7.0.4",
+      "lerna": "^4.0.0"
+    }
   }
 
 yarn manifest: 
@@ -2169,6 +2183,11 @@ Lockfile:
     integrity sha1-xG4xWaKT9riW2ikxbYtv6Lt5u+0=
     dependencies:
       ms "^2.0.0"
+  
+  husky@^7.0.4:
+    version "7.0.4"
+    resolved "https://registry.yarnpkg.com/husky/-/husky-7.0.4.tgz#242048245dc49c8fb1bf0cc7cfb98dd722531535"
+    integrity sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==
   
   iconv-lite@^0.4.24:
     version "0.4.24"

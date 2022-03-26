@@ -9,10 +9,14 @@
     "build": "concurrently --kill-others --success first \"yarn --cwd ./packages/strapi build\" \"yarn --cwd ./packages/web build\"",
     "build:front": "yarn --cwd ./packages/web build",
     "build:back": "yarn --cwd ./packages/strapi build",
-    "test": ""
+    "test": "yarn test:front && yarn test:back",
+    "test:front": "yarn --cwd ./packages/web test",
+    "test:back": "yarn --cwd ./packages/strapi test",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "lerna": "^4.0.0",
-    "concurrently": "^7.0.0"
+    "concurrently": "^7.0.0",
+    "husky": "^7.0.4",
+    "lerna": "^4.0.0"
   }
 }

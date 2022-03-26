@@ -7,7 +7,8 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "test": "jest --forceExit --detectOpenHandles"
   },
   "dependencies": {
     "@purest/providers": "^1.0.4",
@@ -24,7 +25,7 @@
     "uuid": "^8.3.2"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "Kwang"
   },
   "strapi": {
     "uuid": "c5431721-f277-4803-8381-5b0763e84eed"
@@ -33,5 +34,17 @@
     "node": ">=12.x.x <=16.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      ".tmp",
+      ".cache",
+      "/src/"
+    ],
+    "testEnvironment": "node"
+  }
 }

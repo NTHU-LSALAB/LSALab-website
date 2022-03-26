@@ -5,7 +5,9 @@
     "dev": "vite",
     "build": "NODE_OPTIONS=--max_old_space_size=4096 vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "format": "npx prettier --write src"
+    "format": "npx prettier --write src",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.3.1",
@@ -51,6 +53,7 @@
     "vfonts": "^0.0.3",
     "vite": "^2.8.3",
     "vite-plugin-md": "^0.11.8",
+    "vitest": "^0.7.11",
     "vue-tsc": "^0.29.8"
   }
 }
