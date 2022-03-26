@@ -85,27 +85,30 @@ module.exports = async ({ provider, access_token, refresh_token, callback, query
       break;
     }
     case 'google': {
-      const google = purest({ provider: 'google' });
-      try {
-        const { body } = await google
-          .get('oauth2/v2/userinfo')
-          .auth(access_token)
-          .request();
-        callback(null, {
-          username: body.email.split('@')[0],
-          email: body.email,
-          picture: body.picture,
-          firstName: body.given_name,
-          lastName: body.family_name,
-          google: {
-            accessToken: access_token,
-            refreshToken: refresh_token,
-          },
+      const google = purest({ provider: 'google', config: purestConfig });
+      console.log(google)
+
+      google
+        .query('oauth')
+        .get('tokeninfo')
+        .qs({ access_token })
+        .request((err, res, body) => {
+          if (err) {
+            callback(err);
+          } else {
+            callback(null, {
+              username: body.email.split('@')[0],
+              email: body.email,
+              picture: body.picture,
+              firstName: body.given_name,
+              lastName: body.family_name,
+              google: {
+                accessToken: access_token,
+                refreshToken: refresh_token,
+              },
+            });
+          }
         });
-      } catch (err) {
-        console.log(err);
-        callback(err);
-      }
       break;
     }
     case 'github': {

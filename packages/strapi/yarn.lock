@@ -4433,10 +4433,6 @@ deep-extend@^0.6.0:
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
   integrity sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==
 
-"deep-extend@github:simov/node-deep-extend#purest":
-  version "0.6.0"
-  resolved "https://codeload.github.com/simov/node-deep-extend/tar.gz/e26b5aca2535299db00cbc35cd891c0923a01fd6"
-
 deepmerge@^2.1.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
@@ -6723,7 +6719,7 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
-isstream@^0.1.2, isstream@~0.1.2:
+isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
@@ -7585,7 +7581,7 @@ mime-db@1.51.0:
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.52.0.tgz#bbabcdc02859f4987301c856e3387ce5ec43bf70"
   integrity sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==
 
-mime-types@^2.1.12, mime-types@^2.1.18, mime-types@^2.1.27, mime-types@^2.1.28, mime-types@^2.1.31, mime-types@~2.1.17, mime-types@~2.1.19, mime-types@~2.1.24, mime-types@~2.1.34:
+mime-types@^2.1.12, mime-types@^2.1.18, mime-types@^2.1.27, mime-types@^2.1.31, mime-types@~2.1.17, mime-types@~2.1.19, mime-types@~2.1.24, mime-types@~2.1.34:
   version "2.1.34"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.34.tgz#5a712f9ec1503511a945803640fafe09d3793c24"
   integrity sha512-6cP692WwGIs9XXdOO4++N+7qjqv0rqxxVvJ3VHPh/Sc9mVZcQP+ZGhkKiTvWMQRr2tbHkJP/Yn7Y0npb3ZBs4A==
@@ -7792,14 +7788,6 @@ multicast-dns@^6.0.1:
   dependencies:
     dns-packet "^1.3.1"
     thunky "^1.0.2"
-
-multistream@^4.0.1:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/multistream/-/multistream-4.1.0.tgz#7bf00dfd119556fbc153cff3de4c6d477909f5a8"
-  integrity sha512-J1XDiAmmNpRCBfIWJv+n0ymC4ABcf/Pl+5YvC5B/D2f/2+8PtHvCNxMPKiQcZyi922Hq69J2YOpb1pTywfifyw==
-  dependencies:
-    once "^1.4.0"
-    readable-stream "^3.6.0"
 
 mute-stream@0.0.8:
   version "0.0.8"
@@ -8862,17 +8850,6 @@ purest@3.1.0:
     "@request/api" "^0.6.0"
     extend "^3.0.0"
 
-purest@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/purest/-/purest-4.0.1.tgz#b2f440b02f227ed3256de62150064e394f6f77ae"
-  integrity sha512-yS/9GyC0fAJLqITZz1ykBfzC97dWPBrA024jlCVc7uzVXPp2rgpUfQ16D/6r1gFnTEgGQPZIKPsAUffkUWZYTg==
-  dependencies:
-    deep-extend "github:simov/node-deep-extend#purest"
-    qs "^6.9.6"
-    request-compose "^2.1.1"
-    request-multipart "^1.0.0"
-    request-oauth "^1.0.1"
-
 qs@6.10.1:
   version "6.10.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.1.tgz#4931482fa8d647a5aab799c5271d2133b981fb6a"
@@ -9413,7 +9390,7 @@ repeat-string@^1.6.1:
   resolved "https://registry.yarnpkg.com/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
   integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=
 
-request-compose@^2.1.1, request-compose@^2.1.4:
+request-compose@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/request-compose/-/request-compose-2.1.4.tgz#d427d614d31c0300e5893cbeaf86e51da1dff445"
   integrity sha512-F8xik9Dxd5i2aHZ0/L/oIrCM1kKSgvp9BKYxGXk91lSWF9TbicWpnuxdOchxIhEWwvLdSBWZIAbCOeXfGfqaqA==
@@ -9424,17 +9401,6 @@ request-ip@2.1.3:
   integrity sha512-J3qdE/IhVM3BXkwMIVO4yFrvhJlU3H7JH16+6yHucadT4fePnR8dyh+vEs6FIx0S2x5TCt2ptiPfHcn0sqhbYQ==
   dependencies:
     is_js "^0.9.0"
-
-request-multipart@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/request-multipart/-/request-multipart-1.0.0.tgz#26fe57634e379a5686eb499788ecd8b4fd51deaf"
-  integrity sha512-dazx88T19dIKFNc0XdlZV8H46D2RmNFdR4mipcbrFOaN70PSSSMM3urVY+eVbrpraf/fHXccxFhLvG1wkSUtKQ==
-  dependencies:
-    bl "^4.0.3"
-    isstream "^0.1.2"
-    mime-types "^2.1.28"
-    multistream "^4.0.1"
-    uuid "^8.3.2"
 
 request-oauth@^1.0.1:
   version "1.0.1"
