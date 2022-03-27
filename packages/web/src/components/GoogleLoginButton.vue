@@ -1,5 +1,5 @@
 <template>
-  <n-button @click="googleLogin" style="width: 100%" size="large">
+  <n-button @click="googleLogin" class="!w-full" size="large">
     <div class="flex w-full items-center justify-between">
       <img :src="Google" class="h-5 w-5" />
       <span class="ml-2 text-base font-bold">Continue with Google</span>

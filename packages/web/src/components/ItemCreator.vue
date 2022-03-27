@@ -7,7 +7,7 @@
     @negative-click="emits('cancel')"
     @close="emits('cancel')"
   >
-    <n-form :model="model" ref="formRef" :rules="rules" id="app">
+    <n-form :model="model" ref="formRef" :rules="rules">
       <n-form-item label="Type" path="type">
         <n-input placeholder="type" v-model:value="model.type" />
       </n-form-item>

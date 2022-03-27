@@ -4,12 +4,7 @@
     class="dark:border-gray-500"
   >
     <template v-if="me">
-      <n-popover
-        id="app"
-        style="padding: 0"
-        v-if="!props.inDrawer"
-        trigger="click"
-      >
+      <n-popover style="padding: 0" v-if="!props.inDrawer" trigger="click">
         <template #trigger>
           <div class="flex items-center">
             <n-button text>
@@ -23,7 +18,7 @@
             <div class="font-extrabold">{{ me.username }}</div>
           </div>
           <n-button
-            style="display: flex; justify-content: left; padding: 0 16px"
+            class="!flex !justify-start !px-4 !text-rose-500"
             @click="logout"
             block
             :bordered="false"
@@ -38,11 +33,11 @@
           <div class="ml-2 font-extrabold">{{ me.username }}</div>
         </div>
         <n-button
+          class="!flex !justify-start !pl-[2px] !text-rose-500"
           size="small"
           @click="logout"
           block
           :bordered="false"
-          style="display: flex; justify-content: start; padding-left: 2px"
         >
           <template #icon>
             <n-icon size="18">

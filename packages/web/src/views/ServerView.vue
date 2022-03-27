@@ -26,7 +26,7 @@
       </n-carousel-item>
       <template #arrow="{ prev, next }">
         <div class="absolute bottom-1 right-1">
-          <n-button text type="primary" class="mr-2" @click="prev">
+          <n-button text type="primary" class="!mr-2" @click="prev">
             <n-icon size="20"><arrow-back /></n-icon>
           </n-button>
           <n-button text type="primary" @click="next">

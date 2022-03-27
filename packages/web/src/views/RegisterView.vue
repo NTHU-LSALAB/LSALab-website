@@ -42,11 +42,10 @@
       </n-form-item>
       <n-form-item :show-label="false" :show-feedback="false">
         <n-button
-          class="mt-2"
+          class="!mt-2 !w-full"
           size="large"
           type="primary"
           @click="onSubmit"
-          style="width: 100%"
         >
           Create account
         </n-button>

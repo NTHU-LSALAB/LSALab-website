@@ -16,22 +16,19 @@
           {{ langShort }}
         </n-button>
       </template>
-      <div class="w-18">
-        <n-button
-          class="w-full"
-          block
-          style="justify-content: left; padding: 0 4px"
-          v-for="lang in languages"
-          :bordered="false"
-          @click="changeLang(lang.tag)"
-          :style="{ color: selectedLang === lang ? '#007FFF' : '' }"
-        >
-          <template #icon>
-            <n-icon><check-round v-if="selectedLang === lang" /></n-icon>
-          </template>
-          {{ lang.text }}
-        </n-button>
-      </div>
+      <n-button
+        class="!w-18 !justify-start !px-1"
+        block
+        v-for="lang in languages"
+        :bordered="false"
+        @click="changeLang(lang.tag)"
+        :style="{ color: selectedLang === lang ? '#007FFF' : '' }"
+      >
+        <template #icon>
+          <n-icon><check-round v-if="selectedLang === lang" /></n-icon>
+        </template>
+        {{ lang.text }}
+      </n-button>
     </n-popover>
   </div>
 </template>

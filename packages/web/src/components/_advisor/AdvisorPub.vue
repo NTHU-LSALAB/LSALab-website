@@ -126,7 +126,7 @@
         <div v-if="pub.attributes.tags" class="mt-1">
           <n-button
             :focusable="false"
-            style="margin-right: 4px; margin-bottom: 4px"
+            class="!mr-1 !mb-1"
             size="tiny"
             secondary
             v-for="tag in pub.attributes.tags"

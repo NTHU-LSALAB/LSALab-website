@@ -39,7 +39,7 @@
       :options="folderOptions"
     />
     <template v-if="selectedFolder">
-      <n-button :disabled="!internal" class="mt-8" @click="showUploader = true">
+      <n-button :disabled="!internal" class="!mt-8" @click="showUploader = true">
         {{ t("button.upload") }}
       </n-button>
       <n-modal v-model:show="showUploader">

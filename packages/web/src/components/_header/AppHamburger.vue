@@ -1,19 +1,10 @@
 <template>
   <div>
-    <n-button
-      @click="showDrawer = true"
-      circle
-      style="border-radius: 10px"
-      :focusable="false"
-      ghost
-      :color="mode === 'light' ? '#e0e0e6' : '#132f4c'"
-    >
+    <app-outline-button @click="showDrawer = true">
       <template #icon>
-        <n-icon style="transform: scale(1.2)" class="text-primary">
-          <menu-round />
-        </n-icon>
+        <menu-round class="text-primary"/>
       </template>
-    </n-button>
+    </app-outline-button>
     <n-drawer v-model:show="showDrawer" :width="270" placement="left">
       <n-drawer-content title="LSA Lab" closable>
         <n-menu
@@ -30,21 +21,12 @@
 </template>
 
 <script setup lang="ts">
-import {
-  NButton,
-  NIcon,
-  NDrawer,
-  NDrawerContent,
-  NMenu,
-  NDivider,
-} from "naive-ui";
+import { NDrawer, NDrawerContent, NMenu } from "naive-ui";
 import { MenuRound } from "@vicons/material";
-import { ref, PropType, computed } from "vue";
-import { useSettingStore } from "@/store";
-import AppAuthButton from "@/components/AppAuthButton.vue";
+import { ref, PropType } from "vue";
+import AppAuthButton from "@/components/_header/AppAuthButton.vue";
+import AppOutlineButton from "@/components/AppOutlineButton.vue";
 
-const store = useSettingStore();
-const mode = computed(() => store.mode);
 const props = defineProps({
   modelValue: String,
   options: {

@@ -19,7 +19,7 @@
         :autosize="{ maxRows: 3 }"
       />
     </n-form-item>
-    <n-button class="mt-4" type="primary" style="width: 100%" @click="onSubmit">
+    <n-button class="!mt-4" type="primary" style="width: 100%" @click="onSubmit">
       SUBMIT
     </n-button>
   </n-form>

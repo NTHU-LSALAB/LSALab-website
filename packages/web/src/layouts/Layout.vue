@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import AppHeader from "@/components/AppHeader.vue";
+import AppHeader from "@/components/_header/AppHeader.vue";
 import AppFooter from "@/components/AppFooter.vue";
 import { NBackTop } from "naive-ui";
 import { useRoute } from "vue-router";

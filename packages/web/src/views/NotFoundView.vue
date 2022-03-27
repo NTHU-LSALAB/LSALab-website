@@ -7,9 +7,14 @@
   >
     <template #footer>
       <n-button @click="router.back()" secondary>Go Back</n-button>
-      <n-button @click="router.push('/')" class="ml-2" type="primary" secondary
-        >Go Home</n-button
+      <n-button
+        @click="router.push('/')"
+        class="!ml-2"
+        type="primary"
+        secondary
       >
+        Go Home
+      </n-button>
     </template>
   </n-result>
 </template>

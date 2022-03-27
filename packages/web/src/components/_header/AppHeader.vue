@@ -61,13 +61,13 @@ import { NMenu } from "naive-ui";
 import { useRoute, useRouter } from "vue-router";
 import { renderHref, renderIcon, renderLink } from "@/utils/component";
 import { useI18n } from "vue-i18n";
-import ModeSwitch from "@/components/ModeSwitch.vue";
-import AppLocaleButton from "@/components/AppLocaleButton.vue";
-import AppAuthButton from "@/components/AppAuthButton.vue";
+import ModeSwitch from "@/components/_header/ModeSwitch.vue";
+import AppLocaleButton from "@/components/_header/AppLocaleButton.vue";
+import AppAuthButton from "@/components/_header/AppAuthButton.vue";
 import { useSettingStore } from "@/store";
-import GithubButton from "@/components/GithubButton.vue";
-import AppHamburger from "@/components/AppHamburger.vue";
-import AppSearch from "@/components/AppSearch.vue";
+import GithubButton from "@/components/_header/GithubButton.vue";
+import AppHamburger from "@/components/_header/AppHamburger.vue";
+import AppSearch from "@/components/_header/AppSearch.vue";
 
 gsap.registerPlugin(ScrollTrigger);
 

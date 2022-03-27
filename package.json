@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "dev": "concurrently --kill-others --success first \"yarn --cwd ./packages/strapi develop\" \"yarn --cwd ./packages/web dev\"",
+    "dev": "concurrently --kill-others --success first \"yarn dev:front\" \"yarn dev:back\"",
+    "dev:front": "yarn --cwd ./packages/web dev",
     "dev:back": "yarn --cwd ./packages/strapi develop",
     "start": "yarn --cwd ./packages/strapi start",
     "build": "concurrently --kill-others --success first \"yarn --cwd ./packages/strapi build\" \"yarn --cwd ./packages/web build\"",

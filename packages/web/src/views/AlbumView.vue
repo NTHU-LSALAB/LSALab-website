@@ -37,19 +37,17 @@
         <template #arrow="{ prev, next }">
           <div class="absolute bottom-1 right-1">
             <n-button
-              style="background-color: white; padding: 4px; border-radius: 5px"
               text
               type="primary"
-              class="mr-2 shadow-5"
+              class="!mr-2 !shadow-5 !bg-white !p-1 !rounded-md"
               @click="prev"
             >
               <n-icon size="20"><arrow-back /></n-icon>
             </n-button>
             <n-button
-              style="background-color: white; padding: 4px; border-radius: 5px"
               text
               type="primary"
-              class="shadow-5"
+              class="!mr-2 !shadow-5 !bg-white !p-1 !rounded-md"
               @click="next"
             >
               <n-icon size="20"><arrow-forward /></n-icon>
