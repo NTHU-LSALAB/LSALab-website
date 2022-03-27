@@ -17,6 +17,8 @@ jobs:
             - uses: actions/setup-node@v2-beta
               with:
                   node-version: ${{ matrix.node }}
+            - name: Run lint
+              run: yarn run -s lint
     unit_back:
         name: 'unit_back (node: ${{ matrix.node }})'
         needs: [lint]
