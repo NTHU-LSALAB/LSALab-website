@@ -79,7 +79,6 @@ The frontend should now be available at http://localhost:3000/ while the backend
 -   `yarn build` builds the frontend and administration panel.
 -   `yarn setup` installs dependencies.
 -   `yarn lint` lints the codebase.
-<!-- -   `yarn test:clean` removes the coverage reports. -->
 -   `yarn test:front` runs front-end related tests.
 -   `yarn test:back` runs the back-end unit tests.
 

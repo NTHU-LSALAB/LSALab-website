@@ -10,33 +10,20 @@ This template should help get you started developing with Vue 3 and Typescript i
 
 Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
 
-## Contribution Guide
+## Project structure
 
-1. Project structure
-    - `/main.ts` \
-    Entry of an app
-    - `/views` \
-    View components for every url path
-    - `/store` \
-    State management, **Publications and Fields data is stored here**
-    - `/router` \
-    Routes for each page
-    - `/i18n` \
-    Translation content
-
-3. Run app on local device
-    1. clone the project from GitHub
-        ```shell
-        git clone git@github.com:NTHU-LSALAB/website.git
-        ```
-    2. Install dependencies
-        ```shell
-        cd website
-        yarn
-        ```
-    3. Rename `.env.example` to `.env`
-
-4. Create a pull request from your feature branch
+- `/main.ts` \
+  Entry of an app
+- `/views` \
+  View components for every url path
+- `/components` \
+   Components used in view
+- `/store` \
+  State management,
+- `/router` \
+  Routes for each page
+- `/i18n` \
+  Translation content
 
 ## TODOS
 
@@ -45,8 +32,6 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 - Graduation project content (high)
 
 - Group meeting slide patch (high)
-
-- Research content (high)
 
 - Server details
 
@@ -59,3 +44,5 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 - Translation
 
 - Search website
+
+- Testing (~~I'll appreciate you like more than 100 years.~~)
