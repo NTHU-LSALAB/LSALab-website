@@ -2,6 +2,7 @@
   "name": "lsalab",
   "private": true,
   "scripts": {
+    "setup": "yarn && yarn bootstrap",
     "bootstrap": "lerna bootstrap",
     "dev": "concurrently --kill-others --success first \"yarn dev:front\" \"yarn dev:back\"",
     "dev:front": "yarn --cwd ./packages/web dev",
