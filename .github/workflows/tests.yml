@@ -17,6 +17,7 @@ jobs:
             - uses: actions/setup-node@v2-beta
               with:
                   node-version: ${{ matrix.node }}
+            - uses: ./.github/actions/install-modules
             - name: Run lint
               run: yarn run -s lint
     unit_back:
@@ -33,7 +34,7 @@ jobs:
             - uses: actions/setup-node@v2-beta
               with:
                   node-version: ${{ matrix.node }}
-            # - uses: ./.github/actions/install-modules
+            - uses: ./.github/actions/install-modules
             #   with:
             #       globalPackages: codecov
             - name: Run tests
@@ -53,7 +54,7 @@ jobs:
             - uses: actions/setup-node@v2-beta
               with:
                   node-version: ${{ matrix.node }}
-            # - uses: ./.github/actions/install-modules
+            - uses: ./.github/actions/install-modules
             #   with:
             #       globalPackages: codecov
             - name: Build
