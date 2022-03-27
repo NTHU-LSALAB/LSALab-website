@@ -13,6 +13,9 @@
     "test": "yarn test:front && yarn test:back",
     "test:front": "yarn --cwd ./packages/web test",
     "test:back": "yarn --cwd ./packages/strapi test",
+    "lint": "yarn lint:front && yarn lint:back",
+    "lint:front": "yarn --cwd ./packages/web lint",
+    "lint:back": "yarn --cwd ./packages/strapi lint",
     "prepare": "husky install"
   },
   "devDependencies": {
