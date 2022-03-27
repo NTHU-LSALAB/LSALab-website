@@ -11,21 +11,23 @@
         :show-dots="false"
         slides-per-view="auto"
       >
-        <n-carousel-item
-          v-if="files && files.length"
-          v-for="file in files"
-          style="width: fit-content"
-        >
-          <div class="h-[450px] w-fit overflow-hidden rounded-md">
-            <n-image
-              object-fit="contain"
-              :src="
-                file.webContentLink ||
-                'https://via.placeholder.com/300x150?text=LSA+Lab'
-              "
-            />
-          </div>
-        </n-carousel-item>
+        <template v-if="files && files.length">
+          <n-carousel-item
+            v-for="(file, i) in files"
+            :key="i"
+            style="width: fit-content"
+          >
+            <div class="h-[450px] w-fit overflow-hidden rounded-md">
+              <n-image
+                object-fit="contain"
+                :src="
+                  file.webContentLink ||
+                  'https://via.placeholder.com/300x150?text=LSA+Lab'
+                "
+              />
+            </div>
+          </n-carousel-item>
+        </template>
         <n-carousel-item v-else>
           <div class="flex h-[450px] justify-center overflow-hidden">
             <n-image
@@ -39,7 +41,7 @@
             <n-button
               text
               type="primary"
-              class="!mr-2 !shadow-5 !bg-white !p-1 !rounded-md"
+              class="!mr-2 !rounded-md !bg-white !p-1 !shadow-5"
               @click="prev"
             >
               <n-icon size="20"><arrow-back /></n-icon>
@@ -47,7 +49,7 @@
             <n-button
               text
               type="primary"
-              class="!mr-2 !shadow-5 !bg-white !p-1 !rounded-md"
+              class="!mr-2 !rounded-md !bg-white !p-1 !shadow-5"
               @click="next"
             >
               <n-icon size="20"><arrow-forward /></n-icon>
@@ -62,16 +64,17 @@
       class="mt-10 grid grid-cols-2 gap-5 lg:grid-cols-3 xl:grid-cols-4"
     >
       <n-card
+        v-for="(folder, i) in folders"
+        :key="i"
         class="cursor-pointer border hover:bg-gray-200 dark:hover:bg-gray-700"
         size="small"
         :bordered="false"
-        v-for="folder in folders"
-        @click="select(folder.id)"
         :class="
           selectedFolderId !== folder.id
             ? 'border-gray-200 dark:border-[#FFFFFF10]'
             : 'border-primary'
         "
+        @click="select(folder.id)"
       >
         <div class="flex items-center">
           <albums-outline class="w-6" />
@@ -88,10 +91,10 @@
       </n-card>
     </div>
     <div
-      class="mt-10 grid grid-cols-2 gap-5 lg:grid-cols-3 xl:grid-cols-4"
       v-else
+      class="mt-10 grid grid-cols-2 gap-5 lg:grid-cols-3 xl:grid-cols-4"
     >
-      <n-skeleton height="70px" v-for="i in 11" :sharp="false" />
+      <n-skeleton v-for="i in 12" :key="i" height="70px" :sharp="false" />
     </div>
   </div>
 </template>

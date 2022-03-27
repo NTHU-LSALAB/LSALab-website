@@ -25,12 +25,14 @@ export function useCachedRequest<T>(
     isLoading.value = true;
 
     if (cache.has(key)) {
-      const _cache = cache.get(key)!;
-      items.value = _cache.items;
-      item.value = _cache.item;
-      pg.value = _cache.pg;
-      isReady.value = true;
-      return;
+      const _cache = cache.get(key);
+      if (_cache) {
+        items.value = _cache.items;
+        item.value = _cache.item;
+        pg.value = _cache.pg;
+        isReady.value = true;
+        return;
+      }
     }
 
     strapi

@@ -17,12 +17,13 @@
         </n-button>
       </template>
       <n-button
+        v-for="(lang, i) in languages"
+        :key="i"
         class="!w-18 !justify-start !px-1"
         block
-        v-for="lang in languages"
         :bordered="false"
-        @click="changeLang(lang.tag)"
         :style="{ color: selectedLang === lang ? '#007FFF' : '' }"
+        @click="changeLang(lang.tag)"
       >
         <template #icon>
           <n-icon><check-round v-if="selectedLang === lang" /></n-icon>

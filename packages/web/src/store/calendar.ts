@@ -1,4 +1,4 @@
-import request, { strapi } from "@/apis";
+import { strapi } from "@/apis";
 import { useComponentStore } from "@/store/component";
 import { defineStore } from "pinia";
 type State = {
@@ -43,9 +43,9 @@ export const useCalendarStore = defineStore("calendar", {
       try {
         this.selectedEvents = this.events[date.year][date.month][date.date];
       } catch {
-        this.selectedEvents = null
+        this.selectedEvents = null;
       }
-      console.log(this.selectedEvents)
+      console.log(this.selectedEvents);
     },
     async fetchEvents({ month, year }: { month: number; year: number }) {
       const componentStore = useComponentStore();
@@ -59,8 +59,8 @@ export const useCalendarStore = defineStore("calendar", {
           },
         })
         .then(({ data }) => {
-          for (let evt of data) {
-            let dateTime = new Date(evt.start.dateTime);
+          for (const evt of data) {
+            const dateTime = new Date(evt.start.dateTime);
             const year = dateTime.getFullYear();
             const month = dateTime.getMonth() + 1;
             const date = dateTime.getDate();

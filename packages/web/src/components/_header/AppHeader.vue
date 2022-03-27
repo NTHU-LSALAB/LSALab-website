@@ -1,14 +1,14 @@
 <template>
   <div
-    class="border-gray fixed z-10 h-20 w-full border-b bg-[#FFFFFF90] backdrop-blur dark:border-none dark:bg-[#00000090]"
     ref="header"
+    class="border-gray fixed z-10 h-20 w-full border-b bg-[#FFFFFF90] backdrop-blur dark:border-none dark:bg-[#00000090]"
   >
     <div
       class="mx-auto flex h-full items-center justify-between px-4 sm:w-4/5 sm:px-0"
     >
       <div class="flex items-center">
         <template v-if="width < 1024">
-          <app-hamburger class="mr-2" v-model="tab" :options="options" />
+          <app-hamburger v-model="tab" class="mr-2" :options="options" />
         </template>
         <span
           class="cursor-pointer text-2xl font-bold"
@@ -29,7 +29,7 @@
         <app-locale-button class="ml-2" />
         <github-button class="ml-2" />
         <mode-switch class="ml-2" />
-        <app-auth-button class="ml-2" v-if="width >= 1024" />
+        <app-auth-button v-if="width >= 1024" class="ml-2" />
       </div>
     </div>
   </div>
@@ -91,7 +91,9 @@ const tab = computed({
     else if (name?.startsWith("Resource")) return "Resource";
     else return name;
   },
-  set: () => {},
+  set: (value) => {
+    console.log(value);
+  },
 });
 
 const header = ref(null);

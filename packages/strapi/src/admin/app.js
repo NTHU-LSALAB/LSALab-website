@@ -1,24 +1,21 @@
-import AuthLogo from './extensions/logo.png';
-import favicon from './extensions/favicon.ico';
+'use strict';
 
-export default {
-  config: {
-    auth: {
-      logo: AuthLogo
+const AuthLogo = require('./extensions/logo.png');
+const favicon = require('./extensions/favicon.ico');
+
+module.exports = {
+    config: {
+        auth: {
+            logo: AuthLogo,
+        },
+        head: {
+            favicon,
+        },
+        menu: {
+            logo: AuthLogo,
+        },
+        tutorials: false,
+        locales: ['zh-Hans', 'zh'],
     },
-    head: {
-      favicon
-    },
-    menu: {
-      logo: AuthLogo
-    },
-    tutorials: false,
-    locales: [
-      'zh-Hans',
-      'zh',
-    ],
-  },
-  bootstrap(app) {
-    console.log(app);
-  },
+    bootstrap() {},
 };

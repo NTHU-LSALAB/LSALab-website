@@ -1,5 +1,4 @@
 import { strapi } from "@/apis";
-import moment from "moment";
 import { defineStore } from "pinia";
 export interface Item {
   id: string;
@@ -51,7 +50,7 @@ export const useDocStore = defineStore("doc", {
         .get(this.tag)
         .then(({ data }: { data: { data: Item[]; meta: any } }) => {
           // TODO: sort the docs
-          this.doc!.items = data.data;
+          this.doc.items = data.data;
         })
         .finally(() => {
           this.loading = false;

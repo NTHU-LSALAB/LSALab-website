@@ -30,7 +30,7 @@ onMounted(() => {
       duration: 0.4,
       ease: "power2.inOut",
       onComplete: () => {
-        boxRef.value!.style.display = "hidden";
+        if (boxRef.value) boxRef.value.style.display = "hidden";
       },
     })
     .pause();

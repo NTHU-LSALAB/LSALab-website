@@ -1,7 +1,6 @@
 <template>
   <div>
     <n-button
-      @click="showSearch = true"
       class="app-button"
       :class="{ small: width < 1240, dark: mode === 'dark' }"
       ghost
@@ -9,6 +8,7 @@
       :color="mode === 'light' ? '#e0e0e6' : '#132f4c'"
       style="border-radius: 10px"
       :focusable="false"
+      @click="showSearch = true"
     >
       <n-icon size="20" class="text-primary"><search48-filled /></n-icon>
       <template v-if="width >= 1240">
@@ -29,11 +29,11 @@
             class="flex items-center border-b px-3 py-4 dark:border-[#132f4c]"
           >
             <ais-search-box class="w-full">
-              <template v-slot="{ currentRefinement, refine }">
+              <template #default="{ currentRefinement, refine }">
                 <n-input
+                  v-model:value="query"
                   :bordered="false"
                   size="large"
-                  v-model:value="query"
                   :value="currentRefinement"
                   style="
                     border-radius: 10px;
@@ -55,8 +55,8 @@
               </template>
             </ais-search-box>
             <div
-              @click="showSearch = false"
               class="mx-3 cursor-default rounded border bg-white py-[2px] px-2 text-base text-xs font-bold text-[#3E5060] dark:border-[#132f4c] dark:bg-[#001e3c] dark:text-[#b2bac2]"
+              @click="showSearch = false"
             >
               esc
             </div>
@@ -74,10 +74,10 @@
                 'ais-Hits-item': 'hit-item',
               }"
             >
-              <template v-slot:item="{ item }">
+              <template #item="{ item }">
                 <div
-                  @click=""
                   class="w-full cursor-pointer rounded-md bg-gray-100 p-2 duration-200 hover:bg-gray-200"
+                  @click.stop
                 >
                   <n-ellipsis line-clamp="2" tooltip>
                     <template #tooltip>
@@ -85,14 +85,14 @@
                         <ais-highlight
                           attribute="title"
                           :hit="item"
-                          highlightedTagName="mark"
+                          highlighted-tag-name="mark"
                         />
                       </div>
                     </template>
                     <ais-highlight
                       attribute="title"
                       :hit="item"
-                      highlightedTagName="mark"
+                      highlighted-tag-name="mark"
                     />
                   </n-ellipsis>
                   <div>
@@ -105,7 +105,7 @@
                       <ais-snippet
                         attribute="venue"
                         :hit="item"
-                        highlightedTagName="mark"
+                        highlighted-tag-name="mark"
                       />
                     </n-button>
                   </div>
@@ -113,8 +113,8 @@
               </template>
             </ais-hits>
             <ais-configure
-              :attributesToSnippet="['venue']"
-              snippetEllipsisText="[…]"
+              :attributes-to-snippet="['venue']"
+              snippet-ellipsis-text="[…]"
             />
           </n-scrollbar>
           <div
@@ -159,7 +159,6 @@ import {
   AisSnippet,
   AisInstantSearch,
   AisConfigure,
-  // @ts-ignore
 } from "vue-instantsearch/vue3/es";
 
 const store = useSettingStore();

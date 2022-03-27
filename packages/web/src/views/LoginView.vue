@@ -14,7 +14,7 @@
     </p>
     <google-login-button @success="onSuccess" />
     <n-divider>or</n-divider>
-    <n-form :model="form" ref="formRef" :rules="rules">
+    <n-form ref="formRef" :model="form" :rules="rules">
       <n-form-item path="identifier" :show-label="false">
         <n-input
           v-model:value="form.identifier"
@@ -24,8 +24,8 @@
       </n-form-item>
       <n-form-item path="password" :show-label="false">
         <n-input
-          class="!mt-2"
           v-model:value="form.password"
+          class="!mt-2"
           size="large"
           type="password"
           show-password-on="click"
@@ -102,7 +102,8 @@ const rules: FormRules = {
 };
 const onSubmit = (e: MouseEvent) => {
   e.preventDefault();
-  formRef.value!.validate((errors: Error[]) => {
+  if (!formRef.value) return;
+  formRef.value.validate((errors: Error[]) => {
     if (!errors) {
       authStore.login(form.value).then(() => router.push(redirectURI || "/"));
     } else {

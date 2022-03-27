@@ -1,6 +1,6 @@
 <template>
   <app-header />
-  <div class="min-h-screen pt-20" ref="target">
+  <div ref="target" class="min-h-screen pt-20">
     <router-view @ready="onReady" />
   </div>
   <n-back-top :right="100" />
@@ -24,7 +24,8 @@ const onReady = () => {
   emits("ready");
 };
 const target = ref();
-const { item: status } =
-  useCachedRequest<{ attributes: { dev: boolean } }>("status");
+const { item: status } = useCachedRequest<{ attributes: { dev: boolean } }>(
+  "status"
+);
 const dev = computed(() => status.value?.attributes.dev);
 </script>

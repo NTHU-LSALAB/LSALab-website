@@ -22,19 +22,19 @@ strapi.interceptors.request.use(
 strapi.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const { response, request } = error;
-    const authStore = useAuthStore();
+    const { response } = error;
+    // const authStore = useAuthStore();
     const componentStore = useComponentStore();
 
     if (response) {
       const { status, data } = response;
       componentStore.sendMessage(data.error.message);
-      // switch (status) {
-      //   case 404:
-      //     break;
-      //   case 500:
-      //     break;
-      // }
+      switch (status) {
+        case 404:
+          break;
+        case 500:
+          break;
+      }
     }
 
     return Promise.reject(error);

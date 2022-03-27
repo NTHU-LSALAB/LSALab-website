@@ -3,24 +3,24 @@
   <div class="mt-4 flex flex-wrap">
     <n-form-item label="Category" class="w-1/2 pr-2" :show-feedback="false">
       <n-select
-        placeholder="Category"
         v-model:value="category"
+        placeholder="Category"
         multiple
         :options="categorys"
       />
     </n-form-item>
     <n-form-item label="Venue" class="w-1/2" :show-feedback="false">
       <n-select
-        placeholder="Venue"
         v-model:value="venue"
+        placeholder="Venue"
         multiple
         :options="venues"
       />
     </n-form-item>
     <n-form-item label="Year" class="mt-2 w-1/2 pr-2" :show-feedback="false">
       <n-select
-        placeholder="Year"
         v-model:value="year"
+        placeholder="Year"
         multiple
         :options="years"
       />
@@ -28,13 +28,14 @@
   </div>
   <div class="mt-5 grid gap-5 xl:grid-cols-2">
     <n-card
-      size="small"
       v-for="pub in filteredPubs"
+      :key="pub.id"
+      size="small"
       style="position: relative; overflow: hidden"
     >
       <div
-        class="absolute right-[2px] top-[2px] drop-shadow-md"
         v-if="pub.attributes.award"
+        class="absolute right-[2px] top-[2px] drop-shadow-md"
       >
         <n-tooltip>
           <template #trigger>
@@ -61,8 +62,11 @@
             </template>
           </n-ellipsis>
           <div class="mt-2 italic">
-            <template v-for="(member, mid) in pub.attributes.members">
-              <span class="font-extrabold" v-if="member === 'Jerry Chou'">
+            <template
+              v-for="(member, mid) in pub.attributes.members"
+              :key="mid"
+            >
+              <span v-if="member === 'Jerry Chou'" class="font-extrabold">
                 {{ member }}
               </span>
               <span v-else class="text-gray-500">{{ member }}</span>
@@ -125,11 +129,12 @@
         </div>
         <div v-if="pub.attributes.tags" class="mt-1">
           <n-button
+            v-for="(tag, i) in pub.attributes.tags"
+            :key="i"
             :focusable="false"
             class="!mr-1 !mb-1"
             size="tiny"
             secondary
-            v-for="tag in pub.attributes.tags"
           >
             {{ tag }}
           </n-button>
@@ -137,8 +142,8 @@
       </template>
     </n-card>
   </div>
-  <div class="mt-2 flex justify-center" ref="spinner">
-    <n-spin size="small" v-if="loadingPubs" />
+  <div ref="spinner" class="mt-2 flex justify-center">
+    <n-spin v-if="loadingPubs" size="small" />
   </div>
 </template>
 
@@ -177,18 +182,21 @@ const year = ref<number[]>([]);
 const filteredPubs = computed(() => {
   let filtered = pubs.value || [];
   if (category.value.length)
-    filtered = filtered.filter((pub: Publication) =>
-      category.value!.includes(pub.attributes.field.data.id)
+    filtered = filtered.filter(
+      (pub: Publication) =>
+        category.value?.includes(pub.attributes.field.data.id) ?? false
     );
   if (venue.value.length)
-    filtered = filtered.filter((pub: Publication) =>
-      venue.value!.includes(pub.attributes.venue.data.id)
+    filtered = filtered.filter(
+      (pub: Publication) =>
+        venue.value?.includes(pub.attributes.venue.data.id) ?? false
     );
   if (year.value.length)
-    filtered = filtered.filter((pub: Publication) =>
-      year.value!.includes(
-        pub.attributes.year || moment(pub.attributes.date).year()
-      )
+    filtered = filtered.filter(
+      (pub: Publication) =>
+        year.value?.includes(
+          pub.attributes.year || moment(pub.attributes.date).year()
+        ) ?? false
     );
   return filtered;
 });

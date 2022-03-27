@@ -1,10 +1,6 @@
 <template>
   <div class="mx-auto px-4 py-10 sm:w-4/5 sm:px-0">
-    <div
-      class="markdown-body"
-      :class="{ dark: mode === 'dark' }"
-      v-if="topic"
-    >
+    <div v-if="topic" class="markdown-body" :class="{ dark: mode === 'dark' }">
       <h1>{{ topic.attributes.name }}</h1>
       <span class="text-[#808080]">Last updated: January 30, 2022</span>
       <h2>Research Background & Motivation</h2>
@@ -14,14 +10,14 @@
       <h2>Collaborators</h2>
       <h2>Publications</h2>
       <ol>
-        <li v-for="pub in topic.attributes.publications.data">
+        <li v-for="pub in topic.attributes.publications.data" :key="pub.id">
           <a :href="pub.attributes.webLink">{{ pub.attributes.title }}</a>
         </li>
       </ol>
       <h2>Software</h2>
       <h2>Tags</h2>
       <div>
-        <n-card size="small" v-for="tag in topic.attributes.tags">
+        <n-card v-for="(tag, i) in topic.attributes.tags" :key="i" size="small">
           {{ tag }}
         </n-card>
       </div>
@@ -31,7 +27,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { marked } from "marked";
 import "@/theme/markdown.css";
 import hljs from "highlight.js";
@@ -43,7 +39,6 @@ emits("ready");
 const settingStore = useSettingStore();
 const pubStore = usePubStore();
 const route = useRoute();
-const router = useRouter();
 
 const mode = computed(() => settingStore.mode);
 const topic = computed(() => pubStore.topic);
@@ -51,7 +46,7 @@ const topic = computed(() => pubStore.topic);
 const renderer = new marked.Renderer();
 marked.setOptions({
   renderer,
-  highlight: function (code, lang) {
+  highlight: function (code) {
     return hljs.highlightAuto(code).value;
   },
   langPrefix: "hljs language-",

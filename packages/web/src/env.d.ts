@@ -18,3 +18,5 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare module "vue-instantsearch/vue3/es";

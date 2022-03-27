@@ -6,12 +6,12 @@
     description="You know life is always ridiculous."
   >
     <template #footer>
-      <n-button @click="router.back()" secondary>Go Back</n-button>
+      <n-button secondary @click="router.back()">Go Back</n-button>
       <n-button
-        @click="router.push('/')"
         class="!ml-2"
         type="primary"
         secondary
+        @click="router.push('/')"
       >
         Go Home
       </n-button>

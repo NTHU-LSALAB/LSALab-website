@@ -1,11 +1,11 @@
 <template>
   <div>
     <ul class="ml-8 list-outside" :class="listStyle">
-      <li v-for="item in props.items">
+      <li v-for="(item, i) in props.items" :key="i">
         <template v-if="typeof item.title === 'string'">
           {{ item.title }}
         </template>
-        <component v-else :is="item.title" />
+        <component :is="item.title" v-else />
         <app-list
           :items="item.children"
           :level="props.level + 1"
@@ -27,11 +27,11 @@ interface ItemType {
 const props = defineProps({
   items: {
     type: Array as PropType<ItemType[]>,
-    default: [],
+    default: () => [],
   },
   options: {
     type: Object as PropType<OptionsType>,
-    default: {},
+    default: () => ({}),
   },
   level: {
     type: Number,
