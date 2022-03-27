@@ -1,25 +1,30 @@
 <template>
-  <n-form :model="formValue" :rules="rules" ref="formRef">
+  <n-form ref="formRef" :model="formValue" :rules="rules">
     <n-form-item :show-label="false" path="name" :show-feedback="false">
-      <n-input class="mt-6" placeholder="Name" v-model:value="formValue.name" />
+      <n-input v-model:value="formValue.name" class="mt-6" placeholder="Name" />
     </n-form-item>
     <n-form-item :show-label="false" path="email" :show-feedback="false">
       <n-input
+        v-model:value="formValue.email"
         class="mt-2"
         placeholder="Email"
-        v-model:value="formValue.email"
       />
     </n-form-item>
     <n-form-item :show-label="false" path="message" :show-feedback="false">
       <n-input
+        v-model:value="formValue.message"
         class="mt-2"
         type="textarea"
         placeholder="Message"
-        v-model:value="formValue.message"
         :autosize="{ maxRows: 3 }"
       />
     </n-form-item>
-    <n-button class="!mt-4" type="primary" style="width: 100%" @click="onSubmit">
+    <n-button
+      class="!mt-4"
+      type="primary"
+      style="width: 100%"
+      @click="onSubmit"
+    >
       SUBMIT
     </n-button>
   </n-form>
@@ -66,7 +71,8 @@ const rules: FormRules = {
 
 const onSubmit = (e: any) => {
   e.preventDefault();
-  formRef.value!.validate((errors: any[]) => {
+  if (!formRef.value) return;
+  formRef.value.validate((errors: any[]) => {
     if (!errors) {
       notification.success({
         title: "Message submitted",

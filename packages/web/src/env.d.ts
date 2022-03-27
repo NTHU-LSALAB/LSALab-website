@@ -12,9 +12,13 @@ interface ImportMetaEnv {
   readonly VITE_BASE_URL: string;
   readonly VITE_API_ENDPOINT: string;
   readonly VITE_STRAPI_ENDPOINT: string;
+  readonly VITE_SEARCH_APP_ID: string;
+  readonly VITE_SEARCH_API_KEY: string;
   // more env variables...
 }
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare module "vue-instantsearch/vue3/es";

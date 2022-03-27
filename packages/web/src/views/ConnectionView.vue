@@ -24,7 +24,7 @@
           {{ t("connection.academicMember") }}
         </div>
         <div class="mt-2 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          <n-card size="small" v-for="member in members">
+          <n-card v-for="(member, mid) in members" :key="mid" size="small">
             <div class="text-base font-bold hover:underline">
               <a :href="member.link" target="_blank">{{ member.name }}</a>
             </div>
@@ -32,11 +32,11 @@
               <n-icon size="22" class="mr-2"><school-outlined /></n-icon
               >{{ member.school }}
             </div>
-            <div v-for="t in member.tech">
+            <div v-for="(tech, tid) in member.tech" :key="tid">
               <n-ellipsis class="list-inside">
                 <div class="flex items-center text-blue-400">
                   <n-icon size="22" class="mr-2"><cloud28-regular /></n-icon
-                  >{{ t }}
+                  >{{ tech }}
                 </div>
               </n-ellipsis>
             </div>
@@ -46,8 +46,10 @@
           {{ t("connection.industrialMember") }}
         </div>
         <div class="mt-2 grid gap-4 md:grid-cols-2">
-          <n-card size="small" v-for="industry in industries">
-            <div class="text-base font-bold text-[#FFA726] hover:underline table">
+          <n-card v-for="(industry, i) in industries" :key="i" size="small">
+            <div
+              class="table text-base font-bold text-[#FFA726] hover:underline"
+            >
               <a :href="industry.link" target="_blank">{{ industry.name }}</a>
             </div>
             <n-ellipsis line-clamp="4" tooltip>

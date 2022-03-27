@@ -1,11 +1,11 @@
 <template>
   <div
-    class="mt-4 w-2 bg-gray-200 py-10 font-bold text-primary shadow-app"
     ref="headerRef"
+    class="mt-4 w-2 bg-gray-200 py-10 font-bold text-primary shadow-app"
   >
     <h1 class="mx-auto px-4 text-4xl sm:w-4/5 sm:px-0">
-      <span class="" ref="textRef"></span>
-      <span class="" ref="cursorRef">_</span>
+      <span ref="textRef" class=""></span>
+      <span ref="cursorRef" class="">_</span>
     </h1>
   </div>
   <div class="mx-auto px-4 py-10 sm:w-4/5 sm:px-0">
@@ -54,14 +54,15 @@
     <div class="mt-4 text-lg">
       <ul class="app-list list-inside">
         <i18n-t
+          v-for="i in 3"
+          :key="i"
           :keypath="`home.student.items[${i - 1}].text`"
           tag="li"
-          v-for="i in 3"
           scope="global"
         >
           <template #children>
             <ul class="ml-10 list-inside">
-              <li v-for="j in 5">
+              <li v-for="j in 5" :key="j">
                 {{ t(`home.student.items[0].items[${j - 1}]`) }}
               </li>
             </ul>
@@ -104,11 +105,11 @@
 
       <div class="mt-10 flex flex-wrap justify-center">
         <a
+          v-for="(logo, i) in logos"
+          :key="i"
           class="mx-5 h-[90px]"
           :href="logo.url"
           target="_blank"
-          v-for="(logo, i) in logos"
-          :key="i"
         >
           <img class="h-full" :src="logo.img" />
         </a>
@@ -139,8 +140,9 @@ const cursorRef = ref(null);
 const headerRef = ref(null);
 const textRef = ref(null);
 gsap.registerPlugin(TextPlugin);
-const { item: status } =
-  useCachedRequest<{ attributes: { welcomeTexts: string[] } }>("status");
+const { item: status } = useCachedRequest<{
+  attributes: { welcomeTexts: string[] };
+}>("status");
 const headerTL = gsap.timeline().pause();
 const masterTL = gsap
   .timeline({

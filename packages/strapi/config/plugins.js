@@ -1,16 +1,18 @@
-module.exports = ({ env }) => ({
+'use strict';
+
+module.exports = () => ({
     email: {
         config: {
             provider: 'nodemailer',
             providerOptions: {
-                host: 'localhost', //SMTP Host
-                port: 25, //SMTP Port
+                host: 'localhost', //   SMTP Host
+                port: 25, //    SMTP Port
             },
             settings: {
                 defaultFrom: 'LSALab <lsalab@lsalab.cs.nthu.edu.tw>',
                 defaultReplyTo: 'lsalab@lsalab.cs.nthu.edu.tw',
             },
-        }
+        },
     },
     graphql: {
         config: {
@@ -22,6 +24,6 @@ module.exports = ({ env }) => ({
             apolloServer: {
                 tracing: false,
             },
-        }
-    }
-})
+        },
+    },
+});

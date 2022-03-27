@@ -6,17 +6,22 @@
     @update-show="showExtraPolicy = false"
   />
   <n-tabs
+    v-model:value="tab"
     type="segment"
     class="mt-4"
-    v-model:value="tab"
     @update-value="handleChange"
   >
     <n-tab-pane
+      v-for="(teaching, tid) in teachings"
+      :key="tid"
       :name="teaching.name"
       :tab="teaching.tab"
-      v-for="teaching in teachings"
     >
-      <div class="text-justify text-lg" v-for="lecture in teaching.lectures">
+      <div
+        v-for="(lecture, lid) in teaching.lectures"
+        :key="lid"
+        class="text-justify text-lg"
+      >
         <div class="flex"></div>
         <h2 class="text-xl font-bold">
           {{ lecture.title }}

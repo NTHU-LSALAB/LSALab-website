@@ -7,8 +7,8 @@
         class="mt-4 grid gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
       >
         <n-card
-          v-for="folder in folders"
-          @click="onSelect(folder)"
+          v-for="(folder, i) in folders"
+          :key="i"
           :bordered="false"
           size="small"
           class="cursor-pointer border duration-200 hover:bg-gray-200 dark:hover:bg-gray-700"
@@ -17,6 +17,7 @@
               ? 'border-gray-200 dark:border-[#FFFFFF10]'
               : 'border-primary'
           "
+          @click="onSelect(folder)"
         >
           <div class="flex items-center">
             <folder-person20-regular class="w-6" />
@@ -25,21 +26,25 @@
         </n-card>
       </div>
       <div
-        class="mt-4 grid gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
         v-else
+        class="mt-4 grid gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
       >
-        <n-skeleton height="48px" v-for="i in 11" :sharp="false" />
+        <n-skeleton v-for="i in 12" :key="i" height="48px" :sharp="false" />
       </div>
     </template>
     <n-select
       v-else
-      class="mt-4"
-      @update-value="onSelectId"
       v-model:value="selectedFolderId"
+      class="mt-4"
       :options="folderOptions"
+      @update-value="onSelectId"
     />
     <template v-if="selectedFolder">
-      <n-button :disabled="!internal" class="!mt-8" @click="showUploader = true">
+      <n-button
+        :disabled="!internal"
+        class="!mt-8"
+        @click="showUploader = true"
+      >
         {{ t("button.upload") }}
       </n-button>
       <n-modal v-model:show="showUploader">

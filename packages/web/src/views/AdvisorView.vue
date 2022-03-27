@@ -10,12 +10,14 @@
         />
         <div v-if="width >= 1024" class="mt-4">
           <div
-            v-for="layer in layers"
+            v-for="(layer, lid) in layers"
+            :key="lid"
             class="mb-4 flex max-w-[250px] flex-wrap"
           >
             <n-image
+              v-for="(img, iid) in layer"
+              :key="iid"
               :width="250 / layer.length"
-              v-for="img in layer"
               :src="img"
               object-fit="contain"
             />

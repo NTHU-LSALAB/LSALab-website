@@ -1,15 +1,16 @@
 <template>
   <n-calendar
+    #="{ year, month, date }"
     @update:value="handleUpdateValue"
     @panel-change="handleUpdatePanel"
-    #="{ year, month, date }"
   >
     <n-scrollbar
       v-if="events[year] && events[year][month] && events[year][month][date]"
     >
       <div
+        v-for="(evt, i) in events[year][month][date]"
+        :key="i"
         class="flex items-center last:mb-2"
-        v-for="evt in events[year][month][date]"
       >
         <div class="h-2 w-2 flex-shrink-0 rounded-full bg-[#9a9cff]" />
         <div class="ml-2 hidden flex-shrink-0 text-sm lg:block">

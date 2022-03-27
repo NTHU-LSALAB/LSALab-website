@@ -89,7 +89,8 @@ export const usePubStore = defineStore("pub", {
             },
           })
           .then(({ data: { data, meta } }) => {
-            this.pubs = this.pubs!.concat(data);
+            if (!this.pubs) return;
+            this.pubs = this.pubs.concat(data);
             this.pubPg = meta.pagination;
           })
           .finally(() => {

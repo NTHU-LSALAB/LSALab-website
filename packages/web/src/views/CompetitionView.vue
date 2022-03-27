@@ -193,7 +193,7 @@ const headers: TableColumn<any>[] = [
   {
     title: "成員",
     key: "members",
-    render(row, index) {
+    render(row) {
       return row.members.join("、");
     },
   },

@@ -1,4 +1,4 @@
-import request from "@/apis";
+import { strapi } from "@/apis";
 import { defineStore } from "pinia";
 
 interface AlbumState {
@@ -19,8 +19,8 @@ export const useAlbumStore = defineStore("album", {
     async fetchFolders() {
       this.$reset();
       this.loading = true;
-      return request
-        .get("list_folder", {
+      return strapi
+        .get("google/drive/folders", {
           params: {
             folderName: "photo",
           },
@@ -36,8 +36,8 @@ export const useAlbumStore = defineStore("album", {
     async fetchFiles(folderId: string) {
       this.folderId = folderId;
       this.loading = true;
-      return request
-        .get("list_file", {
+      return strapi
+        .get("google/drive/files", {
           params: {
             folderId,
           },

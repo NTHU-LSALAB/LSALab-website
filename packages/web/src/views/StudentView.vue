@@ -1,13 +1,19 @@
 <template>
   <div class="mx-auto px-4 py-10 sm:w-4/5 sm:px-0">
     <div class="text-2xl font-bold">{{ t("page.member") }}</div>
-    <template v-for="grade in sortedGrades">
+    <template v-for="grade in sortedGrades" :key="grade.id">
       <div class="mt-8 text-xl">{{ grade.attributes.name }}</div>
       <div class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <n-card v-for="student in grade.attributes.students.data" size="small">
+        <n-card
+          v-for="student in grade.attributes.students.data"
+          :key="student.id"
+          size="small"
+        >
           <n-ellipsis class="text-lg font-bold">
             {{ student.attributes.name || student.attributes.enName }}
-            <span v-if="student.attributes.name && student.attributes.enName">({{ student.attributes.enName }})</span>
+            <span v-if="student.attributes.name && student.attributes.enName"
+              >({{ student.attributes.enName }})</span
+            >
           </n-ellipsis>
           <div class="text-base">
             <div>

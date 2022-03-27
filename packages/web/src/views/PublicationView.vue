@@ -6,8 +6,6 @@
 
 <script setup lang="ts">
 import AdvisorPub from "@/components/_advisor/AdvisorPub.vue";
-import { useI18n } from "vue-i18n";
 const emits = defineEmits(["ready"]);
 emits("ready");
-const { t } = useI18n();
 </script>

@@ -8,7 +8,8 @@
     "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi",
-    "test": "jest --forceExit --detectOpenHandles"
+    "test": "jest --forceExit --detectOpenHandles",
+    "lint": "eslint config/**/*.js src/**/*.js"
   },
   "dependencies": {
     "@purest/providers": "^1.0.4",
@@ -37,6 +38,9 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
+    "@strapi-community/eslint-config": "^0.2.0",
+    "eslint": "^8.12.0",
     "jest": "^27.5.1"
   },
   "jest": {

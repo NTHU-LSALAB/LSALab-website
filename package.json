@@ -13,11 +13,28 @@
     "test": "yarn test:front && yarn test:back",
     "test:front": "yarn --cwd ./packages/web test",
     "test:back": "yarn --cwd ./packages/strapi test",
+    "lint": "yarn lint:front && yarn lint:back",
+    "lint:front": "yarn --cwd ./packages/web lint",
+    "lint:back": "yarn --cwd ./packages/strapi lint",
     "prepare": "husky install"
   },
   "devDependencies": {
     "concurrently": "^7.0.0",
+    "eslint": "^8.12.0",
     "husky": "^7.0.4",
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "lint-staged": "^12.3.7",
+    "prettier": "^2.6.1"
+  },
+  "dependencies": {
+    "vue-instantsearch": "^4.3.3"
+  },
+  "lint-staged": {
+    "*.{ts,vue,js,md,css,scss,yaml,yml}": [
+      "prettier --write"
+    ],
+    "*.{ts,vue,js}": [
+      "eslint --fix"
+    ]
   }
 }

@@ -10,12 +10,16 @@
       :show-dots="false"
       show-arrow
     >
-      <n-carousel-item v-for="info in basicInfos" style="width: fit-content">
+      <n-carousel-item
+        v-for="(info, i) in basicInfos"
+        :key="i"
+        style="width: fit-content"
+      >
         <n-card size="small">
           <div>{{ info.type }}</div>
           <div>{{ info.usage }}</div>
           <div class="flex">
-            <div v-for="server in info.servers">
+            <div v-for="(server, sid) in info.servers" :key="sid">
               <div class="h-44 overflow-hidden">
                 <n-image :src="server.image" width="150" object-fit="contain" />
               </div>

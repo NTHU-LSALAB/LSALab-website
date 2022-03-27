@@ -1,12 +1,13 @@
 <template>
   <div class="mx-auto px-4 py-10 sm:w-4/5 sm:px-0">
     <div class="mb-4 text-2xl font-bold">{{ t("nav.research") }}</div>
-    <div v-for="field in fields">
+    <div v-for="field in fields" :key="field.id">
       <div class="text-xl">{{ field.attributes.name }}</div>
       <div class="my-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <div
-          class="cursor-pointer overflow-hidden rounded-md border shadow-app dark:border-[#FFFFFF10]"
           v-for="topic in field.attributes.topics.data"
+          :key="topic.id"
+          class="cursor-pointer overflow-hidden rounded-md border shadow-app dark:border-[#FFFFFF10]"
         >
           <router-link :to="`/research/${topic.attributes.type}`">
             <n-tooltip>

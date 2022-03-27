@@ -88,12 +88,13 @@ export const useDriveStore = defineStore("drive", {
         });
     },
     async uploadFile(data: any) {
+      if (!this.folderId) return;
       this.uploading = true;
       const { file, title } = data;
       const formData = new FormData();
       formData.append("title", title);
       formData.append("mimeType", file.type);
-      formData.append("folderId", this.folderId!);
+      formData.append("folderId", this.folderId);
       formData.append("file", file.file);
       return strapi
         .post("google/drive/files", formData, {
@@ -101,9 +102,9 @@ export const useDriveStore = defineStore("drive", {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then(({ data }) => {
-          console.log(data);
-          this.fetchFiles(this.folderId!);
+        .then(() => {
+          if (!this.folderId) return;
+          this.fetchFiles(this.folderId);
         })
         .finally(() => {
           this.uploading = false;
@@ -113,7 +114,7 @@ export const useDriveStore = defineStore("drive", {
       this.editLoading = true;
       return strapi
         .delete(`google/drive/files/${file.id}`)
-        .then(({ data }) => {
+        .then(() => {
           this.deletFile(file);
         })
         .finally(() => {

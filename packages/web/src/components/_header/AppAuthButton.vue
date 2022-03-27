@@ -4,7 +4,7 @@
     class="dark:border-gray-500"
   >
     <template v-if="me">
-      <n-popover style="padding: 0" v-if="!props.inDrawer" trigger="click">
+      <n-popover v-if="!props.inDrawer" style="padding: 0" trigger="click">
         <template #trigger>
           <div class="flex items-center">
             <n-button text>
@@ -19,9 +19,9 @@
           </div>
           <n-button
             class="!flex !justify-start !px-4 !text-rose-500"
-            @click="logout"
             block
             :bordered="false"
+            @click="logout"
           >
             {{ t("auth.signOut") }}
           </n-button>
@@ -35,9 +35,9 @@
         <n-button
           class="!flex !justify-start !pl-[2px] !text-rose-500"
           size="small"
-          @click="logout"
           block
           :bordered="false"
+          @click="logout"
         >
           <template #icon>
             <n-icon size="18">

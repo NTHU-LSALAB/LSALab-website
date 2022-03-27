@@ -1,12 +1,12 @@
 <template>
   <div>
     <n-button
-      @click="emits('click')"
       circle
       style="border-radius: 10px"
       :focusable="false"
       ghost
       :color="mode === 'light' ? '#e0e0e6' : '#132f4c'"
+      @click="emits('click')"
     >
       <template #icon>
         <n-icon style="transform: scale(1.2)">

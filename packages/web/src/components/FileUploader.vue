@@ -3,20 +3,20 @@
     title="Upload slide"
     negative-text="Cancel"
     positive-text="Confirm"
+    :loading="uploading"
     @positive-click="handleConfirm"
     @negative-click="emits('cancel')"
     @close="emits('cancel')"
-    :loading="uploading"
   >
-    <n-form v-if="files.length" :model="model" ref="formRef" :rules="rules">
+    <n-form v-if="files.length" ref="formRef" :model="model" :rules="rules">
       <n-form-item label="Title" path="title">
-        <n-input placeholder="Slide name" v-model:value="model.title" />
+        <n-input v-model:value="model.title" placeholder="Slide name" />
       </n-form-item>
     </n-form>
     <n-upload
-      @change="handleChange"
       :max="1"
       accept=".xlsx, .xls, image/*, .doc, .docx,.ppt, .pptx, .txt, .pdf"
+      @change="handleChange"
     >
       <n-upload-dragger v-if="!files.length">
         <div style="margin-bottom: 12px">
@@ -74,7 +74,8 @@ const rules = {
   ],
 };
 const handleConfirm = () => {
-  formRef.value!.validate((errors: any) => {
+  if (!formRef.value) return;
+  formRef.value.validate((errors: any) => {
     if (!errors) {
       emits("confirm", { file: files.value[0], title: model.value.title });
     }

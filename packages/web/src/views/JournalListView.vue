@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto px-4 py-10 sm:w-4/5 sm:px-0">
     <div class="text-2xl font-bold">Journal/Conference list</div>
-    <n-button class="!mt-8" @click="showCreator = true" :disabled="!internal">
+    <n-button class="!mt-8" :disabled="!internal" @click="showCreator = true">
       {{ t("button.create") }}
     </n-button>
     <n-modal v-model:show="showCreator">

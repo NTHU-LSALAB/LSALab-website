@@ -46,10 +46,10 @@
       />
     </div>
   </div>
-  <template v-for="d in data">
+  <template v-for="(d, did) in data" :key="did">
     <div class="text-4xl">{{ d.title }}</div>
     <div class="ml-10">
-      <li class="my-2 text-base" v-for="event in d.children">
+      <li v-for="(event, eid) in d.children" :key="eid" class="my-2 text-base">
         {{ event }}
       </li>
     </div>

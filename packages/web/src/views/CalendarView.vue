@@ -12,20 +12,22 @@
           </n-icon>
         </n-button>
       </div>
-      <n-card
-        v-if="todayEvents && todayEvents.length"
-        v-for="evt in todayEvents"
-        class="mt-2 shadow-app"
-        size="small"
-      >
-        <div class="font-bold">{{ evt.summary }}</div>
-        <div class="mt-4 text-gray-500">
-          {{ format(evt.start.dateTime) }}
-          -
-          {{ format(evt.end.dateTime) }}
-        </div>
-      </n-card>
-      <div class="mt-4 flex justify-center text-gray-500" v-else>None</div>
+      <template v-if="todayEvents && todayEvents.length">
+        <n-card
+          v-for="(evt, i) in todayEvents"
+          :key="i"
+          class="mt-2 shadow-app"
+          size="small"
+        >
+          <div class="font-bold">{{ evt.summary }}</div>
+          <div class="mt-4 text-gray-500">
+            {{ format(evt.start.dateTime) }}
+            -
+            {{ format(evt.end.dateTime) }}
+          </div>
+        </n-card>
+      </template>
+      <div v-else class="mt-4 flex justify-center text-gray-500">None</div>
       <template v-if="selectedDate">
         <div class="mt-4 text-xl">
           {{ selectedDate.year }}/{{ selectedDate.month }}/{{
@@ -33,43 +35,45 @@
           }}
           Events
         </div>
-        <n-card
-          v-if="selectedEvents && selectedEvents.length"
-          v-for="evt in selectedEvents"
-          class="mt-2 shadow-app"
-          size="small"
-        >
-          <div class="mb-2 flex items-center">
-            <div class="mr-2 h-3 w-3 rounded-sm bg-[#9a9cff]"></div>
-            <div class="flex-grow font-bold">{{ evt.summary }}</div>
-            <n-popover placement="bottom" trigger="click">
-              <template #trigger>
-                <n-button text>
-                  <n-icon><more-vert-round /></n-icon>
+        <template v-if="selectedEvents && selectedEvents.length">
+          <n-card
+            v-for="(evt, i) in selectedEvents"
+            :key="i"
+            class="mt-2 shadow-app"
+            size="small"
+          >
+            <div class="mb-2 flex items-center">
+              <div class="mr-2 h-3 w-3 rounded-sm bg-[#9a9cff]"></div>
+              <div class="flex-grow font-bold">{{ evt.summary }}</div>
+              <n-popover placement="bottom" trigger="click">
+                <template #trigger>
+                  <n-button text>
+                    <n-icon><more-vert-round /></n-icon>
+                  </n-button>
+                </template>
+                <n-button text size="small">
+                  <a :href="evt.htmlLink" target="_blank">
+                    Show in Google Calendar
+                  </a>
                 </n-button>
-              </template>
-              <n-button text size="small">
-                <a :href="evt.htmlLink" target="_blank">
-                  Show in Google Calendar
+              </n-popover>
+            </div>
+            <div v-if="evt.hangoutLink" class="flex">
+              <img :src="GoogleMeet" class="mr-2 h-6 w-6" />
+              <n-button type="primary" size="small">
+                <a :href="evt.hangoutLink" target="_blank">
+                  Join with Google Meet
                 </a>
               </n-button>
-            </n-popover>
-          </div>
-          <div v-if="evt.hangoutLink" class="flex">
-            <img :src="GoogleMeet" class="mr-2 h-6 w-6" />
-            <n-button type="primary" size="small">
-              <a :href="evt.hangoutLink" target="_blank">
-                Join with Google Meet
-              </a>
-            </n-button>
-          </div>
-          <div class="mt-2 text-gray-500">
-            {{ format(evt.start.dateTime) }}
-            -
-            {{ format(evt.end.dateTime) }}
-          </div>
-        </n-card>
-        <div class="mt-2 flex justify-center text-gray-500" v-else>None</div>
+            </div>
+            <div class="mt-2 text-gray-500">
+              {{ format(evt.start.dateTime) }}
+              -
+              {{ format(evt.end.dateTime) }}
+            </div>
+          </n-card>
+        </template>
+        <div v-else class="mt-2 flex justify-center text-gray-500">None</div>
       </template>
     </div>
     <app-calendar class="calendar flex-grow pt-4" style="height: 100%" />
