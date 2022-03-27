@@ -12,6 +12,8 @@ interface ImportMetaEnv {
   readonly VITE_BASE_URL: string;
   readonly VITE_API_ENDPOINT: string;
   readonly VITE_STRAPI_ENDPOINT: string;
+  readonly VITE_SEARCH_APP_ID: string;
+  readonly VITE_SEARCH_API_KEY: string;
   // more env variables...
 }
 

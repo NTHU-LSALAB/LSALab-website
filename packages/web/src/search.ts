@@ -2,8 +2,8 @@ import algoliasearch from "algoliasearch";
 // import moment from "moment";
 
 export const searchClient = algoliasearch(
-  "QHUXN7IP8E",
-  "e3b98ec50e9babc6229c44feee2f99c5"
+  import.meta.env.VITE_SEARCH_APP_ID,
+  import.meta.env.VITE_SEARCH_API_KEY
 );
 export const searchIndex = searchClient.initIndex("lsalab");
 
