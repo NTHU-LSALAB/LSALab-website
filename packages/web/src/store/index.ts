@@ -6,6 +6,7 @@ export { useDocStore } from "./document";
 export { useDriveStore } from "./drive";
 export { usePubStore } from "./pub";
 export { useSettingStore } from "./setting";
+export { useContentStore } from "./content";
 import piniaPluginPersistedState from "pinia-plugin-persistedstate";
 
 import { createPinia } from "pinia";

@@ -118,6 +118,15 @@
     <h1 class="mt-8 text-2xl font-bold">
       {{ t("home.news.title") }}
     </h1>
+    <div class="mt-4 text-lg">
+      <ul v-if="news && news.length !== 0" class="app-list list-inside">
+        <li v-for="(info, i) in news" :key="i">
+          {{ info.attributes.title }}
+          <span class="text-sm text-gray-400">{{ info.attributes.date }}</span>
+        </li>
+      </ul>
+      <p v-else>No news for now.</p>
+    </div>
   </div>
 </template>
 
@@ -127,11 +136,12 @@ import kubernetes from "@/assets/logos/kubernetes.png";
 import cuda from "@/assets/logos/cuda.png";
 import aws from "@/assets/logos/aws.png";
 import linux from "@/assets/logos/linux.png";
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import gsap from "gsap";
 import TextPlugin from "gsap/TextPlugin";
 import { useI18n } from "vue-i18n";
 import { useCachedRequest } from "@/composables/useCachedRequest";
+import { useContentStore } from "@/store";
 const emits = defineEmits(["ready"]);
 const { t } = useI18n();
 
@@ -187,6 +197,9 @@ watch(status, (value) => {
     headerTL.progress(0).play();
   }
 });
+
+const contentStore = useContentStore();
+const news = computed(() => contentStore.news);
 
 const logos = [
   {

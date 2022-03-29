@@ -23,10 +23,11 @@
     <n-modal v-model:show="showSearch">
       <ais-instant-search :search-client="searchClient" index-name="lsalab">
         <div
-          class="fixed top-20 left-1/2 w-[700px] -translate-x-1/2 overflow-hidden rounded-lg border bg-white shadow-app dark:border-[#132f4c] dark:bg-black"
+          class="w-full overflow-hidden rounded-lg border bg-white shadow-app dark:border-[#132f4c] dark:bg-black md:w-[700px]"
+          style="margin-top: calc(-50vh + 50%)"
         >
           <header
-            class="flex items-center border-b px-3 py-4 dark:border-[#132f4c]"
+            class="flex items-center border-b px-1 py-2 dark:border-[#132f4c] md:px-3 md:py-4"
           >
             <ais-search-box class="w-full">
               <template #default="{ currentRefinement, refine }">
