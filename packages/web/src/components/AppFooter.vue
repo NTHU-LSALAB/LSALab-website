@@ -33,11 +33,11 @@
         <div class="mt-2 font-bold text-gray-600 underline md:mt-4">
           <a href="http://web.cs.nthu.edu.tw/">清華大學資工所</a>
         </div>
-        <div class="mt-2 font-bold text-gray-600 underline md:mt-4">
+        <!-- <div class="mt-2 font-bold text-gray-600 underline md:mt-4">
           <a href="https://lsalab.cs.nthu.edu.tw/acts_alliance/home/"
             >雲運算技術與服務產學聯盟</a
           >
-        </div>
+        </div> -->
       </div>
       <div
         class="flex flex-col items-center text-center md:items-start md:text-left"

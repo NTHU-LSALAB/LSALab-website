@@ -3,10 +3,7 @@
     <div class="text-2xl font-bold">{{ t("nav.connection") }}</div>
     <ul class="mt-4 list-inside list-disc text-2xl">
       <li class="hover:underline">
-        <a
-          href="https://lsalab.cs.nthu.edu.tw/acts_alliance/home/"
-          target="_blank"
-        >
+        <a>
           {{ t("connection.acts") }}
         </a>
       </li>
