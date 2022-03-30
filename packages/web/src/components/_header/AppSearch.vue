@@ -29,7 +29,7 @@
           <header
             class="flex items-center border-b px-1 py-2 dark:border-[#132f4c] md:px-3 md:py-4"
           >
-            <ais-search-box class="w-full">
+            <ais-search-box class="flex-grow">
               <template #default="{ currentRefinement, refine }">
                 <n-input
                   v-model:value="query"
@@ -179,6 +179,7 @@ onUnmounted(() => {
 
 const goTo = (item: any) => {
   if (!item) return;
+  console.log(item);
   router.push({ name: "PublicationView", params: { target: "" } });
   showSearch.value = false;
 };

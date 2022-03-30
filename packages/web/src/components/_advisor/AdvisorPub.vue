@@ -161,7 +161,7 @@ import {
   NSpin,
 } from "naive-ui";
 import { Star24Filled } from "@vicons/fluent";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import moment from "moment";
 const emits = defineEmits(["ready", "select"]);
@@ -234,19 +234,4 @@ const venues = computed(() =>
 const getImageURL = (url: string) => {
   return `${import.meta.env.VITE_STRAPI_ENDPOINT}/${url}`;
 };
-
-const onScroll = () => {
-  var element = document.documentElement;
-  if (spinner.value.offsetTop - element.scrollTop <= window.innerHeight) {
-    pubStore.loadPubs();
-  }
-};
-
-onMounted(() => {
-  window.addEventListener("scroll", onScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", onScroll);
-});
 </script>

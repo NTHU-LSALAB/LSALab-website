@@ -1,5 +1,4 @@
 import algoliasearch from "algoliasearch";
-// import moment from "moment";
 
 export const searchClient = algoliasearch(
   import.meta.env.VITE_SEARCH_APP_ID,

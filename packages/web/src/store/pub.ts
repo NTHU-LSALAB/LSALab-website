@@ -117,6 +117,7 @@ export const usePubStore = defineStore("pub", {
         sort: ["year:desc", "date:desc"],
         populate: "*",
       },
+      all: true,
     });
     return {
       topic: undefined,

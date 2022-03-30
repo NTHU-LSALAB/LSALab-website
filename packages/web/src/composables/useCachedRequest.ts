@@ -1,7 +1,7 @@
 import { strapi } from "@/apis";
 import { ref, watchEffect, onScopeDispose } from "vue";
 
-type CachedRequestOptionsType = { params: any };
+type CachedRequestOptionsType = { params?: any; all?: boolean };
 
 export function useCachedRequest<T>(
   key: string,
@@ -13,6 +13,22 @@ export function useCachedRequest<T>(
   const isLoading = ref(false);
   const isReady = ref(false);
   const error = ref<Error | undefined>();
+
+  const fetchRest = async () => {
+    const {
+      data: { data, meta },
+    } = await strapi.get(key, {
+      params: {
+        ...options?.params,
+        "pagination[page]": pg.value.page + 1,
+      },
+    });
+    items.value = items.value?.concat(data);
+    pg.value = meta.pagination;
+    if (pg.value.page < pg.value.pageCount) {
+      await fetchRest();
+    }
+  };
 
   const cache = new Map<string, { items: T[]; item: T; pg: any }>();
 
@@ -39,16 +55,18 @@ export function useCachedRequest<T>(
       .get(key, {
         params: options?.params,
       })
-      .then(({ data: { data, meta } }) => {
+      .then(async ({ data: { data, meta } }) => {
         cache.set(key, {
           items: data,
           item: data,
           pg: meta,
         });
-        items.value = data;
-        item.value = data;
+        items.value = item.value = data;
         pg.value = meta.pagination;
         isReady.value = true;
+        if (options?.all) {
+          await fetchRest();
+        }
       })
       .catch((err) => {
         error.value = err;
