@@ -1,0 +1,21 @@
+0 silly argv {
+0 silly argv   _: [ 'bootstrap' ],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/Users/kwang/Documents/academic/lab/lsalab-web/node_modules/.bin/lerna'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/kwang/Documents/academic/lab/lsalab-web
+3 info versioning independent
+4 error JSONError: Unexpected token "<" (0x3C) in JSON at position 2176 while parsing near "...\"vitest\": \"^0.8.1\",\n<<<<<<< HEAD\n    \"vu..." in packages/web/package.json
+4 error
+4 error [0m [90m 68 |[39m     [32m"vite-plugin-md"[39m[33m:[39m [32m"^0.11.8"[39m[33m,[39m[0m
+4 error [0m [90m 69 |[39m     [32m"vitest"[39m[33m:[39m [32m"^0.8.1"[39m[33m,[39m[0m
+4 error [0m[31m[1m>[22m[39m[90m 70 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[0m
+4 error [0m [90m    |[39m [31m[1m^[22m[39m[0m
+4 error [0m [90m 71 |[39m     [32m"vue-tsc"[39m[33m:[39m [32m"^0.29.8"[39m[0m
+4 error [0m [90m 72 |[39m [33m===[39m[33m===[39m[33m=[39m[0m
+4 error [0m [90m 73 |[39m     [32m"vue-tsc"[39m[33m:[39m [32m"^0.33.9"[39m[0m
+4 error
+4 error     at parseJson (/Users/kwang/Documents/academic/lab/lsalab-web/node_modules/parse-json/index.js:29:21)
+4 error     at parse (/Users/kwang/Documents/academic/lab/lsalab-web/node_modules/load-json-file/index.js:15:9)
+4 error     at module.exports (/Users/kwang/Documents/academic/lab/lsalab-web/node_modules/load-json-file/index.js:18:47)
