@@ -1,4 +1,5 @@
-import { defineConfig, loadEnv } from "vite";
+import { loadEnv } from "vite";
+import { defineConfig } from "vitest/config";
 import vue from "@vitejs/plugin-vue";
 import markdown from "vite-plugin-md";
 import { resolve } from "path";
@@ -8,6 +9,10 @@ export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   return defineConfig({
+    test: {
+      environment: "jsdom",
+      globals: true,
+    },
     plugins: [
       vue({
         include: [/\.vue$/, /\.md$/],
