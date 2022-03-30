@@ -1,34 +1,27 @@
 <template>
   <div class="relative flex h-main border-t dark:border-gray-500">
-    <div ref="today" class="floating-sidebar">
+    <n-scrollbar ref="today" class="!w-72 shrink-0 border-r p-5">
       <div class="flex items-center justify-between">
         <div class="text-xl">Today's Events</div>
-        <n-button v-if="width < 1280" text @click.stop="toggle">
+        <!-- <n-button v-if="width < 1280" text @click.stop="toggle">
           <n-icon>
             <ios-arrow-left24-filled
               class="duration-300"
               :class="{ 'rotate-180': reversed }"
             />
           </n-icon>
-        </n-button>
+        </n-button> -->
       </div>
       <template v-if="todayEvents && todayEvents.length">
-        <n-card
+        <app-event-card
           v-for="(evt, i) in todayEvents"
           :key="i"
-          class="mt-2 shadow-app"
-          size="small"
-        >
-          <div class="font-bold">{{ evt.summary }}</div>
-          <div class="mt-4 text-gray-500">
-            {{ format(evt.start.dateTime) }}
-            -
-            {{ format(evt.end.dateTime) }}
-          </div>
-        </n-card>
+          :event="evt"
+          class="mt-2"
+        />
       </template>
       <div v-else class="mt-4 flex justify-center text-gray-500">None</div>
-      <template v-if="selectedDate">
+      <template v-if="selectedDate && !todayIsSelected">
         <div class="mt-4 text-xl">
           {{ selectedDate.year }}/{{ selectedDate.month }}/{{
             selectedDate.date
@@ -36,81 +29,50 @@
           Events
         </div>
         <template v-if="selectedEvents && selectedEvents.length">
-          <n-card
+          <app-event-card
             v-for="(evt, i) in selectedEvents"
             :key="i"
-            class="mt-2 shadow-app"
-            size="small"
-          >
-            <div class="mb-2 flex items-center">
-              <div class="mr-2 h-3 w-3 rounded-sm bg-[#9a9cff]"></div>
-              <div class="flex-grow font-bold">{{ evt.summary }}</div>
-              <n-popover placement="bottom" trigger="click">
-                <template #trigger>
-                  <n-button text>
-                    <n-icon><more-vert-round /></n-icon>
-                  </n-button>
-                </template>
-                <n-button text size="small">
-                  <a :href="evt.htmlLink" target="_blank">
-                    Show in Google Calendar
-                  </a>
-                </n-button>
-              </n-popover>
-            </div>
-            <div v-if="evt.hangoutLink" class="flex">
-              <img :src="GoogleMeet" class="mr-2 h-6 w-6" />
-              <n-button type="primary" size="small">
-                <a :href="evt.hangoutLink" target="_blank">
-                  Join with Google Meet
-                </a>
-              </n-button>
-            </div>
-            <div class="mt-2 text-gray-500">
-              {{ format(evt.start.dateTime) }}
-              -
-              {{ format(evt.end.dateTime) }}
-            </div>
-          </n-card>
+            :event="evt"
+            class="mt-2"
+          />
         </template>
         <div v-else class="mt-2 flex justify-center text-gray-500">None</div>
       </template>
-    </div>
+    </n-scrollbar>
     <app-calendar class="calendar flex-grow pt-4" style="height: 100%" />
   </div>
 </template>
 
 <script setup lang="ts">
 import AppCalendar from "@/components/AppCalendar.vue";
-import gsap from "gsap";
+import AppEventCard from "@/components/AppEventCard.vue";
+// import gsap from "gsap";
 
-import { NCard, NButton, NIcon, NPopover } from "naive-ui";
-import GoogleMeet from "@/assets/google-meet.png";
-import { format } from "@/utils/date";
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-import { IosArrowLeft24Filled } from "@vicons/fluent";
-import { MoreVertRound } from "@vicons/material";
+import { NScrollbar } from "naive-ui";
+import { computed, onMounted } from "vue";
+// import { IosArrowLeft24Filled } from "@vicons/fluent";
 import { useCalendarStore } from "@/store";
+
 const emits = defineEmits(["ready"]);
 const calendarStore = useCalendarStore();
-const showAnim = gsap.timeline();
-const today = ref<HTMLDivElement | null>(null);
+// const showAnim = gsap.timeline();
+// const today = ref<HTMLDivElement | null>(null);
 onMounted(() => {
-  showAnim
-    .from(today.value, {
-      xPercent: -90,
-      // paused: true,
-      duration: 0.4,
-      ease: "power4.inOut",
-      onComplete: () => {
-        reversed.value = false;
-      },
-      onReverseComplete: () => {
-        reversed.value = true;
-      },
-    })
-    .progress(1);
-  window.addEventListener("resize", onResize);
+  // showAnim
+  //   .from(today.value, {
+  //     xPercent: -90,
+  //     // paused: true,
+  //     duration: 0.4,
+  //     ease: "power4.inOut",
+  //     onComplete: () => {
+  //       reversed.value = false;
+  //     },
+  //     onReverseComplete: () => {
+  //       reversed.value = true;
+  //     },
+  //   })
+  //   .progress(1);
+  // window.addEventListener("resize", onResize);
   const d = new Date();
   calendarStore
     .fetchEvents({
@@ -119,28 +81,38 @@ onMounted(() => {
     })
     .then(() => emits("ready"));
 });
-onUnmounted(() => {
-  window.removeEventListener("resize", onResize);
-});
-const reversed = ref(false);
+// onUnmounted(() => {
+//   window.removeEventListener("resize", onResize);
+// });
+// const reversed = ref(false);
 
-const toggle = () => {
-  if (reversed.value && width.value < 1280) {
-    showAnim.play();
-  } else if (width.value < 1280) {
-    showAnim.reverse();
-  }
-};
+// const toggle = () => {
+//   if (reversed.value && width.value < 1280) {
+//     showAnim.play();
+//   } else if (width.value < 1280) {
+//     showAnim.reverse();
+//   }
+// };
 const todayEvents = computed(() => calendarStore.todayEvents);
 const selectedEvents = computed(() => calendarStore.selectedEvents);
 const selectedDate = computed(() => calendarStore.selectedDate);
-watch(selectedDate, () => {
-  showAnim.play();
+const todayIsSelected = computed(() => {
+  if (!selectedDate.value) return false;
+  const today = new Date();
+  const { year, month, date } = selectedDate.value;
+  return (
+    year === today.getFullYear() &&
+    month === today.getMonth() + 1 &&
+    date === today.getDate()
+  );
 });
-const width = ref(window.innerWidth);
-const onResize = () => {
-  width.value = window.innerWidth;
-};
+// watch(selectedDate, () => {
+//   showAnim.play();
+// });
+// const width = ref(window.innerWidth);
+// const onResize = () => {
+//   width.value = window.innerWidth;
+// };
 </script>
 
 <style scoped lang="scss">
