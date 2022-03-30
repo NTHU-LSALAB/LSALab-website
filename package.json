@@ -1,6 +1,10 @@
 {
   "name": "lsalab",
   "private": true,
+  "workspaces": [
+    "packages/*",
+    ".github/actions/*"
+  ],
   "scripts": {
     "setup": "yarn && yarn bootstrap",
     "bootstrap": "lerna bootstrap",
