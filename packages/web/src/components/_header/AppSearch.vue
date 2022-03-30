@@ -36,11 +36,7 @@
                   :bordered="false"
                   size="large"
                   :value="currentRefinement"
-                  style="
-                    border-radius: 10px;
-                    font-size: 20px;
-                    background-color: transparent;
-                  "
+                  class="!rounded-lg !bg-transparent !text-xl"
                   placeholder="Search..."
                   @update-value="refine"
                 >
@@ -78,7 +74,7 @@
               <template #item="{ item }">
                 <div
                   class="w-full cursor-pointer rounded-md bg-gray-100 p-2 duration-200 hover:bg-gray-200"
-                  @click.stop
+                  @click="goTo(item)"
                 >
                   <n-ellipsis line-clamp="2" tooltip>
                     <template #tooltip>
@@ -103,20 +99,13 @@
                       type="primary"
                       class="text-primary"
                     >
-                      <ais-snippet
-                        attribute="venue"
-                        :hit="item"
-                        highlighted-tag-name="mark"
-                      />
+                      {{ item.venue }}
                     </n-button>
                   </div>
                 </div>
               </template>
             </ais-hits>
-            <ais-configure
-              :attributes-to-snippet="['venue']"
-              snippet-ellipsis-text="[…]"
-            />
+            <ais-configure />
           </n-scrollbar>
           <div
             class="flex items-center border-t border-gray-300 px-4 py-3 text-blue-400"
@@ -149,7 +138,7 @@ import {
   ArrowSortDown24Regular,
 } from "@vicons/fluent";
 import { Search } from "@vicons/ionicons5";
-import { onMounted, onUnmounted, ref, computed, watch } from "vue";
+import { onMounted, onUnmounted, ref, computed } from "vue";
 import { useSettingStore } from "@/store";
 import { searchClient } from "@/search";
 import "instantsearch.css/themes/satellite-min.css";
@@ -157,20 +146,17 @@ import {
   AisHits,
   AisSearchBox,
   AisHighlight,
-  AisSnippet,
   AisInstantSearch,
   AisConfigure,
 } from "vue-instantsearch/vue3/es";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const store = useSettingStore();
 const mode = computed(() => store.mode);
 
 const showSearch = ref(false);
 const query = ref("");
-
-watch(query, (value) => {
-  console.log(value);
-});
 
 const width = ref(window.innerWidth);
 const onResize = () => {
@@ -190,6 +176,12 @@ onUnmounted(() => {
   window.removeEventListener("resize", onResize);
   window.removeEventListener("keydown", onKeyDown);
 });
+
+const goTo = (item: any) => {
+  if (!item) return;
+  router.push({ name: "PublicationView", params: { target: "" } });
+  showSearch.value = false;
+};
 </script>
 
 <style scoped lang="scss">
