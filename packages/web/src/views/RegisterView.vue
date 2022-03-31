@@ -129,18 +129,16 @@ const rules: FormRules = {
 const onSubmit = (e: MouseEvent) => {
   e.preventDefault();
   if (!formRef.value) return;
-  formRef.value.validate((errors: Error[]) => {
-    if (!errors) {
+  return formRef.value
+    .validate()
+    .then(() =>
       authStore
         .register(form.value)
         .then(() => router.push({ name: "HomeView" }))
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
+    )
+    .catch(() => {
       message.error("Invalid");
-    }
-  });
+    });
 };
 const onSuccess = () => router.push({ name: "HomeView" });
 </script>

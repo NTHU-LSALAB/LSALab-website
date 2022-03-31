@@ -6,7 +6,7 @@
     </n-button>
     <n-modal v-model:show="showCreator">
       <item-creator
-        tag="related-links"
+        tag="links"
         @confirm="handleConfirm"
         @cancel="showCreator = false"
       />

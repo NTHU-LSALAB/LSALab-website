@@ -1,8 +1,8 @@
 <template>
   <n-dialog
-    title="Create a item"
+    :title="props.tag === 'journals' ? 'Create a item' : 'Create a link'"
     negative-text="Cancel"
-    positive-text="Submit"
+    positive-text="Create"
     @positive-click="handleConfirm"
     @negative-click="emits('cancel')"
     @close="emits('cancel')"
@@ -17,7 +17,7 @@
       <n-form-item label="Link" path="link">
         <n-input v-model:value="model.link" placeholder="Link" />
       </n-form-item>
-      <template v-if="props.tag === 'journal'">
+      <template v-if="props.tag === 'journals'">
         <n-form-item label="Deadline" path="deadline">
           <div class="w-full">
             <n-date-picker
@@ -36,18 +36,25 @@
 </template>
 <script setup lang="ts">
 import { NDialog, NInput, NForm, NFormItem, NDatePicker } from "naive-ui";
-import { ref } from "vue";
+import { PropType, ref } from "vue";
 const emits = defineEmits(["confirm", "cancel"]);
+type TagType = "journals" | "links";
 const props = defineProps({
   tag: {
-    type: String,
+    type: String as PropType<TagType>,
     required: true,
   },
 });
 
 // form
 const formRef = ref<typeof NForm | null>(null);
-const model = ref({
+const model = ref<{
+  type: string;
+  title: string;
+  link: string;
+  deadline?: string | null;
+  ranking?: string;
+}>({
   type: "",
   title: "",
   link: "",
@@ -72,22 +79,28 @@ const rules = {
   ],
   deadline: [
     {
-      required: props.tag === "journal",
+      required: props.tag === "journals",
     },
   ],
   ranking: [
     {
-      required: props.tag === "journal",
+      required: props.tag === "journals",
     },
   ],
 };
 const handleConfirm = () => {
   if (!formRef.value) return;
-  formRef.value.validate((errors: any) => {
-    if (!errors) {
-      emits("confirm", { ...model.value });
-    }
-  });
+  return formRef.value
+    .validate()
+    .then(() => {
+      const data = { ...model.value };
+      if (props.tag === "links") {
+        delete data.deadline;
+        delete data.ranking;
+      }
+      emits("confirm", data);
+    })
+    .catch(console.error);
 };
 </script>
 

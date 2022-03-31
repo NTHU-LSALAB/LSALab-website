@@ -75,11 +75,12 @@ const rules = {
 };
 const handleConfirm = () => {
   if (!formRef.value) return;
-  formRef.value.validate((errors: any) => {
-    if (!errors) {
-      emits("confirm", { file: files.value[0], title: model.value.title });
-    }
-  });
+  return formRef.value
+    .validate()
+    .then(() =>
+      emits("confirm", { file: files.value[0], title: model.value.title })
+    )
+    .catch(console.error);
 };
 // files
 const files = ref<UploadFileInfo[]>([]);

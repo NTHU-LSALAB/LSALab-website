@@ -103,13 +103,14 @@ const rules: FormRules = {
 const onSubmit = (e: MouseEvent) => {
   e.preventDefault();
   if (!formRef.value) return;
-  formRef.value.validate((errors: Error[]) => {
-    if (!errors) {
-      authStore.login(form.value).then(() => router.push(redirectURI || "/"));
-    } else {
+  return formRef.value
+    .validate()
+    .then(() =>
+      authStore.login(form.value).then(() => router.push(redirectURI || "/"))
+    )
+    .catch(() => {
       message.error("Invalid");
-    }
-  });
+    });
 };
 const onSuccess = () => router.push(redirectURI || "/");
 </script>

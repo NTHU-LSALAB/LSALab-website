@@ -72,14 +72,16 @@ const rules: FormRules = {
 const onSubmit = (e: any) => {
   e.preventDefault();
   if (!formRef.value) return;
-  formRef.value.validate((errors: any[]) => {
-    if (!errors) {
+  return formRef.value
+    .validate()
+    .then(() => {
       notification.success({
         title: "Message submitted",
         content: "Thanks for the message, we'll reply you ASAP!",
         duration: 3000,
       });
-    } else {
+    })
+    .catch((errors: any[]) => {
       notification.error({
         title: "Error",
         content: errors.reduce(
@@ -88,8 +90,7 @@ const onSubmit = (e: any) => {
         ),
         duration: 3000,
       });
-    }
-  });
+    });
 };
 </script>
 
