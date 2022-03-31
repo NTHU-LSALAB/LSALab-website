@@ -15,7 +15,7 @@
     "build": "concurrently --kill-others --success first \"yarn --cwd ./packages/strapi build\" \"yarn --cwd ./packages/web build\"",
     "build:front": "yarn --cwd ./packages/web build",
     "build:back": "yarn --cwd ./packages/strapi build",
-    "deploy": "concurrently --kill-others --success first \"yarn build:front\" \"scripts/start-server.sh\"",
+    "deploy": "scripts/start-server.sh && yarn build:front",
     "test": "yarn test:front && yarn test:back",
     "test:front": "yarn --cwd ./packages/web test",
     "test:back": "yarn --cwd ./packages/strapi test",
