@@ -7,230 +7,271 @@ const urlJoin = require('url-join');
 const { getService } = require('../utils');
 
 const DEFAULT_PERMISSIONS = [
-  { action: 'plugin::users-permissions.auth.admincallback', roleType: 'public' },
-  { action: 'plugin::users-permissions.auth.adminregister', roleType: 'public' },
-  { action: 'plugin::users-permissions.auth.callback', roleType: 'public' },
-  { action: 'plugin::users-permissions.auth.connect', roleType: null },
-  { action: 'plugin::users-permissions.auth.forgotpassword', roleType: 'public' },
-  { action: 'plugin::users-permissions.auth.resetpassword', roleType: 'public' },
-  { action: 'plugin::users-permissions.auth.register', roleType: 'public' },
-  { action: 'plugin::users-permissions.auth.emailconfirmation', roleType: 'public' },
-  { action: 'plugin::users-permissions.user.me', roleType: null },
+    {
+        action: 'plugin::users-permissions.auth.admincallback',
+        roleType: 'public',
+    },
+    {
+        action: 'plugin::users-permissions.auth.adminregister',
+        roleType: 'public',
+    },
+    { action: 'plugin::users-permissions.auth.callback', roleType: 'public' },
+    { action: 'plugin::users-permissions.auth.connect', roleType: null },
+    {
+        action: 'plugin::users-permissions.auth.forgotpassword',
+        roleType: 'public',
+    },
+    {
+        action: 'plugin::users-permissions.auth.resetpassword',
+        roleType: 'public',
+    },
+    { action: 'plugin::users-permissions.auth.register', roleType: 'public' },
+    {
+        action: 'plugin::users-permissions.auth.emailconfirmation',
+        roleType: 'public',
+    },
+    { action: 'plugin::users-permissions.user.me', roleType: null },
 ];
 
-const transformRoutePrefixFor = pluginName => route => {
-  const prefix = route.config && route.config.prefix;
-  const path = prefix !== undefined ? `${prefix}${route.path}` : `/${pluginName}${route.path}`;
+const transformRoutePrefixFor = (pluginName) => (route) => {
+    const prefix = route.config && route.config.prefix;
+    const path =
+        prefix !== undefined
+            ? `${prefix}${route.path}`
+            : `/${pluginName}${route.path}`;
 
-  return {
-    ...route,
-    path,
-  };
+    return {
+        ...route,
+        path,
+    };
 };
 
 module.exports = ({ strapi }) => ({
-  getActions({ defaultEnable = false } = {}) {
-    const actionMap = {};
+    getActions({ defaultEnable = false } = {}) {
+        const actionMap = {};
 
-    const isContentApi = action => {
-      if (!_.has(action, Symbol.for('__type__'))) {
-        return false;
-      }
+        const isContentApi = (action) => {
+            if (!_.has(action, Symbol.for('__type__'))) {
+                return false;
+            }
 
-      return action[Symbol.for('__type__')].includes('content-api');
-    };
+            return action[Symbol.for('__type__')].includes('content-api');
+        };
 
-    _.forEach(strapi.api, (api, apiName) => {
-      const controllers = _.reduce(
-        api.controllers,
-        (acc, controller, controllerName) => {
-          const contentApiActions = _.pickBy(controller, isContentApi);
+        _.forEach(strapi.api, (api, apiName) => {
+            const controllers = _.reduce(
+                api.controllers,
+                (acc, controller, controllerName) => {
+                    const contentApiActions = _.pickBy(
+                        controller,
+                        isContentApi,
+                    );
 
-          if (_.isEmpty(contentApiActions)) {
-            return acc;
-          }
+                    if (_.isEmpty(contentApiActions)) {
+                        return acc;
+                    }
 
-          acc[controllerName] = _.mapValues(contentApiActions, () => {
-            return {
-              enabled: defaultEnable,
-              policy: '',
-            };
-          });
+                    acc[controllerName] = _.mapValues(
+                        contentApiActions,
+                        () => ({
+                            enabled: defaultEnable,
+                            policy: '',
+                        }),
+                    );
 
-          return acc;
-        },
-        {}
-      );
+                    return acc;
+                },
+                {},
+            );
 
-      if (!_.isEmpty(controllers)) {
-        actionMap[`api::${apiName}`] = { controllers };
-      }
-    });
-
-    _.forEach(strapi.plugins, (plugin, pluginName) => {
-      const controllers = _.reduce(
-        plugin.controllers,
-        (acc, controller, controllerName) => {
-          const contentApiActions = _.pickBy(controller, isContentApi);
-
-          if (_.isEmpty(contentApiActions)) {
-            return acc;
-          }
-
-          acc[controllerName] = _.mapValues(contentApiActions, () => {
-            return {
-              enabled: defaultEnable,
-              policy: '',
-            };
-          });
-
-          return acc;
-        },
-        {}
-      );
-
-      if (!_.isEmpty(controllers)) {
-        actionMap[`plugin::${pluginName}`] = { controllers };
-      }
-    });
-
-    return actionMap;
-  },
-
-  async getRoutes() {
-    const routesMap = {};
-
-    _.forEach(strapi.api, (api, apiName) => {
-      const routes = _.flatMap(api.routes, route => {
-        if (_.has(route, 'routes')) {
-          return route.routes;
-        }
-
-        return route;
-      }).filter(route => route.info.type === 'content-api');
-
-      if (routes.length === 0) {
-        return;
-      }
-
-      const apiPrefix = strapi.config.get('api.rest.prefix');
-      routesMap[`api::${apiName}`] = routes.map(route => ({
-        ...route,
-        path: urlJoin(apiPrefix, route.path),
-      }));
-    });
-
-    _.forEach(strapi.plugins, (plugin, pluginName) => {
-      const transformPrefix = transformRoutePrefixFor(pluginName);
-
-      const routes = _.flatMap(plugin.routes, route => {
-        if (_.has(route, 'routes')) {
-          return route.routes.map(transformPrefix);
-        }
-
-        return transformPrefix(route);
-      }).filter(route => route.info.type === 'content-api');
-
-      if (routes.length === 0) {
-        return;
-      }
-
-      const apiPrefix = strapi.config.get('api.rest.prefix');
-      routesMap[`plugin::${pluginName}`] = routes.map(route => ({
-        ...route,
-        path: urlJoin(apiPrefix, route.path),
-      }));
-    });
-
-    return routesMap;
-  },
-
-  async syncPermissions() {
-    const roles = await strapi.query('plugin::users-permissions.role').findMany();
-    const dbPermissions = await strapi.query('plugin::users-permissions.permission').findMany();
-
-    const permissionsFoundInDB = _.uniq(_.map(dbPermissions, 'action'));
-
-    const appActions = _.flatMap(strapi.api, (api, apiName) => {
-      return _.flatMap(api.controllers, (controller, controllerName) => {
-        return _.keys(controller).map(actionName => {
-          return `api::${apiName}.${controllerName}.${actionName}`;
+            if (!_.isEmpty(controllers)) {
+                actionMap[`api::${apiName}`] = { controllers };
+            }
         });
-      });
-    });
 
-    const pluginsActions = _.flatMap(strapi.plugins, (plugin, pluginName) => {
-      return _.flatMap(plugin.controllers, (controller, controllerName) => {
-        return _.keys(controller).map(actionName => {
-          return `plugin::${pluginName}.${controllerName}.${actionName}`;
+        _.forEach(strapi.plugins, (plugin, pluginName) => {
+            const controllers = _.reduce(
+                plugin.controllers,
+                (acc, controller, controllerName) => {
+                    const contentApiActions = _.pickBy(
+                        controller,
+                        isContentApi,
+                    );
+
+                    if (_.isEmpty(contentApiActions)) {
+                        return acc;
+                    }
+
+                    acc[controllerName] = _.mapValues(
+                        contentApiActions,
+                        () => ({
+                            enabled: defaultEnable,
+                            policy: '',
+                        }),
+                    );
+
+                    return acc;
+                },
+                {},
+            );
+
+            if (!_.isEmpty(controllers)) {
+                actionMap[`plugin::${pluginName}`] = { controllers };
+            }
         });
-      });
-    });
 
-    const allActions = [...appActions, ...pluginsActions];
+        return actionMap;
+    },
 
-    const toDelete = _.difference(permissionsFoundInDB, allActions);
+    async getRoutes() {
+        const routesMap = {};
 
-    await Promise.all(
-      toDelete.map(action => {
-        return strapi.query('plugin::users-permissions.permission').delete({ where: { action } });
-      })
-    );
+        _.forEach(strapi.api, (api, apiName) => {
+            const routes = _.flatMap(api.routes, (route) => {
+                if (_.has(route, 'routes')) {
+                    return route.routes;
+                }
 
-    if (permissionsFoundInDB.length === 0) {
-      // create default permissions
-      for (const role of roles) {
-        const toCreate = pipe(
-          filter(({ roleType }) => roleType === role.type || roleType === null),
-          map(prop('action'))
-        )(DEFAULT_PERMISSIONS);
+                return route;
+            }).filter((route) => route.info.type === 'content-api');
+
+            if (routes.length === 0) {
+                return;
+            }
+
+            const apiPrefix = strapi.config.get('api.rest.prefix');
+            routesMap[`api::${apiName}`] = routes.map((route) => ({
+                ...route,
+                path: urlJoin(apiPrefix, route.path),
+            }));
+        });
+
+        _.forEach(strapi.plugins, (plugin, pluginName) => {
+            const transformPrefix = transformRoutePrefixFor(pluginName);
+
+            const routes = _.flatMap(plugin.routes, (route) => {
+                if (_.has(route, 'routes')) {
+                    return route.routes.map(transformPrefix);
+                }
+
+                return transformPrefix(route);
+            }).filter((route) => route.info.type === 'content-api');
+
+            if (routes.length === 0) {
+                return;
+            }
+
+            const apiPrefix = strapi.config.get('api.rest.prefix');
+            routesMap[`plugin::${pluginName}`] = routes.map((route) => ({
+                ...route,
+                path: urlJoin(apiPrefix, route.path),
+            }));
+        });
+
+        return routesMap;
+    },
+
+    async syncPermissions() {
+        const roles = await strapi
+            .query('plugin::users-permissions.role')
+            .findMany();
+        const dbPermissions = await strapi
+            .query('plugin::users-permissions.permission')
+            .findMany();
+
+        const permissionsFoundInDB = _.uniq(_.map(dbPermissions, 'action'));
+
+        const appActions = _.flatMap(strapi.api, (api, apiName) =>
+            _.flatMap(api.controllers, (controller, controllerName) =>
+                _.keys(controller).map(
+                    (actionName) =>
+                        `api::${apiName}.${controllerName}.${actionName}`,
+                ),
+            ),
+        );
+
+        const pluginsActions = _.flatMap(strapi.plugins, (plugin, pluginName) =>
+            _.flatMap(plugin.controllers, (controller, controllerName) =>
+                _.keys(controller).map(
+                    (actionName) =>
+                        `plugin::${pluginName}.${controllerName}.${actionName}`,
+                ),
+            ),
+        );
+
+        const allActions = [...appActions, ...pluginsActions];
+
+        const toDelete = _.difference(permissionsFoundInDB, allActions);
 
         await Promise.all(
-          toCreate.map(action => {
-            return strapi.query('plugin::users-permissions.permission').create({
-              data: {
-                action,
-                role: role.id,
-              },
-            });
-          })
+            toDelete.map((action) =>
+                strapi
+                    .query('plugin::users-permissions.permission')
+                    .delete({ where: { action } }),
+            ),
         );
-      }
-    }
-  },
 
-  async initialize() {
-    const roleCount = await strapi.query('plugin::users-permissions.role').count();
+        if (permissionsFoundInDB.length === 0) {
+            // create default permissions
+            for (const role of roles) {
+                const toCreate = pipe(
+                    filter(
+                        ({ roleType }) =>
+                            roleType === role.type || roleType === null,
+                    ),
+                    map(prop('action')),
+                )(DEFAULT_PERMISSIONS);
 
-    if (roleCount === 0) {
-      await strapi.query('plugin::users-permissions.role').create({
-        data: {
-          name: 'Authenticated',
-          description: 'Default role given to authenticated user.',
-          type: 'authenticated',
-        },
-      });
+                await Promise.all(
+                    toCreate.map((action) =>
+                        strapi
+                            .query('plugin::users-permissions.permission')
+                            .create({
+                                data: {
+                                    action,
+                                    role: role.id,
+                                },
+                            }),
+                    ),
+                );
+            }
+        }
+    },
 
-      await strapi.query('plugin::users-permissions.role').create({
-        data: {
-          name: 'Public',
-          description: 'Default role given to unauthenticated user.',
-          type: 'public',
-        },
-      });
-    }
+    async initialize() {
+        const roleCount = await strapi
+            .query('plugin::users-permissions.role')
+            .count();
 
-    return getService('users-permissions').syncPermissions();
-  },
+        if (roleCount === 0) {
+            await strapi.query('plugin::users-permissions.role').create({
+                data: {
+                    name: 'Authenticated',
+                    description: 'Default role given to authenticated user.',
+                    type: 'authenticated',
+                },
+            });
 
-  async updateUserRole(user, role) {
-    return strapi
-      .query('plugin::users-permissions.user')
-      .update({ where: { id: user.id }, data: { role } });
-  },
+            await strapi.query('plugin::users-permissions.role').create({
+                data: {
+                    name: 'Public',
+                    description: 'Default role given to unauthenticated user.',
+                    type: 'public',
+                },
+            });
+        }
 
-  template(layout, data) {
-    const compiledObject = _.template(layout);
-    return compiledObject(data);
-  },
+        return getService('users-permissions').syncPermissions();
+    },
+
+    async updateUserRole(user, role) {
+        return strapi
+            .query('plugin::users-permissions.user')
+            .update({ where: { id: user.id }, data: { role } });
+    },
+
+    template(layout, data) {
+        const compiledObject = _.template(layout);
+        return compiledObject(data);
+    },
 });

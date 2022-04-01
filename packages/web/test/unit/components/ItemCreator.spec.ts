@@ -8,6 +8,7 @@ describe("ItemCreator.vue", () => {
     const wrapper = mount(ItemCreator, {
       props: { tag: "journals" },
     });
+    expect(wrapper.html()).toMatchSnapshot();
     expect(wrapper.find(".n-dialog__title").text()).toBe("Create a item");
     expect(wrapper.findAllComponents(NInput)).toHaveLength(5);
     wrapper.unmount();
@@ -16,6 +17,7 @@ describe("ItemCreator.vue", () => {
     const wrapper = mount(ItemCreator, {
       props: { tag: "links" },
     });
+    expect(wrapper.html()).toMatchSnapshot();
     expect(wrapper.find(".n-dialog__title").text()).toBe("Create a link");
     expect(wrapper.findAllComponents(NInput)).toHaveLength(3);
     wrapper.unmount();
@@ -50,8 +52,9 @@ describe("ItemCreator.vue", () => {
 
     const inputs = wrapper.findAllComponents(NInput);
     for (const input of inputs) {
+      const inputElement = input.find("input");
       let val = "";
-      switch (input.vm.placeholder) {
+      switch (inputElement.attributes("placeholder")) {
         case "type":
           val = "Journal";
           break;
@@ -68,7 +71,7 @@ describe("ItemCreator.vue", () => {
           val = "A+";
           break;
       }
-      input.find("input").setValue(val);
+      inputElement.setValue(val);
     }
     const confirm = wrapper.findAllComponents(NButton)[1];
     expect(confirm.text()).toBe("Create");
@@ -77,18 +80,24 @@ describe("ItemCreator.vue", () => {
 
     await flushPromises();
 
-    expect(wrapper.emitted("confirm")?.at(0)).toEqual([
-      {
-        type: "Journal",
-        title: "Test",
-        link: "http://example.com",
-        deadline: "2022-06-15",
-        ranking: "A+",
-      },
-    ]);
+    const emitted = wrapper.emitted("confirm");
+
+    expect(emitted).toBeTruthy();
+
+    if (emitted)
+      expect(emitted[0]).toEqual([
+        {
+          type: "Journal",
+          title: "Test",
+          link: "http://example.com",
+          deadline: "2022-06-15",
+          ranking: "A+",
+        },
+      ]);
 
     wrapper.unmount();
   });
+
   it("create link item", async () => {
     const wrapper = mount(ItemCreator, {
       props: { tag: "links" },
@@ -96,8 +105,9 @@ describe("ItemCreator.vue", () => {
 
     const inputs = wrapper.findAllComponents(NInput);
     for (const input of inputs) {
+      const inputElement = input.find("input");
       let val = "";
-      switch (input.vm.placeholder) {
+      switch (inputElement.attributes("placeholder")) {
         case "type":
           val = "Tool";
           break;
@@ -108,7 +118,7 @@ describe("ItemCreator.vue", () => {
           val = "http://tool.com";
           break;
       }
-      input.find("input").setValue(val);
+      inputElement.setValue(val);
     }
     const confirm = wrapper.findAllComponents(NButton)[1];
     expect(confirm.text()).toBe("Create");
@@ -117,13 +127,18 @@ describe("ItemCreator.vue", () => {
 
     await flushPromises();
 
-    expect(wrapper.emitted("confirm")?.at(0)).toEqual([
-      {
-        type: "Tool",
-        title: "Test",
-        link: "http://tool.com",
-      },
-    ]);
+    const emitted = wrapper.emitted("confirm");
+
+    expect(emitted).toBeTruthy();
+
+    if (emitted)
+      expect(emitted[0]).toEqual([
+        {
+          type: "Tool",
+          title: "Test",
+          link: "http://tool.com",
+        },
+      ]);
 
     wrapper.unmount();
   });

@@ -6,80 +6,96 @@ const { getService } = require('../utils');
 const { isValidEmailTemplate } = require('./validation/email-template');
 
 module.exports = {
-  async getEmailTemplate(ctx) {
-    ctx.send(await strapi.store({ type: 'plugin', name: 'users-permissions', key: 'email' }).get());
-  },
+    async getEmailTemplate(ctx) {
+        ctx.send(
+            await strapi
+                .store({
+                    type: 'plugin',
+                    name: 'users-permissions',
+                    key: 'email',
+                })
+                .get(),
+        );
+    },
 
-  async updateEmailTemplate(ctx) {
-    if (_.isEmpty(ctx.request.body)) {
-      throw new ValidationError('Request body cannot be empty');
-    }
+    async updateEmailTemplate(ctx) {
+        if (_.isEmpty(ctx.request.body)) {
+            throw new ValidationError('Request body cannot be empty');
+        }
 
-    const emailTemplates = ctx.request.body['email-templates'];
+        const emailTemplates = ctx.request.body['email-templates'];
 
-    for (let key in emailTemplates) {
-      const template = emailTemplates[key].options.message;
+        for (const key in emailTemplates) {
+            const template = emailTemplates[key].options.message;
 
-      if (!isValidEmailTemplate(template)) {
-        throw new ValidationError('Invalid template');
-      }
-    }
+            if (!isValidEmailTemplate(template)) {
+                throw new ValidationError('Invalid template');
+            }
+        }
 
-    await strapi
-      .store({ type: 'plugin', name: 'users-permissions', key: 'email' })
-      .set({ value: emailTemplates });
+        await strapi
+            .store({ type: 'plugin', name: 'users-permissions', key: 'email' })
+            .set({ value: emailTemplates });
 
-    ctx.send({ ok: true });
-  },
+        ctx.send({ ok: true });
+    },
 
-  async getAdvancedSettings(ctx) {
-    const settings = await strapi
-      .store({ type: 'plugin', name: 'users-permissions', key: 'advanced' })
-      .get();
+    async getAdvancedSettings(ctx) {
+        const settings = await strapi
+            .store({
+                type: 'plugin',
+                name: 'users-permissions',
+                key: 'advanced',
+            })
+            .get();
 
-    const roles = await getService('role').getRoles();
+        const roles = await getService('role').getRoles();
 
-    ctx.send({ settings, roles });
-  },
+        ctx.send({ settings, roles });
+    },
 
-  async updateAdvancedSettings(ctx) {
-    if (_.isEmpty(ctx.request.body)) {
-      throw new ValidationError('Request body cannot be empty');
-    }
+    async updateAdvancedSettings(ctx) {
+        if (_.isEmpty(ctx.request.body)) {
+            throw new ValidationError('Request body cannot be empty');
+        }
 
-    await strapi
-      .store({ type: 'plugin', name: 'users-permissions', key: 'advanced' })
-      .set({ value: ctx.request.body });
+        await strapi
+            .store({
+                type: 'plugin',
+                name: 'users-permissions',
+                key: 'advanced',
+            })
+            .set({ value: ctx.request.body });
 
-    ctx.send({ ok: true });
-  },
+        ctx.send({ ok: true });
+    },
 
-  async getProviders(ctx) {
-    const providers = await strapi
-      .store({ type: 'plugin', name: 'users-permissions', key: 'grant' })
-      .get();
+    async getProviders(ctx) {
+        const providers = await strapi
+            .store({ type: 'plugin', name: 'users-permissions', key: 'grant' })
+            .get();
 
-    for (const provider in providers) {
-      if (provider !== 'email') {
-        providers[provider].redirectUri = strapi
-          .plugin('users-permissions')
-          .service('providers')
-          .buildRedirectUri(provider);
-      }
-    }
+        for (const provider in providers) {
+            if (provider !== 'email') {
+                providers[provider].redirectUri = strapi
+                    .plugin('users-permissions')
+                    .service('providers')
+                    .buildRedirectUri(provider);
+            }
+        }
 
-    ctx.send(providers);
-  },
+        ctx.send(providers);
+    },
 
-  async updateProviders(ctx) {
-    if (_.isEmpty(ctx.request.body)) {
-      throw new ValidationError('Request body cannot be empty');
-    }
+    async updateProviders(ctx) {
+        if (_.isEmpty(ctx.request.body)) {
+            throw new ValidationError('Request body cannot be empty');
+        }
 
-    await strapi
-      .store({ type: 'plugin', name: 'users-permissions', key: 'grant' })
-      .set({ value: ctx.request.body.providers });
+        await strapi
+            .store({ type: 'plugin', name: 'users-permissions', key: 'grant' })
+            .set({ value: ctx.request.body.providers });
 
-    ctx.send({ ok: true });
-  },
+        ctx.send({ ok: true });
+    },
 };
