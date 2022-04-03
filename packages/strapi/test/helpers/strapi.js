@@ -1,40 +1,60 @@
 'use strict';
 
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+const _ = require('lodash');
 const Strapi = require('@strapi/strapi');
 
 let instance;
 
+const waitForServer = () =>
+    new Promise((resolve) => {
+        const { host, port } = strapi.config.get('server');
+        resolve(strapi.server.listen(port, host));
+    });
+
+/**
+ * Setups strapi for futher testing
+ */
 async function setupStrapi() {
     if (!instance) {
-        /** the following code in copied from `./node_modules/strapi/lib/Strapi.js` */
+        /** the follwing code in copied from `./node_modules/strapi/lib/Strapi.js` */
         await Strapi().load();
-        instance = strapi; // strapi is global now
-        await instance.app
-            .use(instance.router.routes()) // populate KOA routes
-            .use(instance.router.allowedMethods()); // populate KOA methods
+        await waitForServer();
 
-        instance.server = http.createServer(instance.app.callback());
+        instance = strapi; // strapi is global now
     }
     return instance;
 }
 
 async function stopStrapi() {
-    const dbSettings = strapi.config.get(
-        'database.connections.default.settings',
-    );
+    if (instance) {
+        strapi.db.query('api::journal.journal').deleteMany();
 
-    // close server to release the db-file
-    await strapi.server.close();
-
-    // delete test database after all tests
-    if (dbSettings && dbSettings.filename) {
-        const tmpDbFile = path.join(__dirname, '..', dbSettings.filename);
-        if (fs.existsSync(tmpDbFile)) {
-            fs.unlinkSync(tmpDbFile);
-        }
+        instance.destroy();
     }
+    return instance;
 }
-module.exports = { setupStrapi, stopStrapi };
+
+const grantPrivilege = async (
+    roleID = 1,
+    path,
+    enabled = true,
+    policy = '',
+) => {
+    const service = strapi.plugin('users-permissions').service('role');
+
+    const role = await service.getRole(roleID);
+
+    _.set(role.permissions, path, { enabled, policy });
+
+    return service.updateRole(roleID, role);
+};
+
+/** Updates database `permissions` that role can access an endpoint
+ * @see grantPrivilege
+ */
+
+const grantPrivileges = async (roleID = 1, values = []) => {
+    await Promise.all(values.map((val) => grantPrivilege(roleID, val)));
+};
+
+module.exports = { setupStrapi, stopStrapi, grantPrivilege, grantPrivileges };

@@ -1,20 +1,17 @@
 'use strict';
 
-const path = require('path');
-
 module.exports = ({ env }) => ({
     connection: {
-        client: 'sqlite',
+        client: 'postgres',
         connection: {
-            filename: path.join(
-                __dirname,
-                '../../..',
-                env(
-                    'DATABASE_FILENAME',
-                    `.tmp/test${Math.round(Math.random() * 10000)}.db`,
-                ),
-            ),
+            host: env('DATABASE_HOST', '127.0.0.1'),
+            port: env.int('DATABASE_PORT', 5433),
+            database: env('DATABASE_NAME', 'strapi'),
+            user: env('DATABASE_USERNAME', 'strapi'),
+            password: env('DATABASE_PASSWORD', 'strapi'),
+            schema: env('DATABASE_SCHEMA', 'public'), // Not required
+            ssl: env('DATABASE_SSL', false),
         },
-        useNullAsDefault: true,
+        debug: false,
     },
 });

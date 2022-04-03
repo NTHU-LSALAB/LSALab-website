@@ -8,10 +8,11 @@ beforeAll(async () => {
 });
 /** this code is called after all the tests are finished */
 afterAll(async () => {
-    console.log('strop');
     await stopStrapi();
 });
 
 it('strapi is defined', () => {
     expect(strapi).toBeDefined();
 });
+
+require('./journal');
