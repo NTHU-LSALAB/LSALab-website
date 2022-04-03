@@ -1,6 +1,10 @@
 {
   "name": "lsalab",
   "private": true,
+  "workspaces": [
+    "packages/web",
+    "packages/strapi"
+  ],
   "scripts": {
     "setup": "yarn && yarn bootstrap",
     "bootstrap": "lerna bootstrap",
