@@ -13,20 +13,27 @@ jobs:
             matrix:
                 node: [14, 16]
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v2-beta
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node }}
                   cache: yarn
-            - uses: ./.github/actions/install-modules
+            - name: Install dependencies
+              run: yarn install --frozen-lockfile
+            - uses: actions/cache@v3
+              with:
+                  path: ~/.cache/yarn
+                  key: ${{ runner.os }}-build-node-modules-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-node-modules
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
             - name: Run lint
               run: yarn run -s lint
     unit_back:
         name: 'unit_back (node: ${{ matrix.node }})'
         needs: [lint]
         runs-on: ubuntu-latest
-        # env:
-        #     CODECOV_TOKEN: ${{ secrets.codecov }}
         services:
             postgres:
                 image: postgres
@@ -40,14 +47,21 @@ jobs:
             matrix:
                 node: [14, 16]
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v2-beta
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node }}
                   cache: yarn
-            - uses: ./.github/actions/install-modules
-            #   with:
-            #       globalPackages: codecov
+            - name: Install dependencies
+              run: yarn install --frozen-lockfile
+            - uses: actions/cache@v3
+              with:
+                  path: ~/.cache/yarn
+                  key: ${{ runner.os }}-build-node-modules-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-node-modules
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
             - name: Run tests
               run: yarn run -s test:back --coverage
 
@@ -55,20 +69,25 @@ jobs:
         name: 'unit_front (node: ${{ matrix.node }})'
         needs: [lint]
         runs-on: ubuntu-latest
-        # env:
-        #     CODECOV_TOKEN: ${{ secrets.codecov }}
         strategy:
             matrix:
                 node: [14, 16]
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v2-beta
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node }}
                   cache: yarn
-            - uses: ./.github/actions/install-modules
-            #   with:
-            #       globalPackages: codecov
+            - name: Install dependencies
+              run: yarn install --frozen-lockfile
+            - uses: actions/cache@v3
+              with:
+                  path: ~/.cache/yarn
+                  key: ${{ runner.os }}-build-node-modules-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-node-modules
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
             - name: Build
               run: yarn build:front
             - name: Run test
