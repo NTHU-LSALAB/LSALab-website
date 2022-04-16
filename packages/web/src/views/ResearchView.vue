@@ -10,14 +10,12 @@
           class="cursor-pointer overflow-hidden rounded-md border shadow-app dark:border-[#FFFFFF10]"
         >
           <router-link :to="`/research/${topic.attributes.type}`">
-            <n-tooltip>
+            <n-ellipsis tooltip class="!p-2 !pb-0 text-lg">
               <template #trigger>
-                <div class="p-2 pb-0 text-lg line-clamp-1">
-                  {{ topic.attributes.name }}
-                </div>
+                {{ topic.attributes.name }}
               </template>
               {{ topic.attributes.name }}
-            </n-tooltip>
+            </n-ellipsis>
             <div class="mt-2 flex aspect-video flex-grow justify-center">
               <img
                 :src="
@@ -36,7 +34,7 @@
 
 <script setup lang="ts">
 import Logo from "@/assets/logo.png";
-import { NTooltip } from "naive-ui";
+import { NEllipsis } from "naive-ui";
 import { useI18n } from "vue-i18n";
 import { computed } from "vue";
 import { usePubStore } from "@/store";

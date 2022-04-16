@@ -31,8 +31,6 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 
 - Graduation project content (high)
 
-- Group meeting slide patch (high)
-
 - Server details
 
 - CV
@@ -42,7 +40,5 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 - Homepage news
 
 - Translation
-
-- Search website
 
 - Testing (~~I'll appreciate you like more than 100 years.~~)

@@ -50,7 +50,7 @@
       </div>
       <div class="flex">
         <div class="flex-grow">
-          <n-ellipsis tooltip :line-clamp="2">
+          <n-ellipsis tooltip line-clamp="2">
             <div class="text-lg font-bold">
               <a
                 class="title cursor-pointer hover:underline"
