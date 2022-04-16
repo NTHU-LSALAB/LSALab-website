@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = ({ nexus }) =>
-    nexus.inputObjectType({
+module.exports = ({ nexus }) => {
+    return nexus.inputObjectType({
         name: 'UsersPermissionsRegisterInput',
 
         definition(t) {
@@ -10,3 +10,4 @@ module.exports = ({ nexus }) =>
             t.nonNull.string('password');
         },
     });
+};

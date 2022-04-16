@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = ({ nexus }) =>
-    nexus.objectType({
+module.exports = ({ nexus }) => {
+    return nexus.objectType({
         name: 'UsersPermissionsMe',
 
         definition(t) {
@@ -13,3 +13,4 @@ module.exports = ({ nexus }) =>
             t.field('role', { type: 'UsersPermissionsMeRole' });
         },
     });
+};

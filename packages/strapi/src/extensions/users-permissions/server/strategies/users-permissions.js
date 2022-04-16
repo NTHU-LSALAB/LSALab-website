@@ -5,10 +5,11 @@ const { ForbiddenError, UnauthorizedError } = require('@strapi/utils').errors;
 
 const { getService } = require('../utils');
 
-const getAdvancedSettings = () =>
-    strapi
+const getAdvancedSettings = () => {
+    return strapi
         .store({ type: 'plugin', name: 'users-permissions' })
         .get({ key: 'advanced' });
+};
 
 const authenticate = async (ctx) => {
     try {
@@ -80,7 +81,7 @@ const verify = async (auth, config) => {
         }
     }
 
-    let { allowedActions } = auth;
+    let allowedActions = auth.allowedActions;
 
     if (!allowedActions) {
         const permissions = await strapi

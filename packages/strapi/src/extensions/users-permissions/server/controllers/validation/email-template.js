@@ -28,7 +28,7 @@ const matchAll = (pattern, src) => {
 };
 
 const isValidEmailTemplate = (template) => {
-    for (const reg of invalidPatternsRegexes) {
+    for (let reg of invalidPatternsRegexes) {
         if (reg.test(template)) {
             return false;
         }

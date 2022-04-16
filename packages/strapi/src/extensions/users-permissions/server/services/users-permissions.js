@@ -71,13 +71,12 @@ module.exports = ({ strapi }) => ({
                         return acc;
                     }
 
-                    acc[controllerName] = _.mapValues(
-                        contentApiActions,
-                        () => ({
+                    acc[controllerName] = _.mapValues(contentApiActions, () => {
+                        return {
                             enabled: defaultEnable,
                             policy: '',
-                        }),
-                    );
+                        };
+                    });
 
                     return acc;
                 },
@@ -102,13 +101,12 @@ module.exports = ({ strapi }) => ({
                         return acc;
                     }
 
-                    acc[controllerName] = _.mapValues(
-                        contentApiActions,
-                        () => ({
+                    acc[controllerName] = _.mapValues(contentApiActions, () => {
+                        return {
                             enabled: defaultEnable,
                             policy: '',
-                        }),
-                    );
+                        };
+                    });
 
                     return acc;
                 },
@@ -181,22 +179,26 @@ module.exports = ({ strapi }) => ({
 
         const permissionsFoundInDB = _.uniq(_.map(dbPermissions, 'action'));
 
-        const appActions = _.flatMap(strapi.api, (api, apiName) =>
-            _.flatMap(api.controllers, (controller, controllerName) =>
-                _.keys(controller).map(
-                    (actionName) =>
-                        `api::${apiName}.${controllerName}.${actionName}`,
-                ),
-            ),
-        );
+        const appActions = _.flatMap(strapi.api, (api, apiName) => {
+            return _.flatMap(api.controllers, (controller, controllerName) => {
+                return _.keys(controller).map((actionName) => {
+                    return `api::${apiName}.${controllerName}.${actionName}`;
+                });
+            });
+        });
 
-        const pluginsActions = _.flatMap(strapi.plugins, (plugin, pluginName) =>
-            _.flatMap(plugin.controllers, (controller, controllerName) =>
-                _.keys(controller).map(
-                    (actionName) =>
-                        `plugin::${pluginName}.${controllerName}.${actionName}`,
-                ),
-            ),
+        const pluginsActions = _.flatMap(
+            strapi.plugins,
+            (plugin, pluginName) => {
+                return _.flatMap(
+                    plugin.controllers,
+                    (controller, controllerName) => {
+                        return _.keys(controller).map((actionName) => {
+                            return `plugin::${pluginName}.${controllerName}.${actionName}`;
+                        });
+                    },
+                );
+            },
         );
 
         const allActions = [...appActions, ...pluginsActions];
@@ -204,11 +206,11 @@ module.exports = ({ strapi }) => ({
         const toDelete = _.difference(permissionsFoundInDB, allActions);
 
         await Promise.all(
-            toDelete.map((action) =>
-                strapi
+            toDelete.map((action) => {
+                return strapi
                     .query('plugin::users-permissions.permission')
-                    .delete({ where: { action } }),
-            ),
+                    .delete({ where: { action } });
+            }),
         );
 
         if (permissionsFoundInDB.length === 0) {
@@ -223,16 +225,16 @@ module.exports = ({ strapi }) => ({
                 )(DEFAULT_PERMISSIONS);
 
                 await Promise.all(
-                    toCreate.map((action) =>
-                        strapi
+                    toCreate.map((action) => {
+                        return strapi
                             .query('plugin::users-permissions.permission')
                             .create({
                                 data: {
                                     action,
                                     role: role.id,
                                 },
-                            }),
-                    ),
+                            });
+                    }),
                 );
             }
         }

@@ -14,35 +14,41 @@ module.exports = ({ strapi }) => ({
             .query('plugin::users-permissions.role')
             .create({ data: _.omit(params, ['users', 'permissions']) });
 
-        const createPromises = _.flatMap(params.permissions, (type, typeName) =>
-            _.flatMap(type.controllers, (controller, controllerName) =>
-                _.reduce(
-                    controller,
-                    (acc, action, actionName) => {
-                        const { enabled /* policy */ } = action;
+        const createPromises = _.flatMap(
+            params.permissions,
+            (type, typeName) => {
+                return _.flatMap(
+                    type.controllers,
+                    (controller, controllerName) => {
+                        return _.reduce(
+                            controller,
+                            (acc, action, actionName) => {
+                                const { enabled /* policy */ } = action;
 
-                        if (enabled) {
-                            const actionID = `${typeName}.${controllerName}.${actionName}`;
+                                if (enabled) {
+                                    const actionID = `${typeName}.${controllerName}.${actionName}`;
 
-                            acc.push(
-                                strapi
-                                    .query(
-                                        'plugin::users-permissions.permission',
-                                    )
-                                    .create({
-                                        data: {
-                                            action: actionID,
-                                            role: role.id,
-                                        },
-                                    }),
-                            );
-                        }
+                                    acc.push(
+                                        strapi
+                                            .query(
+                                                'plugin::users-permissions.permission',
+                                            )
+                                            .create({
+                                                data: {
+                                                    action: actionID,
+                                                    role: role.id,
+                                                },
+                                            }),
+                                    );
+                                }
 
-                        return acc;
+                                return acc;
+                            },
+                            [],
+                        );
                     },
-                    [],
-                ),
-            ),
+                );
+            },
         );
 
         await Promise.all(createPromises);
@@ -105,9 +111,9 @@ module.exports = ({ strapi }) => ({
 
         const { permissions } = data;
 
-        const newActions = _.flatMap(permissions, (type, typeName) =>
-            _.flatMap(type.controllers, (controller, controllerName) =>
-                _.reduce(
+        const newActions = _.flatMap(permissions, (type, typeName) => {
+            return _.flatMap(type.controllers, (controller, controllerName) => {
+                return _.reduce(
                     controller,
                     (acc, action, actionName) => {
                         const { enabled /* policy */ } = action;
@@ -121,9 +127,9 @@ module.exports = ({ strapi }) => ({
                         return acc;
                     },
                     [],
-                ),
-            ),
-        );
+                );
+            });
+        });
 
         const oldActions = role.permissions.map(({ action }) => action);
 
@@ -169,22 +175,24 @@ module.exports = ({ strapi }) => ({
 
         // Move users to guest role.
         await Promise.all(
-            role.users.map((user) =>
-                strapi.query('plugin::users-permissions.user').update({
+            role.users.map((user) => {
+                return strapi.query('plugin::users-permissions.user').update({
                     where: { id: user.id },
                     data: { role: publicRoleID },
-                }),
-            ),
+                });
+            }),
         );
 
         // Remove permissions related to this role.
         // TODO: use delete many
         await Promise.all(
-            role.permissions.map((permission) =>
-                strapi.query('plugin::users-permissions.permission').delete({
-                    where: { id: permission.id },
-                }),
-            ),
+            role.permissions.map((permission) => {
+                return strapi
+                    .query('plugin::users-permissions.permission')
+                    .delete({
+                        where: { id: permission.id },
+                    });
+            }),
         );
 
         // Delete the role.

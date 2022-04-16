@@ -18,22 +18,20 @@ module.exports = ({ strapi }) => {
      * Helper to get profiles
      *
      * @param {String}   provider
-     * @param {Function} callback
      */
 
-    const getProfile = async (provider, query, callback) => {
+    const getProfile = async (provider, query) => {
         const access_token =
             query.access_token || query.code || query.oauth_token;
-        const { refresh_token } = query;
+        const refresh_token = query.refresh_token;
 
         const providers = await strapi
             .store({ type: 'plugin', name: 'users-permissions', key: 'grant' })
             .get();
 
-        await providerRequest({
+        return providerRequest({
             provider,
             query,
-            callback,
             access_token,
             refresh_token,
             providers,
@@ -56,23 +54,16 @@ module.exports = ({ strapi }) => {
 
         return new Promise((resolve, reject) => {
             if (!access_token) {
-                return reject([null, { message: 'No access_token.' }]);
+                return reject({ message: 'No access_token.' });
             }
 
             // Get the profile.
-            getProfile(provider, query, async (err, profile) => {
-                if (err) {
-                    return reject([null, err]);
-                }
-
+            getProfile(provider, query).then(async (profile) => {
                 const email = _.toLower(profile.email);
 
                 // We need at least the mail.
                 if (!email) {
-                    return reject([
-                        null,
-                        { message: 'Email was not available.' },
-                    ]);
+                    return reject({ message: 'Email was not available.' });
                 }
 
                 try {
@@ -93,17 +84,10 @@ module.exports = ({ strapi }) => {
                     const user = _.find(users, { provider });
 
                     if (_.isEmpty(user) && !advanced.allow_register) {
-                        return resolve([
-                            null,
-                            [
-                                {
-                                    messages: [
-                                        { id: 'Auth.advanced.allow_register' },
-                                    ],
-                                },
-                            ],
-                            'Register action is actually not available.',
-                        ]);
+                        return reject({
+                            message:
+                                'Register action is actually not available.',
+                        });
                     }
 
                     // User already exists, update accessToken
@@ -117,9 +101,9 @@ module.exports = ({ strapi }) => {
                                         google: profile.google,
                                     },
                                 });
-                            return resolve([updatedUser, null]);
+                            return resolve(updatedUser);
                         } catch (err) {
-                            return reject([null, err]);
+                            return reject(err);
                         }
                     }
 
@@ -129,17 +113,7 @@ module.exports = ({ strapi }) => {
                         ) &&
                         advanced.unique_email
                     ) {
-                        return resolve([
-                            null,
-                            [
-                                {
-                                    messages: [
-                                        { id: 'Auth.form.error.email.taken' },
-                                    ],
-                                },
-                            ],
-                            'Email is already taken.',
-                        ]);
+                        return reject({ message: 'Email is already taken.' });
                     }
 
                     // Retrieve default role.
@@ -167,9 +141,9 @@ module.exports = ({ strapi }) => {
                         .query('plugin::users-permissions.user')
                         .create({ data: params });
 
-                    return resolve([createdUser, null]);
+                    return resolve(createdUser);
                 } catch (err) {
-                    reject([null, err]);
+                    reject(err);
                 }
             });
         });

@@ -21,7 +21,7 @@ const sanitizeOutput = async (user, ctx) => {
     const schema = strapi.getModel('plugin::users-permissions.user');
     const { auth } = ctx.state;
 
-    const { role } = user;
+    const role = user.role;
     const sanitized = await sanitize.contentAPI.output(user, schema, { auth });
 
     return {
@@ -140,7 +140,7 @@ module.exports = {
             ctx.request.body.email = ctx.request.body.email.toLowerCase();
         }
 
-        const updateData = {
+        let updateData = {
             ...ctx.request.body,
         };
 
@@ -206,7 +206,7 @@ module.exports = {
      * @return {Object|Array}
      */
     async me(ctx) {
-        const { user } = ctx.state;
+        const user = ctx.state.user;
 
         if (!user) {
             return ctx.unauthorized();

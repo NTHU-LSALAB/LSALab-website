@@ -27,7 +27,7 @@ const sanitizeUser = async (user, ctx) => {
     const { auth } = ctx.state;
     const userSchema = strapi.getModel('plugin::users-permissions.user');
 
-    const { role } = user;
+    const role = user.role;
     const sanitized = await sanitize.contentAPI.output(user, userSchema, {
         auth,
     });
@@ -43,7 +43,7 @@ module.exports = {
         const provider = ctx.params.provider || 'local';
         const params = ctx.request.body;
 
-        const store = await strapi.store({
+        const store = strapi.store({
             type: 'plugin',
             name: 'users-permissions',
         });
@@ -124,28 +124,18 @@ module.exports = {
             }
 
             // Connect the user with the third-party provider.
-            let user;
-            let error;
             try {
-                [user, error] = await getService('providers').connect(
+                const user = await getService('providers').connect(
                     provider,
                     ctx.query,
                 );
-                user = await getService('user').fetch({ id: user.id }, [
-                    'role',
-                ]);
-            } catch ([user, error]) {
+                ctx.send({
+                    jwt: getService('jwt').issue({ id: user.id }),
+                    user: await sanitizeUser(user, ctx),
+                });
+            } catch (error) {
                 throw new ApplicationError(error.message);
             }
-
-            if (!user) {
-                throw new ApplicationError(error.message);
-            }
-
-            ctx.send({
-                jwt: getService('jwt').issue({ id: user.id }),
-                user: await sanitizeUser(user, ctx),
-            });
         }
     },
 
@@ -188,7 +178,6 @@ module.exports = {
 
     async connect(ctx, next) {
         const grant = require('grant-koa');
-        console.log('connect');
 
         const providers = await strapi
             .store({ type: 'plugin', name: 'users-permissions', key: 'grant' })
@@ -265,7 +254,7 @@ module.exports = {
             .get({ key: 'email' })
             .then((storeEmail) => {
                 try {
-                    return storeEmail.reset_password.options;
+                    return storeEmail['reset_password'].options;
                 } catch (error) {
                     return {};
                 }

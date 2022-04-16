@@ -23,12 +23,13 @@ describe('Simple Test GraphQL Users API End to End', () => {
         strapi = await createStrapiInstance();
         rq = await createRequest({ strapi });
 
-        graphqlQuery = (body) =>
-            rq({
+        graphqlQuery = (body) => {
+            return rq({
                 url: '/graphql',
                 method: 'POST',
                 body,
             });
+        };
     });
 
     afterAll(async () => {
@@ -225,12 +226,13 @@ describe('Advanced Test GraphQL Users API End to End', () => {
         rq = await createAuthRequest({ strapi });
         authReq = await createAuthRequest({ strapi });
 
-        graphqlQuery = (body) =>
-            rq({
+        graphqlQuery = (body) => {
+            return rq({
                 url: '/graphql',
                 method: 'POST',
                 body,
             });
+        };
     };
 
     beforeAll(async () => {
@@ -240,12 +242,13 @@ describe('Advanced Test GraphQL Users API End to End', () => {
         rq = await createRequest({ strapi });
         authReq = await createAuthRequest({ strapi });
 
-        graphqlQuery = (body) =>
-            rq({
+        graphqlQuery = (body) => {
+            return rq({
                 url: '/graphql',
                 method: 'POST',
                 body,
             });
+        };
     });
 
     afterAll(async () => {

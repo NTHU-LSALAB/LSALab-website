@@ -45,12 +45,12 @@ module.exports = ({ strapi }) => ({
     },
 
     verify(token) {
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             jwt.verify(
                 token,
                 strapi.config.get('plugin.users-permissions.jwtSecret'),
                 {},
-                (err, tokenPayload = {}) => {
+                function (err, tokenPayload = {}) {
                     if (err) {
                         console.log(err);
                         return reject(new Error('Invalid token.'));

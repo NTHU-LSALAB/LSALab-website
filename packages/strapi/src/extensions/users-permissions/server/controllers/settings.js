@@ -25,7 +25,7 @@ module.exports = {
 
         const emailTemplates = ctx.request.body['email-templates'];
 
-        for (const key in emailTemplates) {
+        for (let key in emailTemplates) {
             const template = emailTemplates[key].options.message;
 
             if (!isValidEmailTemplate(template)) {

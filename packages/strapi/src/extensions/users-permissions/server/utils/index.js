@@ -1,6 +1,8 @@
 'use strict';
 
-const getService = (name) => strapi.plugin('users-permissions').service(name);
+const getService = (name) => {
+    return strapi.plugin('users-permissions').service(name);
+};
 
 module.exports = {
     getService,

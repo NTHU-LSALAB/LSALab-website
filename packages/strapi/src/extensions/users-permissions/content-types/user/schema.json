@@ -75,6 +75,9 @@
     "google": {
       "type": "json",
       "private": true
+    },
+    "enName": {
+      "type": "string"
     }
   }
 }

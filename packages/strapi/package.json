@@ -1,49 +1,47 @@
 {
-  "name": "lsalab-strapi",
-  "private": true,
-  "version": "0.1.0",
-  "description": "A Strapi application",
-  "scripts": {
-    "develop": "strapi develop",
-    "start": "strapi start",
-    "build": "strapi build",
-    "strapi": "strapi",
-    "test": "jest --forceExit --detectOpenHandles",
-    "lint": "eslint ."
-  },
-  "dependencies": {
-    "@purest/providers": "^1.0.4",
-    "@strapi/plugin-graphql": "4.1.7",
-    "@strapi/plugin-i18n": "4.1.7",
-    "@strapi/plugin-users-permissions": "^4.1.7",
-    "@strapi/provider-email-nodemailer": "^4.1.7",
-    "@strapi/provider-email-sendgrid": "^4.1.7",
-    "@strapi/strapi": "4.1.7",
-    "googleapis": "^95.0.0",
-    "jwt-decode": "^3.1.2",
-    "pg": "^8.7.3",
-    "purest": "^4.0.2",
-    "strapi-plugin-email-designer": "^2.1.0",
-    "uuid": "^8.3.2"
-  },
-  "author": {
-    "name": "Kwang"
-  },
-  "strapi": {
-    "uuid": "c5431721-f277-4803-8381-5b0763e84eed"
-  },
-  "engines": {
-    "node": ">=12.x.x <=16.x.x",
-    "npm": ">=6.0.0"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/eslint-parser": "^7.17.0",
-    "@strapi-community/eslint-config": "^0.2.0",
-    "eslint": "^8.12.0",
-    "eslint-plugin-jsdoc": "^38.1.4",
-    "jest": "^27.5.1",
-    "lodash": "^4.17.21",
-    "supertest": "^6.2.2"
-  }
+    "name": "lsalab-strapi",
+    "private": true,
+    "version": "0.1.0",
+    "description": "A Strapi application",
+    "scripts": {
+        "develop": "strapi develop",
+        "start": "strapi start",
+        "build": "strapi build",
+        "strapi": "strapi",
+        "test": "jest --forceExit --detectOpenHandles",
+        "lint": "eslint ."
+    },
+    "dependencies": {
+        "@strapi/plugin-graphql": "4.1.8",
+        "@strapi/plugin-i18n": "4.1.8",
+        "@strapi/plugin-users-permissions": "^4.1.8",
+        "@strapi/provider-email-nodemailer": "^4.1.8",
+        "@strapi/provider-email-sendgrid": "^4.1.8",
+        "@strapi/strapi": "4.1.8",
+        "googleapis": "^95.0.0",
+        "jwt-decode": "^3.1.2",
+        "pg": "^8.7.3",
+        "strapi-plugin-email-designer": "^2.1.0",
+        "uuid": "^8.3.2"
+    },
+    "author": {
+        "name": "Kwang"
+    },
+    "strapi": {
+        "uuid": "c5431721-f277-4803-8381-5b0763e84eed"
+    },
+    "engines": {
+        "node": ">=12.x.x <=16.x.x",
+        "npm": ">=6.0.0"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/eslint-parser": "^7.17.0",
+        "@strapi-community/eslint-config": "^0.2.0",
+        "eslint": "^8.12.0",
+        "eslint-plugin-jsdoc": "^38.1.4",
+        "jest": "^27.5.1",
+        "lodash": "^4.17.21",
+        "supertest": "^6.2.2"
+    }
 }
