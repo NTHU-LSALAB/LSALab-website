@@ -1,8 +1,7 @@
 'use strict';
 
-const dotenv = require('dotenv');
+require('dotenv').config();
 
-dotenv.config();
 const algoliasearch = require('algoliasearch');
 const { Client } = require('pg');
 
