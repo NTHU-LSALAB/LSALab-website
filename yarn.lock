@@ -4592,7 +4592,7 @@ algoliasearch-helper@^3.7.4:
   dependencies:
     "@algolia/events" "^4.0.1"
 
-algoliasearch@^4.12.1:
+algoliasearch@^4.12.1, algoliasearch@^4.13.0:
   version "4.13.0"
   resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-4.13.0.tgz#e36611fda82b1fc548c156ae7929a7f486e4b663"
   integrity sha512-oHv4faI1Vl2s+YC0YquwkK/TsaJs79g2JFg5FDm2rKN12VItPTAeQ7hyJMHarOPPYuCnNC5kixbtcqvb21wchw==
@@ -7314,6 +7314,11 @@ dotenv@8.5.1:
   version "8.5.1"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.5.1.tgz#e3a4c7862daba51b92bce0da5c349f11faa28663"
   integrity sha512-qC1FbhCH7UH7B+BcRNUDhAk04d/n+tnGGB1ctwndZkVFeehYJOn39pRWWzmdzpFqImyX1KB8tO0DCHLf8yRaYQ==
+
+dotenv@^16.0.0:
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.0.tgz#c619001253be89ebb638d027b609c75c26e47411"
+  integrity sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==
 
 dottie@^2.0.0:
   version "2.0.2"

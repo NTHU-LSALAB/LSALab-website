@@ -56,6 +56,7 @@ export interface Field {
 }
 
 interface PubState {
+  pubLoaded: Ref<boolean>;
   pubs: Ref<Publication[] | undefined>;
   venues: Ref<Venue[] | undefined>;
   fields?: Ref<Field[] | undefined>;
@@ -77,27 +78,6 @@ export const usePubStore = defineStore("pub", {
           this.topic = data.data[0];
         });
     },
-    loadPubs() {
-      if (!this.loadingPubs && this.pubPg.page < this.pubPg.pageCount) {
-        this.loadingPubs = true;
-        strapi
-          .get("publications", {
-            params: {
-              sort: ["year:desc", "date:desc"],
-              populate: "*",
-              "pagination[page]": this.pubPg.page + 1,
-            },
-          })
-          .then(({ data: { data, meta } }) => {
-            if (!this.pubs) return;
-            this.pubs = this.pubs.concat(data);
-            this.pubPg = meta.pagination;
-          })
-          .finally(() => {
-            this.loadingPubs = false;
-          });
-      }
-    },
   },
   state: (): PubState => {
     // const { venues, fields, pubs, pagination } = usePubRequest();
@@ -112,6 +92,7 @@ export const usePubStore = defineStore("pub", {
       items: pubs,
       pg: pubPg,
       isLoading: loadingPubs,
+      isReady: pubLoaded,
     } = useCachedRequest<Publication>("publications", {
       params: {
         sort: ["year:desc", "date:desc"],
@@ -120,6 +101,7 @@ export const usePubStore = defineStore("pub", {
       all: true,
     });
     return {
+      pubLoaded,
       topic: undefined,
       venues,
       fields,

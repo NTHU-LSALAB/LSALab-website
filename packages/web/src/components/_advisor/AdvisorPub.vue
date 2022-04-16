@@ -29,7 +29,9 @@
   <div class="mt-5 grid gap-5 xl:grid-cols-2">
     <n-card
       v-for="pub in filteredPubs"
+      :id="pub.id"
       :key="pub.id"
+      :ref="setPubRef"
       size="small"
       style="position: relative; overflow: hidden"
     >
@@ -39,7 +41,9 @@
       >
         <n-tooltip>
           <template #trigger>
-            <n-icon size="20" color="#ffcc00"><star24-filled /> </n-icon>
+            <n-icon size="20" color="#ffcc00">
+              <star24-filled />
+            </n-icon>
           </template>
           {{ pub.attributes.award }}
         </n-tooltip>
@@ -49,16 +53,13 @@
           <n-ellipsis tooltip :line-clamp="2">
             <div class="text-lg font-bold">
               <a
-                class="cursor-pointer hover:underline"
+                class="title cursor-pointer hover:underline"
                 :href="pub.attributes.webLink"
+                >{{ pub.attributes.title }}</a
               >
-                {{ pub.attributes.title }}
-              </a>
             </div>
             <template #tooltip>
-              <div class="w-[400px]">
-                {{ pub.attributes.title }}
-              </div>
+              <div class="w-[400px]">{{ pub.attributes.title }}</div>
             </template>
           </n-ellipsis>
           <div class="mt-2 italic">
@@ -66,11 +67,13 @@
               v-for="(member, mid) in pub.attributes.members"
               :key="mid"
             >
-              <span v-if="member === 'Jerry Chou'" class="font-extrabold">
-                {{ member }}
-              </span>
+              <span v-if="member === 'Jerry Chou'" class="font-extrabold">{{
+                member
+              }}</span>
               <span v-else class="text-gray-500">{{ member }}</span>
-              <span v-if="mid !== pub.attributes.members.length - 1">, </span>
+              <span v-if="mid !== pub.attributes.members.length - 1">
+                {{ ", " }}
+              </span>
             </template>
           </div>
         </div>
@@ -111,9 +114,8 @@
             v-if="pub.attributes.slidesLink"
             class="mr-1 text-blue-400 hover:underline"
             :href="pub.attributes.slidesLink"
+            >Slides</a
           >
-            Slides
-          </a>
           <a
             v-if="pub.attributes.videoLink"
             class="mr-1 text-blue-400 hover:underline"
@@ -135,9 +137,8 @@
             class="!mr-1 !mb-1"
             size="tiny"
             secondary
+            >{{ tag }}</n-button
           >
-            {{ tag }}
-          </n-button>
         </div>
       </template>
     </n-card>
@@ -161,14 +162,47 @@ import {
   NSpin,
 } from "naive-ui";
 import { Star24Filled } from "@vicons/fluent";
-import { computed, ref } from "vue";
+import { computed, nextTick, onBeforeUpdate, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import moment from "moment";
 const emits = defineEmits(["ready", "select"]);
-emits("ready");
+const props = defineProps({
+  highlight: {
+    type: [Number, String],
+    required: false,
+    default: undefined,
+  },
+});
 
 const { t } = useI18n();
 const pubStore = usePubStore();
+
+// pub refs
+const pubRefs = ref<any[]>([]);
+const setPubRef = (el: any) => {
+  if (el) pubRefs.value?.push(el);
+};
+onBeforeUpdate(() => {
+  pubRefs.value = [];
+});
+const gotoTarget = () => {
+  if (props.highlight && pubLoaded.value) {
+    const id =
+      typeof props.highlight === "string"
+        ? parseInt(props.highlight)
+        : props.highlight;
+    const target = pubRefs.value.find((ref) => ref.$attrs.id === id);
+    if (target) {
+      nextTick(() => {
+        target.$el.querySelector(".title").classList.add("highlight");
+        target.$el.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
+    emits("ready");
+  }
+};
+onMounted(gotoTarget);
+watch([() => pubRefs.value.length, () => props.highlight], gotoTarget);
 
 // spinner
 const spinner = ref();
@@ -223,6 +257,14 @@ const categorys = computed(() =>
 const pubs = computed(() => pubStore.pubs);
 
 const loadingPubs = computed(() => pubStore.loadingPubs);
+const pubLoaded = computed(() => pubStore.pubLoaded);
+
+if (pubLoaded.value) emits("ready");
+watch(pubLoaded, (val) => {
+  if (val) {
+    emits("ready");
+  }
+});
 
 const venues = computed(() =>
   (pubStore.venues || []).map((f: Venue) => ({
@@ -235,3 +277,10 @@ const getImageURL = (url: string) => {
   return `${import.meta.env.VITE_STRAPI_ENDPOINT}/${url}`;
 };
 </script>
+
+<style lang="scss" scoped>
+.title.highlight {
+  font-style: none !important;
+  background: yellow;
+}
+</style>

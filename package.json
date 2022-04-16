@@ -33,6 +33,9 @@
     "prettier": "^2.6.1"
   },
   "dependencies": {
+    "algoliasearch": "^4.13.0",
+    "dotenv": "^16.0.0",
+    "pg": "^8.7.3",
     "vue-instantsearch": "^4.3.3"
   },
   "lint-staged": {

@@ -6,10 +6,12 @@
       <div class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <n-card
           v-for="student in grade.attributes.students.data"
+          :id="student.id"
           :key="student.id"
+          :ref="setStuedentRef"
           size="small"
         >
-          <n-ellipsis class="text-lg font-bold">
+          <n-ellipsis class="title text-lg font-bold">
             {{ student.attributes.name || student.attributes.enName }}
             <span v-if="student.attributes.name && student.attributes.enName"
               >({{ student.attributes.enName }})</span
@@ -104,17 +106,55 @@ import { Mail20Regular } from "@vicons/fluent";
 import moment from "moment";
 import { useI18n } from "vue-i18n";
 import { useCachedRequest } from "@/composables/useCachedRequest";
-import { computed } from "vue";
+import { computed, nextTick, onBeforeUpdate, onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const emits = defineEmits(["ready"]);
 const { t } = useI18n();
-emits("ready");
-const { items: grades } = useCachedRequest<any>("grades", {
+
+const route = useRoute();
+const highlight = computed(() => route.query.highlight?.toString());
+const { items: grades, isReady: loaded } = useCachedRequest<any>("grades", {
   params: {
     populate: "*",
     sort: ["id"],
   },
 });
+
+// student ref
+const studentRefs = ref<any[]>([]);
+const setStuedentRef = (el: any) => {
+  if (el) studentRefs.value?.push(el);
+};
+onBeforeUpdate(() => {
+  studentRefs.value = [];
+});
+const gotoTarget = () => {
+  if (highlight.value && loaded.value) {
+    const id =
+      typeof highlight.value === "string"
+        ? parseInt(highlight.value)
+        : highlight.value;
+    const target = studentRefs.value.find((ref) => ref.$attrs.id === id);
+    if (target) {
+      nextTick(() => {
+        target.$el.querySelector(".title").classList.add("highlight");
+        target.$el.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
+    emits("ready");
+  }
+};
+onMounted(gotoTarget);
+watch([() => studentRefs.value.length, highlight], gotoTarget);
+
+if (loaded.value) emits("ready");
+watch(loaded, (val) => {
+  if (val) {
+    emits("ready");
+  }
+});
+
 const sortedGrades = computed(() =>
   grades.value?.map((grade) => {
     grade.attributes.students.data = grade.attributes.students.data.sort(
@@ -125,10 +165,14 @@ const sortedGrades = computed(() =>
 );
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 a.disabled {
   pointer-events: none;
   cursor: default;
   color: gray;
+}
+:deep(.title.highlight) {
+  font-style: none !important;
+  background: yellow !important;
 }
 </style>

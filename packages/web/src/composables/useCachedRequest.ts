@@ -63,10 +63,10 @@ export function useCachedRequest<T>(
         });
         items.value = item.value = data;
         pg.value = meta.pagination;
-        isReady.value = true;
         if (options?.all) {
           await fetchRest();
         }
+        isReady.value = true;
       })
       .catch((err) => {
         error.value = err;

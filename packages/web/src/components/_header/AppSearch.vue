@@ -10,14 +10,15 @@
       :focusable="false"
       @click="showSearch = true"
     >
-      <n-icon size="20" class="text-primary"><search48-filled /></n-icon>
+      <n-icon size="20" class="text-primary">
+        <search48-filled />
+      </n-icon>
       <template v-if="width >= 1240">
         <span class="ml-3 mr-[72px] text-[#3E5060]">Search...</span>
         <span
           class="rounded border bg-white py-[2px] px-2 text-xs font-bold text-[#3E5060] dark:border-[#132f4c] dark:bg-[#001e3c] dark:text-[#b2bac2]"
+          >/</span
         >
-          /
-        </span>
       </template>
     </n-button>
     <n-modal v-model:show="showSearch">
@@ -76,32 +77,69 @@
                   class="w-full cursor-pointer rounded-md bg-gray-100 p-2 duration-200 hover:bg-gray-200"
                   @click="goTo(item)"
                 >
-                  <n-ellipsis line-clamp="2" tooltip>
-                    <template #tooltip>
-                      <div class="w-[400px]">
-                        <ais-highlight
-                          attribute="title"
-                          :hit="item"
-                          highlighted-tag-name="mark"
-                        />
-                      </div>
-                    </template>
-                    <ais-highlight
-                      attribute="title"
-                      :hit="item"
-                      highlighted-tag-name="mark"
-                    />
-                  </n-ellipsis>
-                  <div>
-                    <n-button
-                      size="tiny"
-                      secondary
-                      type="primary"
-                      class="text-primary"
-                    >
-                      {{ item.venue }}
-                    </n-button>
-                  </div>
+                  <!-- Publication -->
+                  <template v-if="item.title">
+                    <n-ellipsis line-clamp="2" tooltip>
+                      <template #tooltip>
+                        <div class="w-[400px]">
+                          <ais-highlight
+                            attribute="title"
+                            :hit="item"
+                            highlighted-tag-name="mark"
+                          />
+                        </div>
+                      </template>
+                      <ais-highlight
+                        attribute="title"
+                        :hit="item"
+                        highlighted-tag-name="mark"
+                      />
+                    </n-ellipsis>
+                    <div class="flex">
+                      <n-button
+                        size="tiny"
+                        secondary
+                        type="primary"
+                        class="!mr-1 text-primary"
+                        >{{ item.venue }}</n-button
+                      >
+                      <n-button
+                        size="tiny"
+                        secondary
+                        type="primary"
+                        class="text-primary"
+                        >{{ item.venue_name }}</n-button
+                      >
+                    </div>
+                  </template>
+                  <!-- Student -->
+                  <template v-else>
+                    <n-ellipsis line-clamp="2" tooltip>
+                      <template #tooltip>
+                        <div class="w-[400px]">
+                          <ais-highlight
+                            attribute="name"
+                            :hit="item"
+                            highlighted-tag-name="mark"
+                          />
+                        </div>
+                      </template>
+                      <ais-highlight
+                        attribute="name"
+                        :hit="item"
+                        highlighted-tag-name="mark"
+                      />
+                    </n-ellipsis>
+                    <div>
+                      <n-button
+                        size="tiny"
+                        secondary
+                        type="primary"
+                        class="text-primary"
+                        >{{ item.grade }}</n-button
+                      >
+                    </div>
+                  </template>
                 </div>
               </template>
             </ais-hits>
@@ -110,10 +148,16 @@
           <div
             class="flex items-center border-t border-gray-300 px-4 py-3 text-blue-400"
           >
-            <n-icon><arrow-enter-left24-regular /></n-icon>
+            <n-icon>
+              <arrow-enter-left24-regular />
+            </n-icon>
             <span class="ml-2 mr-4 text-sm">to select</span>
-            <n-icon><arrow-sort-down24-regular /></n-icon>
-            <n-icon><arrow-sort-up24-regular /></n-icon>
+            <n-icon>
+              <arrow-sort-down24-regular />
+            </n-icon>
+            <n-icon>
+              <arrow-sort-up24-regular />
+            </n-icon>
             <span class="ml-2 text-sm">to navigate</span>
           </div>
         </div>
@@ -150,6 +194,7 @@ import {
   AisConfigure,
 } from "vue-instantsearch/vue3/es";
 import { useRouter } from "vue-router";
+import { useWidth } from "@/composables/useWidth";
 
 const router = useRouter();
 const store = useSettingStore();
@@ -158,10 +203,7 @@ const mode = computed(() => store.mode);
 const showSearch = ref(false);
 const query = ref("");
 
-const width = ref(window.innerWidth);
-const onResize = () => {
-  width.value = window.innerWidth;
-};
+const width = useWidth();
 const onKeyDown = (e: any) => {
   if (e.key === "/" && !showSearch.value) {
     showSearch.value = true;
@@ -169,19 +211,19 @@ const onKeyDown = (e: any) => {
   }
 };
 onMounted(() => {
-  window.addEventListener("resize", onResize);
   window.addEventListener("keydown", onKeyDown);
 });
 onUnmounted(() => {
-  window.removeEventListener("resize", onResize);
   window.removeEventListener("keydown", onKeyDown);
 });
 
 const goTo = (item: any) => {
   if (!item) return;
-  console.log(item);
-  router.push({ name: "PublicationView", params: { target: "" } });
+  if (item.title)
+    router.push({ name: "PublicationView", query: { highlight: item.id } });
+  else router.push({ name: "StudentView", query: { highlight: item.id } });
   showSearch.value = false;
+  query.value = "";
 };
 </script>
 
