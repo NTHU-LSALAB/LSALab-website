@@ -158,7 +158,9 @@ watch(loaded, (val) => {
 const sortedGrades = computed(() =>
   grades.value?.map((grade) => {
     grade.attributes.students.data = grade.attributes.students.data.sort(
-      (a: any, b: any) => a.id - b.id
+      (a: any, b: any) => {
+        return b.attributes.startDate.localeCompare(a.attributes.startDate);
+      }
     );
     return grade;
   })
