@@ -92,3 +92,19 @@ jobs:
               run: yarn build:front
             - name: Run test
               run: yarn run -s test:front
+    # deploy:
+    #     name: 'deploy'
+    #     needs: ['unit_back', 'unit_front']
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Deploy to Zeus
+    #           uses: appleboy/ssh-action@master
+    #           with:
+    #               host: ${{secrets.SSH_HOST}}
+    #               username: ${{secrets.SSH_USERNAME}}
+    #               password: ${{secrets.SSH_PASSWORD}}
+    #               script: |
+    #                   cd lsalab-web
+    #                   git checkout main
+    #                   git pull origin main
+    #                   yarn & yarn deploy
