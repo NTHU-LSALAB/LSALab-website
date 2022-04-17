@@ -52,6 +52,7 @@ import { NScrollbar } from "naive-ui";
 import { computed, onMounted } from "vue";
 // import { IosArrowLeft24Filled } from "@vicons/fluent";
 import { useCalendarStore } from "@/store";
+// import { useWidth } from "@/composables/useWidth";
 
 const emits = defineEmits(["ready"]);
 const calendarStore = useCalendarStore();
@@ -81,9 +82,7 @@ onMounted(() => {
     })
     .then(() => emits("ready"));
 });
-// onUnmounted(() => {
-//   window.removeEventListener("resize", onResize);
-// });
+// const width = useWidth();
 // const reversed = ref(false);
 
 // const toggle = () => {
@@ -109,10 +108,6 @@ const todayIsSelected = computed(() => {
 // watch(selectedDate, () => {
 //   showAnim.play();
 // });
-// const width = ref(window.innerWidth);
-// const onResize = () => {
-//   width.value = window.innerWidth;
-// };
 </script>
 
 <style scoped lang="scss">

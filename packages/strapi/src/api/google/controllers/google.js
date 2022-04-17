@@ -35,13 +35,15 @@ const calendarId = 'lsalab@lsalab.cs.nthu.edu.tw';
 module.exports = {
     async getEvents(ctx) {
         try {
-            const { year, month } = ctx.query;
-            const startyear = month === 1 ? year - 1 : year;
-            let startmonth = (((month - 1) % 12) + 12) % 12;
-            if (startmonth === 0) startmonth = 12;
-            const endyear = month === 12 ? year + 1 : year;
-            let endmonth = (((month + 1) % 12) + 12) % 12;
-            if (endmonth === 0) endmonth = 12;
+            let { year, month } = ctx.query;
+            year = parseInt(year);
+            month = parseInt(month);
+            const startYear = month === 1 ? year - 1 : year;
+            let startMonth = (((month - 1) % 12) + 12) % 12;
+            if (startMonth === 0) startMonth = 12;
+            const endYear = month === 12 ? year + 1 : year;
+            let endMonth = (((month + 1) % 12) + 12) % 12;
+            if (endMonth === 0) endMonth = 12;
             let pageToken;
             let returnItems = [];
             do {
@@ -51,8 +53,8 @@ module.exports = {
                     calendarId,
                     pageToken,
                     singleEvents: true,
-                    timeMin: `${startyear}-${startmonth}-01T00:00:00-08:00`,
-                    timeMax: `${endyear}-${endmonth}-28T00:00:00-08:00`,
+                    timeMin: `${startYear}-${startMonth}-01T00:00:00-08:00`,
+                    timeMax: `${endYear}-${endMonth}-28T00:00:00-08:00`,
                     orderBy: 'startTime',
                 });
                 returnItems = returnItems.concat(items);
