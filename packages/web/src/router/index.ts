@@ -18,7 +18,12 @@ router.beforeEach((to, from, next) => {
     componentStore.sendMessage("Please login");
     return;
   } else {
-    if (to.name !== "LoginView" && to.name !== "RegisterView") {
+    if (
+      to.name !== "LoginView" &&
+      to.name !== "RegisterView" &&
+      to.name !== "ForgetView" &&
+      to.name !== "ResetView"
+    ) {
       componentStore.startLoading();
     }
     next();

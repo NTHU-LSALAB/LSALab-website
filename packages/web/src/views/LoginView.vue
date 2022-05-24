@@ -32,7 +32,12 @@
           placeholder="Password"
         />
       </n-form-item>
-      <n-form-item :show-label="false" :show-feedback="false">
+      <span
+        class="cursor-pointer text-primary underline"
+        @click="router.push('/forgot-password')"
+        >Forget password?</span
+      >
+      <n-form-item class="mt-2" :show-label="false" :show-feedback="false">
         <n-button
           class="!mt-2 !w-full"
           size="large"

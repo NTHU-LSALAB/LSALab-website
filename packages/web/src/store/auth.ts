@@ -125,6 +125,24 @@ export const useAuthStore = defineStore("auth", {
     async logout() {
       this.$reset();
     },
+    forgetPassword({ email }: { email: string }) {
+      return strapi.post("auth/forgot-password", { email });
+    },
+    resetPassword({
+      code,
+      password,
+      passwordConfirmation,
+    }: {
+      code: string;
+      password: string;
+      passwordConfirmation: string;
+    }) {
+      return strapi.post("auth/reset-password", {
+        code,
+        password,
+        passwordConfirmation,
+      });
+    },
   },
   persist: true,
 });

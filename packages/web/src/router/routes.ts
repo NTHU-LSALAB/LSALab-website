@@ -5,6 +5,16 @@ export default [
     component: () => import("@/views/LoginView.vue"),
   },
   {
+    path: "/forgot-password",
+    name: "ForgetView",
+    component: () => import("@/views/ForgetView.vue"),
+  },
+  {
+    path: "/reset-password",
+    name: "ResetView",
+    component: () => import("@/views/ResetView.vue"),
+  },
+  {
     path: "/register",
     name: "RegisterView",
     component: () => import("@/views/RegisterView.vue"),
