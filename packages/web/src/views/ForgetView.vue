@@ -15,16 +15,23 @@
     </p>
     <n-form ref="formRef" :model="form" :rules="rules">
       <n-form-item path="email" :show-label="false">
-        <n-input v-model:value="form.email" size="large" placeholder="Email" />
+        <n-input
+          v-model:value="form.email"
+          :disabled="sent"
+          size="large"
+          placeholder="Email"
+        />
       </n-form-item>
       <n-form-item class="mt-2" :show-label="false" :show-feedback="false">
         <n-button
           class="!mt-2 !w-full"
           size="large"
           type="primary"
+          :loading="loading"
+          :disabled="sent"
           @click="onSubmit"
         >
-          Confirm
+          {{ sent ? "Sent" : "Confirm" }}
         </n-button>
       </n-form-item>
     </n-form>
@@ -55,17 +62,33 @@ const message = useMessage();
 const formRef = ref<typeof NForm | null>(null);
 const form = ref({ email: "" });
 const rules: FormRules = {
-  email: [{ type: "email", message: "請輸入合法信箱", trigger: ["input"] }],
+  email: [
+    {
+      required: true,
+      type: "email",
+      message: "請輸入合法信箱",
+      trigger: ["input"],
+    },
+  ],
 };
+const loading = ref(false);
+const sent = ref(false);
 const onSubmit = (e: MouseEvent) => {
   e.preventDefault();
   if (!formRef.value) return;
+  loading.value = true;
   return formRef.value
     .validate()
-    .then(() => authStore.forgetPassword({ email: form.value.email }))
+    .then(() => {
+      authStore.forgetPassword({ email: form.value.email }).then(() => {
+        sent.value = true;
+        message.info("Please check your inbox!");
+      });
+    })
     .catch(() => {
       message.error("Invalid");
-    });
+    })
+    .finally(() => (loading.value = false));
 };
 </script>
 
