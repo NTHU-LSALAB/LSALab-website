@@ -14,7 +14,7 @@
       We will send the instructions to reset your password to your email
     </p>
     <n-form ref="formRef" :model="form" :rules="rules">
-      <n-form-item path="identifier" :show-label="false">
+      <n-form-item path="email" :show-label="false">
         <n-input v-model:value="form.email" size="large" placeholder="Email" />
       </n-form-item>
       <n-form-item class="mt-2" :show-label="false" :show-feedback="false">

@@ -42,7 +42,7 @@ export default ({ mode }) => {
     // server: {
     //   proxy: {
     //     "/api": {
-    //       target: "https://lsalab.cs.nthu.edu.tw/v1",
+    //       target: "https://lsalab.cs.nthu.edu.tw/v2",
     //       changeOrigin: true,
     //       rewrite: (path) => path.replace(/^\/api/, ""),
     //     },
