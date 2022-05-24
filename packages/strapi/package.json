@@ -12,12 +12,12 @@
         "lint": "eslint ."
     },
     "dependencies": {
-        "@strapi/plugin-graphql": "4.1.8",
-        "@strapi/plugin-i18n": "4.1.8",
-        "@strapi/plugin-users-permissions": "^4.1.8",
-        "@strapi/provider-email-nodemailer": "^4.1.8",
-        "@strapi/provider-email-sendgrid": "^4.1.8",
-        "@strapi/strapi": "4.1.8",
+        "@strapi/plugin-graphql": "4.1.11",
+        "@strapi/plugin-i18n": "4.1.11",
+        "@strapi/plugin-users-permissions": "^4.1.11",
+        "@strapi/provider-email-nodemailer": "^4.1.11",
+        "@strapi/provider-email-sendgrid": "^4.1.11",
+        "@strapi/strapi": "4.1.11",
         "googleapis": "^95.0.0",
         "purest": "^4.0.2",
         "strapi-plugin-email-designer": "^2.1.0"

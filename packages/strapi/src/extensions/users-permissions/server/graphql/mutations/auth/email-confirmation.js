@@ -5,35 +5,35 @@ const { toPlainObject } = require('lodash/fp');
 const { checkBadRequest } = require('../../utils');
 
 module.exports = ({ nexus, strapi }) => {
-  const { nonNull } = nexus;
+    const { nonNull } = nexus;
 
-  return {
-    type: 'UsersPermissionsLoginPayload',
+    return {
+        type: 'UsersPermissionsLoginPayload',
 
-    args: {
-      confirmation: nonNull('String'),
-    },
+        args: {
+            confirmation: nonNull('String'),
+        },
 
-    description: 'Confirm an email users email address',
+        description: 'Confirm an email users email address',
 
-    async resolve(parent, args, context) {
-      const { koaContext } = context;
+        async resolve(parent, args, context) {
+            const { koaContext } = context;
 
-      koaContext.request.body = toPlainObject(args);
+            koaContext.query = toPlainObject(args);
 
-      await strapi
-        .plugin('users-permissions')
-        .controller('auth')
-        .emailConfirmation(koaContext, null, true);
+            await strapi
+                .plugin('users-permissions')
+                .controller('auth')
+                .emailConfirmation(koaContext, null, true);
 
-      const output = koaContext.body;
+            const output = koaContext.body;
 
-      checkBadRequest(output);
+            checkBadRequest(output);
 
-      return {
-        user: output.user || output,
-        jwt: output.jwt,
-      };
-    },
-  };
+            return {
+                user: output.user || output,
+                jwt: output.jwt,
+            };
+        },
+    };
 };

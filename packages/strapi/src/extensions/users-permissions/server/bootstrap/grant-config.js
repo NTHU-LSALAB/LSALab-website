@@ -27,7 +27,19 @@ module.exports = (baseURL) => ({
         key: '',
         secret: '',
         callback: `${baseURL}/google/callback`,
-        scope: ['email'],
+        scope: [
+            'email',
+            'profile',
+            'https://www.googleapis.com/auth/drive',
+            'https://www.googleapis.com/auth/drive',
+            'https://www.googleapis.com/auth/drive.file',
+            'https://www.googleapis.com/auth/drive.appdata',
+            'https://www.googleapis.com/auth/drive.metadata',
+        ],
+        custom_params: {
+            access_type: 'offline',
+            prompt: 'consent',
+        },
     },
     github: {
         enabled: false,

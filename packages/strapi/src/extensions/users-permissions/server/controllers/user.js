@@ -15,7 +15,7 @@ const {
 } = require('./validation/user');
 
 const { sanitize } = utils;
-const { ApplicationError, ValidationError } = utils.errors;
+const { ApplicationError, ValidationError, NotFoundError } = utils.errors;
 
 const sanitizeOutput = async (user, ctx) => {
     const schema = strapi.getModel('plugin::users-permissions.user');
@@ -107,7 +107,10 @@ module.exports = {
         const { id } = ctx.params;
         const { email, username, password } = ctx.request.body;
 
-        const user = await getService('user').fetch({ id });
+        const user = await getService('user').fetch(id);
+        if (!user) {
+            throw new NotFoundError(`User not found`);
+        }
 
         await validateUpdateUserBody(ctx.request.body);
 
@@ -154,11 +157,8 @@ module.exports = {
      * Retrieve user records.
      * @return {Object|Array}
      */
-    async find(ctx, next, { populate } = {}) {
-        const users = await getService('user').fetchAll(
-            ctx.query.filters,
-            populate,
-        );
+    async find(ctx) {
+        const users = await getService('user').fetchAll(ctx.query);
 
         ctx.body = await Promise.all(
             users.map((user) => sanitizeOutput(user, ctx)),
@@ -171,7 +171,9 @@ module.exports = {
      */
     async findOne(ctx) {
         const { id } = ctx.params;
-        let data = await getService('user').fetch({ id });
+        const { query } = ctx;
+
+        let data = await getService('user').fetch(id, query);
 
         if (data) {
             data = await sanitizeOutput(data, ctx);
