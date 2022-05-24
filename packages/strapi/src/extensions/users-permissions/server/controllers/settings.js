@@ -49,7 +49,7 @@ module.exports = {
             })
             .get();
 
-        const roles = await getService('role').getRoles();
+        const roles = await getService('role').find();
 
         ctx.send({ settings, roles });
     },

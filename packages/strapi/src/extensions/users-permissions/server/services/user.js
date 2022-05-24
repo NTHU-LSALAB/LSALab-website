@@ -68,10 +68,12 @@ module.exports = ({ strapi }) => ({
      * Promise to fetch a/an user.
      * @return {Promise}
      */
-    fetch(params, populate) {
-        return strapi
-            .query('plugin::users-permissions.user')
-            .findOne({ where: params, populate });
+    fetch(id, params) {
+        return strapi.entityService.findOne(
+            'plugin::users-permissions.user',
+            id,
+            params,
+        );
     },
 
     /**
@@ -88,10 +90,11 @@ module.exports = ({ strapi }) => ({
      * Promise to fetch all users.
      * @return {Promise}
      */
-    fetchAll(params, populate) {
-        return strapi
-            .query('plugin::users-permissions.user')
-            .findMany({ where: params, populate });
+    fetchAll(params) {
+        return strapi.entityService.findMany(
+            'plugin::users-permissions.user',
+            params,
+        );
     },
 
     /**

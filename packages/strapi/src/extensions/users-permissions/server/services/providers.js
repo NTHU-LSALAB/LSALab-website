@@ -29,7 +29,7 @@ module.exports = ({ strapi }) => {
             .store({ type: 'plugin', name: 'users-permissions', key: 'grant' })
             .get();
 
-        return providerRequest({
+        await providerRequest({
             provider,
             query,
             access_token,
@@ -90,7 +90,6 @@ module.exports = ({ strapi }) => {
                         });
                     }
 
-                    // User already exists, update accessToken
                     if (!_.isEmpty(user)) {
                         try {
                             const updatedUser = await strapi

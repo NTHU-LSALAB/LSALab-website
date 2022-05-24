@@ -11,53 +11,56 @@ import RoleListPage from '../index';
 import server from './server';
 
 jest.mock('@strapi/helper-plugin', () => ({
-  ...jest.requireActual('@strapi/helper-plugin'),
-  useTracking: jest.fn(() => ({ trackUsage: jest.fn() })),
-  useNotification: jest.fn(),
-  useRBAC: jest.fn(),
-  CheckPermissions: jest.fn(({ children }) => children),
+    ...jest.requireActual('@strapi/helper-plugin'),
+    useTracking: jest.fn(() => ({ trackUsage: jest.fn() })),
+    useNotification: jest.fn(),
+    useRBAC: jest.fn(),
+    CheckPermissions: jest.fn(({ children }) => children),
 }));
 
 const client = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
+    defaultOptions: {
+        queries: {
+            retry: false,
+        },
     },
-  },
 });
 
-const makeApp = history => (
-  <Router history={history}>
-    <ThemeProvider theme={lightTheme}>
-      <QueryClientProvider client={client}>
-        <IntlProvider locale="en" messages={{}} textComponent="span">
-          <RoleListPage />
-        </IntlProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
-  </Router>
+const makeApp = (history) => (
+    <Router history={history}>
+        <ThemeProvider theme={lightTheme}>
+            <QueryClientProvider client={client}>
+                <IntlProvider locale="en" messages={{}} textComponent="span">
+                    <RoleListPage />
+                </IntlProvider>
+            </QueryClientProvider>
+        </ThemeProvider>
+    </Router>
 );
 
 describe('Plugin | Users and Permissions | RoleListPage', () => {
-  beforeAll(() => server.listen());
+    beforeAll(() => server.listen());
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
-  afterEach(() => server.resetHandlers());
+    afterEach(() => server.resetHandlers());
 
-  afterAll(() => server.close());
+    afterAll(() => server.close());
 
-  it('renders and matches the snapshot', () => {
-    useRBAC.mockImplementation(() => ({ isLoading: false, allowedActions: { canRead: true } }));
-    const history = createMemoryHistory();
-    const App = makeApp(history);
-    const {
-      container: { firstChild },
-    } = render(App);
+    it('renders and matches the snapshot', () => {
+        useRBAC.mockImplementation(() => ({
+            isLoading: false,
+            allowedActions: { canRead: true },
+        }));
+        const history = createMemoryHistory();
+        const App = makeApp(history);
+        const {
+            container: { firstChild },
+        } = render(App);
 
-    expect(firstChild).toMatchInlineSnapshot(`
+        expect(firstChild).toMatchInlineSnapshot(`
       .c14 {
         font-weight: 600;
         color: #32324d;
@@ -138,9 +141,7 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
         align-items: center;
         padding: 10px 16px;
         background: #4945ff;
-        border: none;
         border: 1px solid #4945ff;
-        background: #4945ff;
       }
 
       .c9 .c10 {
@@ -243,6 +244,10 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
       }
 
       .c25 {
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -254,10 +259,6 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
         -webkit-justify-content: space-around;
         -ms-flex-pack: space-around;
         justify-content: space-around;
-        -webkit-align-items: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
       }
 
       .c23 {
@@ -418,6 +419,10 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
       }
 
       .c5 {
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -429,27 +434,13 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
         -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
         justify-content: space-between;
-        -webkit-align-items: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
       }
 
       .c6 {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-        flex-direction: row;
         -webkit-align-items: center;
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
-      }
-
-      .c18 {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -457,17 +448,13 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
         -webkit-flex-direction: row;
         -ms-flex-direction: row;
         flex-direction: row;
-        -webkit-box-pack: justify;
-        -webkit-justify-content: space-between;
-        -ms-flex-pack: justify;
-        justify-content: space-between;
+      }
+
+      .c18 {
         -webkit-align-items: flex-start;
         -webkit-box-align: flex-start;
         -ms-flex-align: flex-start;
         align-items: flex-start;
-      }
-
-      .c19 {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -475,10 +462,24 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
         -webkit-flex-direction: row;
         -ms-flex-direction: row;
         flex-direction: row;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+      }
+
+      .c19 {
         -webkit-align-items: center;
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
         -webkit-flex-wrap: wrap;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
@@ -723,24 +724,24 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
         </div>
       </div>
     `);
-  });
-
-  it('should show a loader when fetching data', () => {
-    const history = createMemoryHistory();
-    const App = makeApp(history);
-    render(App);
-
-    expect(screen.getByTestId('loader')).toBeInTheDocument();
-  });
-
-  it('should show a list of roles', async () => {
-    const history = createMemoryHistory();
-    const App = makeApp(history);
-    render(App);
-
-    await waitFor(() => {
-      expect(screen.getByText('Authenticated')).toBeInTheDocument();
-      expect(screen.getByText('Public')).toBeInTheDocument();
     });
-  });
+
+    it('should show a loader when fetching data', () => {
+        const history = createMemoryHistory();
+        const App = makeApp(history);
+        render(App);
+
+        expect(screen.getByTestId('loader')).toBeInTheDocument();
+    });
+
+    it('should show a list of roles', async () => {
+        const history = createMemoryHistory();
+        const App = makeApp(history);
+        render(App);
+
+        await waitFor(() => {
+            expect(screen.getByText('Authenticated')).toBeInTheDocument();
+            expect(screen.getByText('Public')).toBeInTheDocument();
+        });
+    });
 });
