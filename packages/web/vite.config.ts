@@ -39,15 +39,18 @@ export default ({ mode }) => {
         "@": resolve(__dirname, "src"),
       },
     },
-    // server: {
-    //   proxy: {
-    //     "/api": {
-    //       target: "https://lsalab.cs.nthu.edu.tw/v2",
-    //       changeOrigin: true,
-    //       rewrite: (path) => path.replace(/^\/api/, ""),
-    //     },
-    //   },
-    // },
+    server: {
+      proxy: {
+        "/api": {
+          target: "https://lsalab.cs.nthu.edu.tw/v2",
+          changeOrigin: true,
+          rewrite: (path) => {
+            console.log(path);
+            return path.replace(/^\/api/, "");
+          },
+        },
+      },
+    },
     base: process.env.VITE_BASE_URL,
   });
 };
