@@ -29,7 +29,7 @@ module.exports = ({ strapi }) => {
             .store({ type: 'plugin', name: 'users-permissions', key: 'grant' })
             .get();
 
-        await providerRequest({
+        return providerRequest({
             provider,
             query,
             access_token,
