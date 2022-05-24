@@ -2,7 +2,8 @@ import axios, { AxiosError } from "axios";
 import { useAuthStore, useComponentStore } from "@/store";
 
 export const strapi = axios.create({
-  baseURL: `${import.meta.env.VITE_STRAPI_ENDPOINT}/api`,
+  // baseURL: `${import.meta.env.VITE_STRAPI_ENDPOINT}/api`,
+  baseURL: "/api",
 });
 
 strapi.interceptors.request.use(
