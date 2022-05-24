@@ -128,7 +128,6 @@ const updateTab = () => {
 };
 onMounted(updateTab);
 watch(tab, (value) => {
-  console.log(value);
   if (route.hash !== value) {
     router.push({ hash: tab.value }).then(() => emits("ready"));
   }

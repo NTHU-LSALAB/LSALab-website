@@ -45,13 +45,11 @@ export const useCalendarStore = defineStore("calendar", {
       } catch {
         this.selectedEvents = null;
       }
-      console.log(this.selectedEvents);
     },
     async fetchEvents({ month, year }: { month: number; year: number }) {
       const componentStore = useComponentStore();
       this.loading = true;
       componentStore.startLoading();
-      console.log(month, year);
       return strapi
         .get("google/calendar/events", {
           params: {
@@ -76,7 +74,6 @@ export const useCalendarStore = defineStore("calendar", {
               if (!exist) this.events[year][month][date].push(evt);
             }
           }
-          console.log(this.events);
         })
         .finally(() => {
           this.loading = false;

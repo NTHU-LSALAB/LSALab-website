@@ -99,7 +99,6 @@ export const useAuthStore = defineStore("auth", {
         .then(({ data }) => {
           // Handle success.
           const { jwt, user } = data;
-          console.log(user);
           this.accessToken = jwt;
           this.me = user;
         });
