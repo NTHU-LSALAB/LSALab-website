@@ -26,14 +26,15 @@
       />
     </n-form-item>
   </div>
-  <div class="mt-5 grid gap-5 xl:grid-cols-2">
+  <div class="mt-5">
     <n-card
       v-for="pub in filteredPubs"
       :id="pub.id"
       :key="pub.id"
       :ref="setPubRef"
       size="small"
-      style="position: relative; overflow: hidden"
+      class="relative mb-5 cursor-pointer overflow-hidden"
+      @click="gotoPage(pub.attributes.webLink)"
     >
       <div
         v-if="pub.attributes.award"
@@ -50,32 +51,30 @@
       </div>
       <div class="flex">
         <div class="flex-grow">
-          <n-ellipsis tooltip line-clamp="2">
-            <div class="text-lg font-bold">
-              <a
-                class="title cursor-pointer hover:underline"
-                :href="pub.attributes.webLink"
-                >{{ pub.attributes.title }}</a
-              >
-            </div>
-            <template #tooltip>
-              <div class="w-[400px]">{{ pub.attributes.title }}</div>
-            </template>
-          </n-ellipsis>
-          <div class="mt-2 italic">
-            <template
-              v-for="(member, mid) in pub.attributes.members"
-              :key="mid"
-            >
-              <span v-if="member === 'Jerry Chou'" class="font-extrabold">{{
-                member
-              }}</span>
-              <span v-else class="text-gray-500">{{ member }}</span>
-              <span v-if="mid !== pub.attributes.members.length - 1">
+          <span class="text-lg font-bold">
+            <template v-for="member in pub.attributes.members" :key="member">
+              <span v-if="member === 'Jerry Chou'" class="font-extrabold">
+                *{{ member }}
+              </span>
+              <span v-else>{{ member }}</span>
+              <span>
                 {{ ", " }}
               </span>
             </template>
-          </div>
+          </span>
+          <span class="text-lg font-bold">
+            <a class="title">"{{ pub.attributes.title }}", </a>
+          </span>
+          <span class="text-lg">
+            <span class="font-extrabold italic"
+              >in {{ pub.attributes.venueName }}</span
+            >
+            <span v-if="pub.attributes.year">, {{ pub.attributes.year }}</span>
+            <span v-if="pub.attributes.date"
+              >, {{ moment(pub.attributes.date).format("MMM YYYY") }}</span
+            >
+            .
+          </span>
         </div>
         <div
           v-if="pub.attributes.image.data"
@@ -89,26 +88,6 @@
         </div>
       </div>
       <template #footer>
-        <n-ellipsis tooltip line-clamp="2">
-          <div class="text-sm">
-            <span>{{ pub.attributes.venueName }}</span>
-            <span v-if="pub.attributes.year">, {{ pub.attributes.year }}</span>
-            <span v-if="pub.attributes.date"
-              >, {{ moment(pub.attributes.date).format("MMM YYYY") }}</span
-            >
-          </div>
-          <template #tooltip>
-            <div class="w-[400px]">
-              <span>{{ pub.attributes.venueName }}</span>
-              <span v-if="pub.attributes.year"
-                >, {{ pub.attributes.year }}</span
-              >
-              <span v-if="pub.attributes.date"
-                >, {{ moment(pub.attributes.date).format("MMM YYYY") }}</span
-              >
-            </div>
-          </template>
-        </n-ellipsis>
         <div>
           <a
             v-if="pub.attributes.slidesLink"
@@ -156,7 +135,6 @@ import {
   NCard,
   NFormItem,
   NButton,
-  NEllipsis,
   NTooltip,
   NIcon,
   NSpin,
@@ -185,6 +163,9 @@ const setPubRef = (el: any) => {
 onBeforeUpdate(() => {
   pubRefs.value = [];
 });
+const gotoPage = (page?: string) => {
+  window.open(page, "_black");
+};
 const gotoTarget = () => {
   if (props.highlight && pubLoaded.value) {
     const id =
