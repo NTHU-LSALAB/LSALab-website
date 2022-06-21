@@ -41,6 +41,7 @@
         width="200"
         height="300"
         :src="Advisor"
+        lazy
         object-fit="contain"
         fallback-src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
       />

@@ -20,6 +20,7 @@
             <div class="h-[450px] w-fit overflow-hidden rounded-md">
               <n-image
                 object-fit="contain"
+                lazy
                 :src="
                   file.webContentLink ||
                   'https://via.placeholder.com/300x150?text=LSA+Lab'
