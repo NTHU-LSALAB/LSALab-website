@@ -3,7 +3,7 @@ const init = (initialState, permissions) => {
     .sort()
     .map((name) => ({ name, isOpen: false }));
 
-    return { ...initialState, collapses };
+  return { ...initialState, collapses };
 };
 
 export default init;

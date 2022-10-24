@@ -22,6 +22,18 @@ const reducer = (state, action) =>
           draftState.selectedAction = selectedAction;
         }
 
+        set(draftState, ['modifiedData', ...action.keys], action.value);
+        break;
+      }
+      case 'ON_CHANGE_SELECT_ALL': {
+        const pathToValue = ['modifiedData', ...action.keys];
+        const oldValues = get(state, pathToValue, {});
+        const updatedValues = Object.keys(oldValues).reduce((acc, current) => {
+          acc[current] = { ...oldValues[current], enabled: action.value };
+
+          return acc;
+        }, {});
+
         set(draftState, pathToValue, updatedValues);
 
         break;

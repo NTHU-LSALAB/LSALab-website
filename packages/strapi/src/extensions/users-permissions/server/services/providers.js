@@ -32,6 +32,7 @@ module.exports = ({ strapi }) => {
       provider,
       query,
       accessToken,
+      refreshToken,
       providers,
     });
   };
@@ -87,7 +88,7 @@ module.exports = ({ strapi }) => {
         });
         return updatedUser;
       } catch (err) {
-        throw new Error('Error when connecting google user');
+        throw new Error('Error when connecting google account.');
       }
     }
 
