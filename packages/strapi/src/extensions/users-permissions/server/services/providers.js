@@ -85,7 +85,7 @@ module.exports = ({ strapi }) => {
             google: profile.google,
           },
         });
-        return resolve(updatedUser);
+        return updatedUser;
       } catch (err) {
         throw new Error('Error when connecting google user');
       }
