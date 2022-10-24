@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
+
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider, lightTheme } from '@strapi/design-system';
-import { useRBAC } from '@strapi/helper-plugin';
+import { TrackingProvider, useRBAC } from '@strapi/helper-plugin';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
@@ -11,61 +13,59 @@ import RoleListPage from '../index';
 import server from './server';
 
 jest.mock('@strapi/helper-plugin', () => ({
-    ...jest.requireActual('@strapi/helper-plugin'),
-    useTracking: jest.fn(() => ({ trackUsage: jest.fn() })),
-    useNotification: jest.fn(),
-    useRBAC: jest.fn(),
-    CheckPermissions: jest.fn(({ children }) => children),
+  ...jest.requireActual('@strapi/helper-plugin'),
+  useNotification: jest.fn(),
+  useRBAC: jest.fn(),
+  CheckPermissions: jest.fn(({ children }) => children),
 }));
 
 const client = new QueryClient({
-    defaultOptions: {
-        queries: {
-            retry: false,
-        },
+  defaultOptions: {
+    queries: {
+      retry: false,
     },
+  },
 });
 
 const makeApp = (history) => (
-    <Router history={history}>
-        <ThemeProvider theme={lightTheme}>
-            <QueryClientProvider client={client}>
-                <IntlProvider locale="en" messages={{}} textComponent="span">
-                    <RoleListPage />
-                </IntlProvider>
-            </QueryClientProvider>
-        </ThemeProvider>
-    </Router>
+  <Router history={history}>
+    <TrackingProvider>
+      <ThemeProvider theme={lightTheme}>
+        <QueryClientProvider client={client}>
+          <IntlProvider locale="en" messages={{}} textComponent="span">
+            <RoleListPage />
+          </IntlProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </TrackingProvider>
+  </Router>
 );
 
 describe('Plugin | Users and Permissions | RoleListPage', () => {
-    beforeAll(() => server.listen());
+  beforeAll(() => server.listen());
 
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-    afterEach(() => server.resetHandlers());
+  afterEach(() => server.resetHandlers());
 
-    afterAll(() => server.close());
+  afterAll(() => server.close());
 
-    it('renders and matches the snapshot', () => {
-        useRBAC.mockImplementation(() => ({
-            isLoading: false,
-            allowedActions: { canRead: true },
-        }));
-        const history = createMemoryHistory();
-        const App = makeApp(history);
-        const {
-            container: { firstChild },
-        } = render(App);
+  it('renders and matches the snapshot', () => {
+    useRBAC.mockImplementation(() => ({ isLoading: false, allowedActions: { canRead: true } }));
+    const history = createMemoryHistory();
+    const App = makeApp(history);
+    const {
+      container: { firstChild },
+    } = render(App);
 
-        expect(firstChild).toMatchInlineSnapshot(`
+    expect(firstChild).toMatchInlineSnapshot(`
       .c14 {
         font-weight: 600;
         color: #32324d;
-        font-size: 0.875rem;
-        line-height: 1.43;
+        font-size: 0.75rem;
+        line-height: 1.33;
       }
 
       .c11 {
@@ -139,7 +139,7 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
-        padding: 10px 16px;
+        padding: 8px 16px;
         background: #4945ff;
         border: 1px solid #4945ff;
       }
@@ -382,6 +382,7 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
       .c28 {
         -webkit-animation: gzYjWD 1s infinite linear;
         animation: gzYjWD 1s infinite linear;
+        will-change: transform;
       }
 
       .c26 {
@@ -724,24 +725,24 @@ describe('Plugin | Users and Permissions | RoleListPage', () => {
         </div>
       </div>
     `);
+  });
+
+  it('should show a loader when fetching data', () => {
+    const history = createMemoryHistory();
+    const App = makeApp(history);
+    render(App);
+
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
+  });
+
+  it('should show a list of roles', async () => {
+    const history = createMemoryHistory();
+    const App = makeApp(history);
+    render(App);
+
+    await waitFor(() => {
+      expect(screen.getByText('Authenticated')).toBeInTheDocument();
+      expect(screen.getByText('Public')).toBeInTheDocument();
     });
-
-    it('should show a loader when fetching data', () => {
-        const history = createMemoryHistory();
-        const App = makeApp(history);
-        render(App);
-
-        expect(screen.getByTestId('loader')).toBeInTheDocument();
-    });
-
-    it('should show a list of roles', async () => {
-        const history = createMemoryHistory();
-        const App = makeApp(history);
-        render(App);
-
-        await waitFor(() => {
-            expect(screen.getByText('Authenticated')).toBeInTheDocument();
-            expect(screen.getByText('Public')).toBeInTheDocument();
-        });
-    });
+  });
 });

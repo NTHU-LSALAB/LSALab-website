@@ -12,12 +12,12 @@
         "lint": "eslint ."
     },
     "dependencies": {
-        "@strapi/plugin-graphql": "4.2.0",
-        "@strapi/plugin-i18n": "4.2.0",
-        "@strapi/plugin-users-permissions": "^4.2.0",
-        "@strapi/provider-email-nodemailer": "^4.2.0",
-        "@strapi/provider-email-sendgrid": "^4.2.0",
-        "@strapi/strapi": "4.2.0",
+        "@strapi/plugin-graphql": "4.4.5",
+        "@strapi/plugin-i18n": "4.4.5",
+        "@strapi/plugin-users-permissions": "^4.4.5",
+        "@strapi/provider-email-nodemailer": "^4.4.5",
+        "@strapi/provider-email-sendgrid": "^4.4.5",
+        "@strapi/strapi": "4.4.5",
         "googleapis": "^95.0.0",
         "purest": "^4.0.2",
         "strapi-plugin-email-designer": "^2.1.0"
@@ -29,7 +29,7 @@
         "uuid": "c5431721-f277-4803-8381-5b0763e84eed"
     },
     "engines": {
-        "node": ">=12.x.x <=16.x.x",
+        "node": ">=14.19.1 <=18.x.x",
         "npm": ">=6.0.0"
     },
     "license": "MIT",
