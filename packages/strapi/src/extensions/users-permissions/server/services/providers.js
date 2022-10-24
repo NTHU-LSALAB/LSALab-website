@@ -87,7 +87,7 @@ module.exports = ({ strapi }) => {
         });
         return resolve(updatedUser);
       } catch (err) {
-        return reject(err);
+        throw new Error('Error when connecting google user');
       }
     }
 
