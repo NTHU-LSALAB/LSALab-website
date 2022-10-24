@@ -156,14 +156,16 @@ watch(loaded, (val) => {
 });
 
 const sortedGrades = computed(() =>
-  grades.value?.filter(grade => grade.attributes.students.data.length).map((grade) => {
-    grade.attributes.students.data = grade.attributes.students.data.sort(
-      (a: any, b: any) => {
-        return b.attributes.startDate.localeCompare(a.attributes.startDate);
-      }
-    );
-    return grade;
-  })
+  grades.value
+    ?.filter((grade) => grade.attributes.students.data.length)
+    .map((grade) => {
+      grade.attributes.students.data = grade.attributes.students.data.sort(
+        (a: any, b: any) => {
+          return b.attributes.startDate.localeCompare(a.attributes.startDate);
+        }
+      );
+      return grade;
+    })
 );
 </script>
 

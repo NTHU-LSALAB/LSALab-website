@@ -22,6 +22,9 @@
     "lint": "yarn lint:front && yarn lint:back",
     "lint:front": "yarn --cwd ./packages/web lint",
     "lint:back": "yarn --cwd ./packages/strapi lint",
+    "fix": "yarn fix:front && yarn fix:back",
+    "fix:front": "yarn --cwd ./packages/web fix",
+    "fix:back": "yarn --cwd ./packages/strapi fix",
     "prepare": "husky install"
   },
   "devDependencies": {

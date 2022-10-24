@@ -9,7 +9,8 @@
         "build": "strapi build",
         "strapi": "strapi",
         "test": "jest --forceExit --detectOpenHandles",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "fix": "eslint . --fix"
     },
     "dependencies": {
         "@strapi/plugin-graphql": "4.4.5",

@@ -100,7 +100,7 @@ const initAdvancedOptions = async (pluginStore) => {
 };
 
 const initConfig = async () => {
-  const env = str => process.env[str];
+  const env = (str) => process.env[str];
   strapi.config.set(
     'plugin.users-permissions',
     strapi.config.get('plugin.users-permissions')({ env })

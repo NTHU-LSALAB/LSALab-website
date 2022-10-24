@@ -46,17 +46,23 @@ const getInitialProviders = ({ purest }) => ({
         email: body.email,
       }));
   },
-  async google({ accessToken }) {
+  async google({ accessToken, refreshToken }) {
     const google = purest({ provider: 'google' });
 
     return google
-      .query('oauth')
-      .get('tokeninfo')
-      .qs({ accessToken })
+      .get('oauth2/v2/userinfo')
+      .auth(accessToken)
       .request()
       .then(({ body }) => ({
         username: body.email.split('@')[0],
         email: body.email,
+        picture: body.picture,
+        firstName: body.given_name,
+        lastName: body.family_name,
+        google: {
+          accessToken,
+          refreshToken,
+        },
       }));
   },
   async github({ accessToken }) {
@@ -279,14 +285,14 @@ module.exports = () => {
       providersCallbacks[providerName] = provider({ purest });
     },
 
-    async run({ provider, accessToken, query, providers }) {
+    async run({ provider, accessToken, refreshToken, query, providers }) {
       if (!providersCallbacks[provider]) {
         throw new Error('Unknown provider.');
       }
 
       const providerCb = providersCallbacks[provider];
 
-      return providerCb({ accessToken, query, providers });
+      return providerCb({ accessToken, refreshToken, query, providers });
     },
   };
 };

@@ -30,6 +30,7 @@ const sanitizeUser = async (user, ctx) => {
 
   const role = user.role;
   const sanitized = await sanitize.contentAPI.output(user, userSchema, { auth });
+
   return {
     ...sanitized,
     role,
@@ -204,6 +205,7 @@ module.exports = {
       _.get(ctx, 'session.grant.dynamic.callback') ||
       grantConfig[provider].callback;
     grantConfig[provider].redirect_uri = getService('providers').buildRedirectUri(provider);
+
     return grant(grantConfig)(ctx, next);
   },
 
