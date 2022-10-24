@@ -11,7 +11,7 @@ export const initialState = {
 };
 
 const reducer = (state, action) =>
-  produce(state, draftState => {
+  produce(state, (draftState) => {
     switch (action.type) {
       case 'ON_CHANGE': {
         const keysLength = action.keys.length;
@@ -21,18 +21,6 @@ const reducer = (state, action) =>
           const selectedAction = take(action.keys, keysLength - 1).join('.');
           draftState.selectedAction = selectedAction;
         }
-
-        set(draftState, ['modifiedData', ...action.keys], action.value);
-        break;
-      }
-      case 'ON_CHANGE_SELECT_ALL': {
-        const pathToValue = ['modifiedData', ...action.keys];
-        const oldValues = get(state, pathToValue, {});
-        const updatedValues = Object.keys(oldValues).reduce((acc, current) => {
-          acc[current] = { ...oldValues[current], enabled: action.value };
-
-          return acc;
-        }, {});
 
         set(draftState, pathToValue, updatedValues);
 

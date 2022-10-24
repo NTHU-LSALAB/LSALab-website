@@ -1,8 +1,8 @@
 version: '3'
-
+name: 'lsalab'
 services:
     postgres:
-        # container_name: db
+        container_name: lsalab-postgres-1
         image: postgres
         restart: always
         volumes:
@@ -14,11 +14,11 @@ services:
         ports:
             - '5432:5432'
     postgres-test:
-        # container_name: db
+        container_name: lsalab-postgres-test-1
         image: postgres
         restart: always
         volumes:
-            - pgdata:/var/lib/postgresql/data
+            - pgdata-test:/var/lib/postgresql/data
         environment:
             POSTGRES_USER: strapi
             POSTGRES_PASSWORD: strapi
@@ -26,6 +26,7 @@ services:
         ports:
             - '5433:5432'
     mailserver:
+        container_name: mail-server
         image: namshi/smtp
         ports:
             - '25:25' # SMTP  (explicit TLS => STARTTLS)
@@ -36,3 +37,4 @@ services:
 
 volumes:
     pgdata:
+    pgdata-test:

@@ -13,27 +13,27 @@ import Input from '../index';
 const messages = {};
 
 const makeApp = (name, type, value) => (
-    <IntlProvider locale="en" messages={messages} textComponent="span">
-        <ThemeProvider theme={lightTheme}>
-            <Input
-                intlLabel={{ id: 'enabled', defaultMessage: 'Enabled' }}
-                name={name}
-                onChange={jest.fn()}
-                providerToEditName="email"
-                type={type}
-                value={value}
-            />
-        </ThemeProvider>
-    </IntlProvider>
+  <IntlProvider locale="en" messages={messages} textComponent="span">
+    <ThemeProvider theme={lightTheme}>
+      <Input
+        intlLabel={{ id: 'enabled', defaultMessage: 'Enabled' }}
+        name={name}
+        onChange={jest.fn()}
+        providerToEditName="email"
+        type={type}
+        value={value}
+      />
+    </ThemeProvider>
+  </IntlProvider>
 );
 
 describe('<Input />', () => {
-    it('renders and matches the snapshot', () => {
-        const {
-            container: { firstChild },
-        } = render(makeApp('test', 'text', 'test'));
+  it('renders and matches the snapshot', () => {
+    const {
+      container: { firstChild },
+    } = render(makeApp('test', 'text', 'test'));
 
-        expect(firstChild).toMatchInlineSnapshot(`
+    expect(firstChild).toMatchInlineSnapshot(`
       .c0 {
         -webkit-align-items: stretch;
         -webkit-box-align: stretch;
@@ -192,19 +192,17 @@ describe('<Input />', () => {
         </div>
       </div>
     `);
-    });
+  });
 
-    it('should set the value correctly when the input\'s name is "noName"', () => {
-        const { getByLabelText } = render(makeApp('noName', 'text', 'test'));
+  it('should set the value correctly when the input\'s name is "noName"', () => {
+    const { getByLabelText } = render(makeApp('noName', 'text', 'test'));
 
-        expect(getByLabelText('noName').value).toBe(
-            `${strapi.backendURL}/api/connect/email/callback`,
-        );
-    });
+    expect(getByLabelText('noName').value).toBe(`${strapi.backendURL}/api/connect/email/callback`);
+  });
 
-    it('should display the toggleCheckbox correctly', () => {
-        const { getByLabelText } = render(makeApp('test', 'bool', true));
+  it('should display the toggleCheckbox correctly', () => {
+    const { getByLabelText } = render(makeApp('test', 'bool', true));
 
-        expect(getByLabelText('test').value).toBe('on');
-    });
+    expect(getByLabelText('test').value).toBe('on');
+  });
 });

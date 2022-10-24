@@ -4,7 +4,7 @@ module.exports = {
     extends: [
         'eslint:recommended',
         'prettier',
-        'plugin:import/errors',
+        // 'plugin:import/errors',
         'plugin:import/warnings',
         'plugin:node/recommended',
     ],

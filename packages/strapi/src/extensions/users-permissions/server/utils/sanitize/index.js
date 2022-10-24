@@ -4,6 +4,6 @@ const visitors = require('./visitors');
 const sanitizers = require('./sanitizers');
 
 module.exports = {
-    sanitizers,
-    visitors,
+  sanitizers,
+  visitors,
 };
