@@ -66,7 +66,7 @@
 
 # References
 
-- http://web.cs.nthu.edu.tw/p/406-1174-157025,r521.php
-- http://web.cs.nthu.edu.tw/p/406-1174-5083,r521.php
-- http://registra.site.nthu.edu.tw/p/404-1211-5155.php
-- http://www.lib.nthu.edu.tw/ETD/downloads/downloads.htm
+- [http://web.cs.nthu.edu.tw/p/406-1174-157025,r521.php](http://web.cs.nthu.edu.tw/p/406-1174-157025,r521.php)
+- [http://web.cs.nthu.edu.tw/p/406-1174-5083,r521.php](http://web.cs.nthu.edu.tw/p/406-1174-5083,r521.php)
+- [http://registra.site.nthu.edu.tw/p/404-1211-5155.php](http://registra.site.nthu.edu.tw/p/404-1211-5155.php)
+- [http://www.lib.nthu.edu.tw/ETD/downloads/downloads.htm](http://www.lib.nthu.edu.tw/ETD/downloads/downloads.htm)

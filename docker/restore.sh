@@ -1,1 +1,1 @@
-cat $1 | docker exec -i lsalab_postgres_1 psql -U strapi
+cat $1 | docker exec -i lsalab-postgres-1 psql -U strapi
