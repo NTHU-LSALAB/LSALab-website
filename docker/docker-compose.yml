@@ -11,7 +11,7 @@ services:
             POSTGRES_PASSWORD: strapi
             POSTGRES_DB: strapi
         ports:
-            - '5435:5432'
+            - '127.0.0.1:5435:5432'
     postgres-test:
         container_name: lsalab-postgres-test-1
         image: postgres
@@ -23,16 +23,7 @@ services:
             POSTGRES_PASSWORD: strapi
             POSTGRES_DB: strapi
         ports:
-            - '5433:5432'
-    mailserver:
-        container_name: mail-server
-        image: namshi/smtp
-        ports:
-            - '25:25' # SMTP  (explicit TLS => STARTTLS)
-            - '143:143' # IMAP4 (explicit TLS => STARTTLS)
-            - '465:465' # ESMTP (implicit TLS)
-            - '587:587' # ESMTP (explicit TLS => STARTTLS)
-            - '993:993' # IMAP4 (implicit TLS)
+            - '127.0.0.1:5433:5432'
 
 volumes:
     pgdata:
